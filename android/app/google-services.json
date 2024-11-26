@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "534367058264",
+    "firebase_url": "https://volunteer-community-c691d-default-rtdb.firebaseio.com",
+    "project_id": "volunteer-community-c691d",
+    "storage_bucket": "volunteer-community-c691d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534367058264:android:bf9ad34faf8764daa7cd2d",
+        "android_client_info": {
+          "package_name": "com.example.graduation_p2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534367058264-5q6alp26dmc5bpf6af7dq2d71o7pr95j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDosFDuw0rjS5jMHcDuQlkzeV8WSTYrqS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534367058264-5q6alp26dmc5bpf6af7dq2d71o7pr95j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "534367058264-1l4mnp8098enl97c259eej6pd12bfgc2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.graduationP2"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534367058264:android:7107821a4652e7ada7cd2d",
+        "android_client_info": {
+          "package_name": "com.volunteer.gp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534367058264-5q6alp26dmc5bpf6af7dq2d71o7pr95j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDosFDuw0rjS5jMHcDuQlkzeV8WSTYrqS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534367058264-5q6alp26dmc5bpf6af7dq2d71o7pr95j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "534367058264-1l4mnp8098enl97c259eej6pd12bfgc2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.graduationP2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
