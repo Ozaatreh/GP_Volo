@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/pages/achievement_page.dart';
-import 'package:graduation_progect_v2/pages/profile_users.dart';
+import 'package:graduation_progect_v2/pages/profile_pages/profile_users.dart';
 import 'package:graduation_progect_v2/pages/user_page.dart';
 
 

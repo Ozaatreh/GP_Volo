@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:graduation_progect_v2/pages/edit_profile.dart';
+import 'package:graduation_progect_v2/pages/profile_pages/edit_profile_volunteer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VolunteerProfile extends StatefulWidget {
   const VolunteerProfile({super.key});
@@ -49,15 +50,13 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
       final updatedData = await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => EditProfilePage(
+          builder: (context) => EditVolunteerProfilePage(
             userType: 'Volunteer',
             userData: userData!,
-            userId: user!.uid,
           ),
         ),
       );
 
-      // Update the profile data on return
       if (updatedData != null) {
         setState(() {
           userData = updatedData;
@@ -95,97 +94,98 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header with Volunteer Badge
-            Center(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                decoration: BoxDecoration(
-                  color: Colors.blue[400],
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Text(
-                  'Volunteer',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-
             // Profile Picture
             Center(
               child: CircleAvatar(
-                radius: 50,
-                backgroundImage: userData!['profilePicture'] != null
+                radius: 60,
+                backgroundImage: userData?['profilePicture'] != null
                     ? NetworkImage(userData!['profilePicture'])
-                    : const AssetImage('assets/photo_2024-11-02_19-33-14.jpg') as ImageProvider,
+                    : const AssetImage('assets/photo_2024-11-02_19-33-14.jpg')
+                        as ImageProvider,
               ),
             ),
             const SizedBox(height: 16),
 
-            // Name
+            // Name and Email
             Center(
               child: Text(
-                userData!['name'] ?? 'No Name',
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                userData?['username'] ?? 'No Username',
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
+            Center(child: Text(userData?['email'] ?? 'No Email')),
+            const SizedBox(height: 8),
 
-            // Email
-            Center(child: Text(userData!['email'] ?? 'No Email')),
+            // University
+            Center(
+              child: Text(
+                ' ${userData?['university'] ?? 'No University'}',
+                style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+              ),
+            ),
             const SizedBox(height: 16),
 
-            // Phone Number
-            ListTile(
-              title: const Text('Phone'),
-              subtitle: Text(userData!['phone'] ?? 'No Phone'),
+            // About Me / Bio
+            const Text(
+              'About Me',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-
-            // Volunteer Points or Hours
-            if (userData!['volunteerPoints'] != null)
-              ListTile(
-                title: const Text('Volunteer Points'),
-                subtitle: Text(userData!['volunteerPoints'].toString()),
-              ),
-            if (userData!['volunteerHours'] != null)
-              ListTile(
-                title: const Text('Volunteer Hours'),
-                subtitle: Text(userData!['volunteerHours'].toString()),
-              ),
+            const SizedBox(height: 8),
+            Text(
+              userData?['bio'] ?? 'No Bio Available',
+              style: const TextStyle(fontSize: 16),
+            ),
             const Divider(),
 
             // Achievements Section
             const Text(
               'Achievements',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            ...(userData!['achievements'] ?? [])
-                .map<Widget>((achievement) => ListTile(
-                      leading: const Icon(Icons.emoji_events, color: Colors.orange),
-                      title: Text(achievement),
-                    ))
-                .toList(),
-            const Divider(),
+            ...(userData?['achievements'] is List
+                ? (userData!['achievements'] as List<dynamic>)
+                    .map<Widget>((achievement) => ListTile(
+                          leading: const Icon(Icons.star, color: Colors.amber),
+                          title: Text(achievement.toString()),
+                        ))
+                    .toList()
+                : []),
 
-            // Upcoming Events Section
+            // Social Media Links
+            const Divider(),
             const Text(
-              'Upcoming Events',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              'Social Media Links',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            ...(userData!['upcomingEvents'] ?? [])
-                .map<Widget>((event) => ListTile(
-                      leading: const Icon(Icons.event, color: Colors.blue),
-                      title: Text(event),
-                    ))
-                .toList(),
+            _buildSocialLink(Icons.link_sharp, 'LinkedIn', userData?['linkedin']),
+            _buildSocialLink(Icons.facebook, 'Facebook', userData?['facebook']),
+            _buildSocialLink(Icons.camera_alt, 'Instagram', userData?['instagram']),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildSocialLink(IconData icon, String label, String? url) {
+    return url != null
+        ? ListTile(
+            leading: Icon(icon),
+            title: Text(label),
+            onTap: () async {
+              if (await canLaunch(url)) {
+                await launch(url);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Could not launch $label')),
+                );
+              }
+            },
+          )
+        : ListTile(
+            leading: Icon(icon, color: Colors.grey),
+            title: Text('$label not provided'),
+          );
   }
 }

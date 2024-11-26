@@ -9,7 +9,7 @@ import 'package:graduation_progect_v2/firebase_options.dart';
 import 'package:graduation_progect_v2/helper/rating.dart';
 import 'package:graduation_progect_v2/navigations/login_regis.dart';
 import 'package:graduation_progect_v2/pages/about_us_page.dart';
-import 'package:graduation_progect_v2/pages/profile_page.dart';
+import 'package:graduation_progect_v2/pages/profile_pages/profile_page.dart';
 import 'package:graduation_progect_v2/pages/setting_page.dart';
 import 'package:graduation_progect_v2/pages/users_log_page.dart';
 import 'package:graduation_progect_v2/pages/wall_page.dart';

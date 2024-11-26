@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/pages/ngo_page.dart';
-import 'package:graduation_progect_v2/pages/profile_ngo.dart';
+import 'package:graduation_progect_v2/pages/profile_pages/profile_ngo.dart';
 import 'package:graduation_progect_v2/pages/wall_page.dart';
 
 class NGONavigation extends StatefulWidget {
@@ -18,7 +18,7 @@ class _NGONavigationState extends State<NGONavigation> {
   final List<Widget> pages = [
     WallPage(),
     NgoPage(),
-    NgoProfile(),
+    NGOProfile(),
   ];
 
   // pages changer
