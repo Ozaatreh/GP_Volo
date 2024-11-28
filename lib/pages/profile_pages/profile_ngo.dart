@@ -95,34 +95,25 @@ class _NGOProfileState extends State<NGOProfile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Profile and Background Images
-            Stack(
-              children: [
+         
+                // SizedBox(
+                  // height: 180,
+                  // width: double.infinity,
+                // ),
                 Container(
-                  height: 180,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: userData?['backgroundPicture'] != null
-                          ? NetworkImage(userData!['backgroundPicture'])
-                          : const AssetImage('assets/prf_pic.jpg')
+                  // top: 60,
+                  // right: 250,
+                  child: Center(
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage: userData?['profilePicture'] != null
+                          ? NetworkImage(userData!['profilePicture'])
+                          : const AssetImage('assets/photo_2024-11-02_19-33-14.jpg')
                               as ImageProvider,
-                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 60,
-                  right: 250,
-                  child: CircleAvatar(
-                    radius: 60,
-                    backgroundImage: userData?['profilePicture'] != null
-                        ? NetworkImage(userData!['profilePicture'])
-                        : const AssetImage('assets/photo_2024-11-02_19-33-14.jpg')
-                            as ImageProvider,
-                  ),
-                ),
-              ],
-            ),
+           
             const SizedBox(height: 30),
 
             // Name and Description

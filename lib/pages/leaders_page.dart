@@ -18,11 +18,40 @@ class _LeadersPageState extends State<LeadersPage> {
   List<String> appliedVolunteerPostIds = []; // Track posts applied as volunteers
   List<DateTime> appliedVolunteerEventDates = []; // Event dates for volunteers
    
+     final FirebaseAuth auth = FirebaseAuth.instance;
+   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  User? user;
+  Map<String, dynamic>? userData;
+  bool isLoading = true;
+
+
+   Future<void> getUserData() async {
+    try {
+      user = auth.currentUser;
+      if (user != null) {
+        final doc = await firestore.collection('Users').doc(user!.email).get();
+        setState(() {
+          userData = doc.data();
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load profile: $e')),
+      );
+    }
+  }
+
  @override
   void initState() {
     super.initState();
     fetchCurrentUserType();
     fetchAppliedPosts(); // Fetch applied event dates when the page loads
+    getUserData();
   }
 
    // Fetch the current user's type
@@ -91,9 +120,13 @@ class _LeadersPageState extends State<LeadersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Leaders Page")),
-      drawer: const MyDrawer(),
+      drawer:  MyDrawer(),
       body: StreamBuilder(
-        stream: database.getAllPostStream(),
+        // Filter events with "Upcoming" status
+        stream: FirebaseFirestore.instance
+            .collection('Posts')
+            .where('status', isEqualTo: 'upcoming')
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -101,9 +134,9 @@ class _LeadersPageState extends State<LeadersPage> {
 
           final posts = snapshot.data!.docs;
           if (posts.isEmpty) {
-            return Center(child: Text("No Posts Yet.. Post Something!"));
+            return Center(child: Text("No Upcoming Events Yet."));
           }
-
+//  return Center(child: Text("No Posts Yet.. Post Something!"));
           return ListView.builder(
             itemCount: posts.length,
             itemBuilder: (context, index) {
@@ -172,14 +205,13 @@ class _LeadersPageState extends State<LeadersPage> {
 
                          SizedBox(width: 7,),
 
-                         Container(
-                              decoration: BoxDecoration( 
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              shape : BoxShape.circle
-                              ),
-                              padding: EdgeInsets.all(6),
-                              child: Icon(Icons.person),
-                             ),
+                          CircleAvatar(
+                                  radius: 25,
+                                  backgroundImage: userData?['profilePicture'] != null
+                                      ? NetworkImage(userData!['profilePicture'])
+                                      : const AssetImage('assets/photo_2024-11-02_19-33-14.jpg')
+                                          as ImageProvider,
+                                   ),
                             ],
                           ),
                       ],

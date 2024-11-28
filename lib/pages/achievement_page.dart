@@ -20,7 +20,7 @@ class _AchievementPageState extends State<AchievementPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // BackButton(),
-            SizedBox(),
+            SizedBox(width: 20,),
             Text("Rewards" ,
             style: GoogleFonts.roboto(
                   color: Theme.of(context).colorScheme.inversePrimary,

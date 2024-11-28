@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_progect_v2/pages/login_page.dart';
-import 'package:graduation_progect_v2/pages/register_page.dart';
+import 'package:graduation_progect_v2/pages/auth_pages/login_page.dart';
+import 'package:graduation_progect_v2/pages/auth_pages/register_page.dart';
 
 
 class LogRegAuthentication extends StatefulWidget {

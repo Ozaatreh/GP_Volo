@@ -20,7 +20,35 @@ class _UserPageState extends State<UserPage> {
    String? userType; 
 
     int selectedIndex = 1;
+  
+    
+   final FirebaseAuth _auth = FirebaseAuth.instance;
+   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  User? user;
+  Map<String, dynamic>? userData;
+  bool isLoading = true;
+
+
+   Future<void> getUserData() async {
+    try {
+      user = _auth.currentUser;
+      if (user != null) {
+        final doc = await _firestore.collection('Users').doc(user!.email).get();
+        setState(() {
+          userData = doc.data();
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load profile: $e')),
+      );
+    }
+  }
   // Update selected index and navigate to the appropriate page
   void onItemTapped(int index) {
     setState(() {
@@ -31,6 +59,7 @@ class _UserPageState extends State<UserPage> {
   void initState() {
     super.initState();
     fetchAppliedPosts(); // Fetch applied posts on initialization
+    getUserData();
   }
 
   // Fetch the posts the user has applied to
@@ -69,9 +98,13 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("User Page")),
-      drawer: const MyDrawer(),
+      drawer:  MyDrawer(),
       body: StreamBuilder(
-        stream: database.getAllPostStream(), // /// //////////////// 
+        // Filter events with "Upcoming" status
+        stream: FirebaseFirestore.instance
+            .collection('Posts')
+            .where('status', isEqualTo: 'upcoming')
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -79,7 +112,7 @@ class _UserPageState extends State<UserPage> {
 
           final posts = snapshot.data!.docs;
           if (posts.isEmpty) {
-            return Center(child: Text("No Posts Yet.. Post Something!"));
+            return Center(child: Text("No Upcoming Events Yet."));
           }
 
           return ListView.builder(
@@ -149,14 +182,14 @@ class _UserPageState extends State<UserPage> {
 
                          SizedBox(width: 7,),
 
-                         Container(
-                              decoration: BoxDecoration( 
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              shape : BoxShape.circle
-                              ),
-                              padding: EdgeInsets.all(6),
-                              child: Icon(Icons.person),
-                             ),
+                          //pic of user
+                                   CircleAvatar(
+                                  radius: 25,
+                                  backgroundImage: userData?['profilePicture'] != null
+                                      ? NetworkImage(userData!['profilePicture'])
+                                      : const AssetImage('assets/photo_2024-11-02_19-33-14.jpg')
+                                          as ImageProvider,
+                                   ),
                             ],
                           ),
                     

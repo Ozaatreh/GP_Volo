@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
+class AdminDrawer extends StatelessWidget {
+   AdminDrawer({super.key});
 
+ String? currentUserType; 
+
+ // Store the logged-in user's type
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -44,31 +47,7 @@ class MyDrawer extends StatelessWidget {
                   },
                 ),
               ),
-          
-              //profile tile
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 25.0),
-              //   child: ListTile(
-              //     leading: Icon(
-              //       Icons.person,
-              //       color: Theme.of(context).colorScheme.inversePrimary,
-              //     ),
-              //     title: Text(
-              //       "Profile",
-              //       style: GoogleFonts.roboto(
-              //         color: Theme.of(context).colorScheme.inversePrimary,
-              //         textStyle: const TextStyle(
-              //             fontSize: 18, fontWeight: FontWeight.w300),
-              //       ),
-              //     ),
-              //     onTap: () {
-              //       //pop out drawer
-              //        Navigator.pop(context);
-              //       // navigat ot user
-              //       Navigator.pushNamed(context, 'profile_page');
-              //     },
-              //   ),
-              // ),
+      
 
               Padding(
                 padding: const EdgeInsets.only(left: 25.0),
@@ -166,6 +145,7 @@ class MyDrawer extends StatelessWidget {
                   },
                 ),
               ),
+              if  (1==1) ...[
               Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(
@@ -188,7 +168,7 @@ class MyDrawer extends StatelessWidget {
                     Navigator.pushNamed(context, 'users_log_page');
                   },
                 ),
-              ),
+              ),]
 
             ],
           ),

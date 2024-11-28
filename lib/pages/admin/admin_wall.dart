@@ -8,14 +8,14 @@ import 'package:graduation_progect_v2/components/my_drawer.dart';
 import 'package:graduation_progect_v2/database/firestore.dart';
 import 'package:image_picker/image_picker.dart';
 
-class WallPage extends StatefulWidget {
-    WallPage({super.key});
+class AdminWall extends StatefulWidget {
+    AdminWall({super.key});
 
   @override
-  State<WallPage> createState() => _WallPageState();
+  State<AdminWall> createState() => AdminWallWallPageState();
 }
 
-class _WallPageState extends State<WallPage> {
+class AdminWallWallPageState extends State<AdminWall> {
   // access the firestore class 
   final FirestoreDatabase database = FirestoreDatabase();
 
@@ -33,37 +33,26 @@ class _WallPageState extends State<WallPage> {
   
   //user type
   String? userType; 
-   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+     final FirebaseAuth auth = FirebaseAuth.instance;
+   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   User? user;
   Map<String, dynamic>? userData;
   bool isLoading = true;
 
-  @override
+  
+   @override
   void initState() {
     super.initState();
-    _getUserData();
+    getUserData();
   }
-  
-  // methode of picking image 
-   Future<void> pickImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        selectedImage = File(pickedFile.path); // Update selectedImage and refresh UI
-      });
-  //   print("Image selected: ${selectedImage!.path}"); // Debug log}
-  // } else {
-  //   print("No image selected.");
-  }
-  }
-   
-   Future<void> _getUserData() async {
+
+   Future<void> getUserData() async {
     try {
-      user = _auth.currentUser;
+      user = auth.currentUser;
       if (user != null) {
-        final doc = await _firestore.collection('Users').doc(user!.email).get();
+        final doc = await firestore.collection('Users').doc(user!.email).get();
         setState(() {
           userData = doc.data();
           isLoading = false;
@@ -78,6 +67,20 @@ class _WallPageState extends State<WallPage> {
       );
     }
   }
+  
+  // methode of picking image 
+   Future<void> pickImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        selectedImage = File(pickedFile.path); // Update selectedImage and refresh UI
+      });
+  //   print("Image selected: ${selectedImage!.path}"); // Debug log}
+  // } else {
+  //   print("No image selected.");
+  }
+  }
+
    // Updated post function to handle message and image
   Future<void> postMessage() async {
     if (newPostController.text.isNotEmpty) {
@@ -106,7 +109,10 @@ class _WallPageState extends State<WallPage> {
     });
     
   }
+  
 
+  
+  
   @override
   Widget build(BuildContext context) {
 
@@ -120,7 +126,7 @@ class _WallPageState extends State<WallPage> {
           child: Padding(
             padding: const EdgeInsets.only(right: 40),
             child: Text(
-              "W A L L",
+              "A D M I N   W A L L",
               style: GoogleFonts.roboto(
                 color: Theme.of(context).colorScheme.inversePrimary,
                 textStyle: const TextStyle(
@@ -138,11 +144,7 @@ class _WallPageState extends State<WallPage> {
          
           //Posts
           StreamBuilder(
-            // Filter events with "Upcoming" status
-        stream: FirebaseFirestore.instance
-            .collection('Posts')
-            .where('status', isEqualTo: 'upcoming')
-            .snapshots(),
+            stream: database.getAllPostStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -150,9 +152,10 @@ class _WallPageState extends State<WallPage> {
 
           final posts = snapshot.data!.docs;
           if (posts.isEmpty) {
-            return Center(child: Text("No Events Yet.. !"));
+            return Center(child: Text("No events Yet.."));
           }
 
+            
             //return as a list
             return ListView.builder(
             
@@ -200,7 +203,6 @@ class _WallPageState extends State<WallPage> {
                                    children: [
                                      
                                      // Show delete only for own posts or moderators
-                                     if (currentUserEmail=="al@gmail.com" || userEmail == currentUserEmail) 
                                      ListTile(
                                        leading: Icon(Icons.delete),
                                        title: Text('Delete Post'),
@@ -210,8 +212,8 @@ class _WallPageState extends State<WallPage> {
                                        },
                                      ),
                                      ListTile(
-                                       leading: Icon(Icons.report_gmailerrorred),
-                                       title: Text('Report Problem'),
+                                       leading: Icon(Icons.message_rounded),
+                                       title: Text('Send Message'),
                                        onTap: (){
                                         Navigator.pop(context);
                                         // navigat ot user
@@ -241,7 +243,7 @@ class _WallPageState extends State<WallPage> {
                                    ),
                                    SizedBox(width: 10,),
                                    //pic of user
-                                   CircleAvatar(
+                                    CircleAvatar(
                                   radius: 25,
                                   backgroundImage: userData?['profilePicture'] != null
                                       ? NetworkImage(userData!['profilePicture'])
@@ -321,7 +323,6 @@ class _WallPageState extends State<WallPage> {
                 );
               },
             );
-
 
           },)
 

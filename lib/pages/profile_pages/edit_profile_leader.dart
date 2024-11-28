@@ -16,12 +16,14 @@ class EditLeaderProfilePage extends StatefulWidget {
 }
 
 class _EditLeaderProfilePageState extends State<EditLeaderProfilePage> {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  
+  String defaultUsersImage ='assets/prf_pic.jpg';
 
-  final TextEditingController _achievementController = TextEditingController();
-  final TextEditingController _certificationController =
+  final TextEditingController achievementController = TextEditingController();
+  final TextEditingController certificationController =
       TextEditingController();
-       final TextEditingController _bioController = TextEditingController(); // New controller for bio
+       final TextEditingController bioController = TextEditingController(); // New controller for bio
   List<String> skills = [];
   List<String> achievements = [];
   List<String> certifications = [];
@@ -84,7 +86,7 @@ void initState() {
   certifications = widget.userData['certifications'] is List
       ? List<String>.from(widget.userData['certifications'])
       : [];
-  _bioController.text = widget.userData['bio'] ?? ''; // Pre-fill the bio if available
+  bioController.text = widget.userData['bio'] ?? ''; // Pre-fill the bio if available
   selectedUniversity = widget.userData['university'] ??
       (universitiesInJordan.isNotEmpty ? universitiesInJordan[0] : null);
 }
@@ -101,10 +103,10 @@ void initState() {
         'linkedin': widget.userData['linkedin'] ?? '',
         'facebook': widget.userData['facebook'] ?? '',
         'instagram': widget.userData['instagram'] ?? '',
-        'bio': _bioController.text, 
+        'bio': bioController.text, 
       };
 
-      await _firestore.collection('Users').doc(userId).update(updatedData);
+      await firestore.collection('Users').doc(userId).update(updatedData);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Profile updated successfully')),
@@ -143,9 +145,10 @@ void initState() {
                   radius: 60,
                   backgroundImage: widget.userData['profilePicture'] != null
                       ? NetworkImage(widget.userData['profilePicture'])
-                      : const AssetImage('assets/default_profile_picture.jpg')
+                      :  AssetImage(defaultUsersImage)
                           as ImageProvider,
-                  child: const Icon(Icons.camera_alt, size: 30),
+                  child: const Icon(Icons.camera_alt, size: 30
+                  ),
                 ),
               ),
             ),
@@ -219,8 +222,8 @@ void initState() {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            _buildListSection('Achievements', achievements, _achievementController),
-            _buildListSection('Certifications', certifications, _certificationController),
+            _buildListSection('Achievements', achievements, achievementController),
+            _buildListSection('Certifications', certifications, certificationController),
             const Divider(),
 
             // Social Media Links
@@ -241,7 +244,7 @@ void initState() {
             ),
             const SizedBox(height: 8),
             TextField(
-              controller: _bioController,
+              controller: bioController,
               maxLines: 5,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),

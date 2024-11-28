@@ -5,16 +5,16 @@ import 'package:graduation_progect_v2/authentication/auth.dart';
 import 'package:graduation_progect_v2/components/nav_par_leader.dart';
 import 'package:graduation_progect_v2/components/nav_par_ngo.dart';
 import 'package:graduation_progect_v2/components/nav_par_users.dart';
-import 'package:graduation_progect_v2/firebase_options.dart';
+import 'package:graduation_progect_v2/database/firebase_options.dart';
 import 'package:graduation_progect_v2/helper/rating.dart';
 import 'package:graduation_progect_v2/navigations/login_regis.dart';
 import 'package:graduation_progect_v2/pages/about_us_page.dart';
+import 'package:graduation_progect_v2/pages/admin/nav_par_admin.dart';
 import 'package:graduation_progect_v2/pages/profile_pages/profile_page.dart';
 import 'package:graduation_progect_v2/pages/setting_page.dart';
 import 'package:graduation_progect_v2/pages/users_log_page.dart';
 import 'package:graduation_progect_v2/pages/wall_page.dart';
 import 'package:graduation_progect_v2/theme/light_mode.dart';
-
 import 'navigations/ngo_users.dart';
 import 'theme/dark_mode.dart';
 
@@ -53,8 +53,9 @@ class MainPage extends StatelessWidget {
       // Toggel pages
       routes: { 
         'login_register_page' : (context) => const LogRegAuthentication(),
-        'User_Ngo_page' : (context) =>  NgoUsersToggle(),
+        'Users_Toggle_page' : (context) =>  AllUsersToggle(),
         'Home_page' : (context) =>  WallPage(),
+        'Admin_page': (context) =>  AdminNavigation(),
         'Ngo_page' : (context) =>  NGONavigation(),
         'User_page' : (context) =>  UserNavigation(),
         'Leader_page' : (context) =>  LeaderNavigation(),

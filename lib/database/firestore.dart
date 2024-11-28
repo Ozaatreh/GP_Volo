@@ -50,10 +50,28 @@ Future addPost(String messages ,
        'Leaders': [], // Initialize an empty list for leaders
        'LeaderCount': 0, // Initialize leader count to 0
        'LeaderMaxCount': leaderMaxCount,
+       'status': 'upcoming',
     }
   );
 
 }
+
+void updateEventStatus() async {
+  final now = DateTime.now();
+  final posts = await FirebaseFirestore.instance.collection('Posts').get();
+
+  for (var doc in posts.docs) {
+    DateTime eventDate = (doc['EventDate'] as Timestamp).toDate();
+    String status = doc['status'] ?? "upcoming";
+
+    if (eventDate.isBefore(now) && status != "completed") {
+      await doc.reference.update({'status': 'completed'});
+    } else if (eventDate.isAtSameMomentAs(now) && status != "in_progress") {
+      await doc.reference.update({'status': 'in_progress'});
+    }
+  }
+}
+
   // Method to send notifications
   Future<void> sendNotification({
     required String message,
@@ -76,6 +94,7 @@ Stream<QuerySnapshot> getNgoUserPostsStream(String userEmail) {
   return FirebaseFirestore.instance
       .collection('Posts')
       .where('UserEmail', isEqualTo: userEmail) // Filter by user email
+      .where('status', isEqualTo: 'upcoming') //Fetch only upcoming events
       .snapshots();
 }
 

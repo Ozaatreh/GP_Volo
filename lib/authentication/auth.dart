@@ -12,7 +12,7 @@ class Authpage extends StatelessWidget {
       body: StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (context, snapshot) {
         // if loged in
        if(snapshot.hasData) { 
-        return  NgoUsersToggle();
+        return  AllUsersToggle();
        
        }
        // if not loged in

@@ -119,7 +119,7 @@ class _NgoPageState extends State<NgoPage> {
         ),
         // elevation: 0,
       ),
-      drawer: const MyDrawer(),
+      drawer:  MyDrawer(),
       body: Column(
         children: [
           if (selectedImage != null)

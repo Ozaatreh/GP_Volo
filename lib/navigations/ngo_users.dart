@@ -4,17 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/components/nav_par_leader.dart';
 import 'package:graduation_progect_v2/components/nav_par_ngo.dart';
 import 'package:graduation_progect_v2/components/nav_par_users.dart';
-import 'package:graduation_progect_v2/pages/login_page.dart';
+import 'package:graduation_progect_v2/pages/admin/nav_par_admin.dart';
+import 'package:graduation_progect_v2/pages/admin/posts_active.dart';
+import 'package:graduation_progect_v2/pages/auth_pages/login_page.dart';
+import 'package:graduation_progect_v2/pages/admin/posts_archive.dart';
 
 
-class NgoUsersToggle extends StatefulWidget {
-  const NgoUsersToggle({super.key});
+class AllUsersToggle extends StatefulWidget {
+  const AllUsersToggle({super.key});
 
   @override
-  State<NgoUsersToggle> createState() => _NgoUsersToggleState();
+  State<AllUsersToggle> createState() => _AllUsersToggleState();
 }
 
-class _NgoUsersToggleState extends State<NgoUsersToggle> {
+class _AllUsersToggleState extends State<AllUsersToggle> {
   // Call this function during initialization
   @override
   void initState() {
@@ -51,6 +54,11 @@ class _NgoUsersToggleState extends State<NgoUsersToggle> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) =>  UserNavigation()),
+            );
+            }else if (userType == 'Admin') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) =>  AdminNavigation()),
             );
             }else {
             _showError("Invalid user type.");
