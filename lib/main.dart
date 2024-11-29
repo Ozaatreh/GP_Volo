@@ -1,10 +1,13 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/authentication/auth.dart';
-import 'package:graduation_progect_v2/components/nav_par_leader.dart';
-import 'package:graduation_progect_v2/components/nav_par_ngo.dart';
-import 'package:graduation_progect_v2/components/nav_par_users.dart';
+import 'package:graduation_progect_v2/components/check_notification.dart';
+import 'package:graduation_progect_v2/components/custom_notifications.dart';
+import 'package:graduation_progect_v2/components/nav_bar_leader.dart';
+import 'package:graduation_progect_v2/components/nav_bar_ngo.dart';
+import 'package:graduation_progect_v2/components/nav_bar_users.dart';
 import 'package:graduation_progect_v2/database/firebase_options.dart';
 import 'package:graduation_progect_v2/helper/rating.dart';
 import 'package:graduation_progect_v2/navigations/login_regis.dart';
@@ -20,6 +23,19 @@ import 'theme/dark_mode.dart';
 
 
 void main() async{
+  AwesomeNotifications().initialize(
+  null, // Use null for default app icon
+  [
+    NotificationChannel(
+      channelKey: 'event_reminders',
+      channelName: 'Event Reminders',
+      channelDescription: 'Notifications to remind users about events',
+      importance: NotificationImportance.High,
+      channelShowBadge: true,
+    ),
+  ],
+  debug: true, // Enable debug mode to check for issues in logs
+);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
    // Initialize Firebase App Check
@@ -27,13 +43,13 @@ void main() async{
     // androidProvider: AndroidProvider.
   //   webRecaptchaSiteKey: 'your-site-key', //// For web, use your reCAPTCHA site key
   );
+
   // Initialize Firebase Messaging and request notification permissions
   // await FirebaseMessaging.instance.requestPermission();
 
   // Get the token for Firebase Cloud Messaging (FCM)
   // String? token = await FirebaseMessaging.instance.getToken();
   // print("FCM Token: $token"); // Log token for testing
-
   // CustomNotificationState().initializeNotifications();
   runApp(const MainPage());
 }
@@ -46,7 +62,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       debugShowCheckedModeBanner: false ,
-      home: const SafeArea(child: Authpage()
+      home:  SafeArea(child: NotificationPermissionScreen()
       ),
       theme: lightMode,
       darkTheme: darkMode,
@@ -61,7 +77,7 @@ class MainPage extends StatelessWidget {
         'Leader_page' : (context) =>  LeaderNavigation(),
         'profile_page' : (context) =>  ProfilePage(),
         'users_log_page' : (context) => const UsersLogPage(),
-        'about_us_page' : (context) => PostSelectionPage(),
+        'about_us_page' : (context) => RatingApp(),
         'setting_page' : (context) =>  SettingsPage(),
         'Contact_us_page' :(context) =>  ContactUsPage(),
         

@@ -25,6 +25,30 @@ class CustomNotificationState extends State<CustomNotification> {
       debug: true,
     );
   }
+  
+  void scheduleEventNotificationsForTesting() {
+  scheduleNotification(
+    id: 1,
+    eventDate: DateTime.now().add(Duration(seconds: 15)), // More buffer time
+    title: 'Test Reminder 1',
+    body: 'This is your first test notification!',
+  );
+
+  scheduleNotification(
+    id: 2,
+    eventDate: DateTime.now().add(Duration(seconds: 30)),
+    title: 'Test Reminder 2',
+    body: 'This is your second test notification!',
+  );
+
+  scheduleNotification(
+    id: 3,
+    eventDate: DateTime.now().add(Duration(seconds: 45)),
+    title: 'Test Reminder 3',
+    body: 'This is your third test notification!',
+  );
+}
+
 
   void scheduleEventNotifications(DateTime eventDate) {
     // Schedule 1st notification (1 week before event)
@@ -53,12 +77,13 @@ class CustomNotificationState extends State<CustomNotification> {
   }
 
   void scheduleNotification({
-    required int id,
-    required DateTime eventDate,
-    required String title,
-    required String body,
-  }) {
-    AwesomeNotifications().createNotification(
+  required int id,
+  required DateTime eventDate,
+  required String title,
+  required String body,
+}) async {
+  try {
+    await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: id,
         channelKey: 'event_reminders',
@@ -66,50 +91,72 @@ class CustomNotificationState extends State<CustomNotification> {
         body: body,
         notificationLayout: NotificationLayout.Default,
       ),
-      schedule: NotificationCalendar(
-        year: eventDate.year,
-        month: eventDate.month,
-        day: eventDate.day,
-        hour: 23, // Notification time (9:00 AM)
-        minute: 10,
-        second: 0,
-        millisecond: 0,
-        repeats: false,
-      ),
+      schedule: NotificationCalendar.fromDate(date: eventDate),
     );
+    print('Notification $id scheduled successfully for $eventDate');
+  } catch (e) {
+    print('Failed to schedule notification $id: $e');
   }
+}
 
-  @override
+
+
+    @override
   void initState() {
-    super.initState();
-    initializeNotifications();
-
-    // Request notification permissions if not already granted
     AwesomeNotifications().isNotificationAllowed().then(
       (isAllowed) {
         if (!isAllowed) {
-          AwesomeNotifications().requestPermissionToSendNotifications(
-            permissions: [
-              NotificationPermission.Vibration,
-              NotificationPermission.Sound,
-            ],
-          );
+          AwesomeNotifications().requestPermissionToSendNotifications();
         }
       },
     );
+    super.initState();
+    // scheduleEventNotificationsForTesting();
   }
+
+
+  void cancelAllNotifications() {
+  AwesomeNotifications().cancelAll();
+  print("All notifications canceled.");
+}
+
+void checkPermissions() async {
+  bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+  if (!isAllowed) {
+    print("Notifications are not allowed. Requesting permission...");
+    await AwesomeNotifications().requestPermissionToSendNotifications(
+      permissions: [
+        NotificationPermission.Alert,
+        NotificationPermission.Vibration,
+        NotificationPermission.Sound,
+      ],
+    );
+  } else {
+    print("Notifications are allowed.");
+  }
+}
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-        onPressed: () {
-          // Example event date: December 1, 2024
-          DateTime eventDate = DateTime(2024, 12, 1);
-          scheduleEventNotifications(eventDate);
-        },
-        child: Text('Schedule Notifications'),
+  onPressed: () {
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: 1,
+        channelKey: 'event_reminders',
+        title: 'Test Notification',
+        body: 'This is a test notification',
+        notificationLayout: NotificationLayout.Default,
       ),
+      schedule: NotificationCalendar.fromDate(
+        date: DateTime.now().add(Duration(seconds: 5)),
+      ),
+    );
+  },
+  child: Text('Send Test Notification'),
+),
+
     );
   }
 }

@@ -15,18 +15,17 @@ class _LeadersPageState extends State<LeadersPage> {
   String? currentUserType; // Store the logged-in user's type
   List<String> appliedLeaderPostIds = []; // Track posts applied as leaders
   List<DateTime> appliedLeaderEventDates = []; // Event dates for leaders
-  List<String> appliedVolunteerPostIds = []; // Track posts applied as volunteers
+  List<String> appliedVolunteerPostIds =  []; // Track posts applied as volunteers
   List<DateTime> appliedVolunteerEventDates = []; // Event dates for volunteers
-   
-     final FirebaseAuth auth = FirebaseAuth.instance;
-   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   User? user;
   Map<String, dynamic>? userData;
   bool isLoading = true;
 
-
-   Future<void> getUserData() async {
+  Future<void> getUserData() async {
     try {
       user = auth.currentUser;
       if (user != null) {
@@ -46,7 +45,7 @@ class _LeadersPageState extends State<LeadersPage> {
     }
   }
 
- @override
+  @override
   void initState() {
     super.initState();
     fetchCurrentUserType();
@@ -54,7 +53,7 @@ class _LeadersPageState extends State<LeadersPage> {
     getUserData();
   }
 
-   // Fetch the current user's type
+  // Fetch the current user's type
   void fetchCurrentUserType() async {
     if (currentUserEmail != null) {
       final type = await database.getUserType(currentUserEmail!);
@@ -63,8 +62,8 @@ class _LeadersPageState extends State<LeadersPage> {
       });
     }
   }
-  
-   // Fetch applied posts for both leaders and volunteers
+
+  // Fetch applied posts for both leaders and volunteers
   void fetchAppliedPosts() async {
     if (currentUserEmail != null) {
       // Fetch posts where the user is a leader
@@ -114,13 +113,11 @@ class _LeadersPageState extends State<LeadersPage> {
             date.day == eventDate.day);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Leaders Page")),
-      drawer:  MyDrawer(),
+      drawer: MyDrawer(),
       body: StreamBuilder(
         // Filter events with "Upcoming" status
         stream: FirebaseFirestore.instance
@@ -153,11 +150,12 @@ class _LeadersPageState extends State<LeadersPage> {
               List<dynamic> appliedUsers = post['AppliedUsers'] ?? [];
               bool isLeader = leaders.contains(currentUserEmail);
               bool isVolunteer = appliedUsers.contains(currentUserEmail);
-              DateTime eventDate = post['EventDate']?.toDate() ?? DateTime.now();
+              DateTime eventDate =
+                  post['EventDate']?.toDate() ?? DateTime.now();
               // Format to 'yyyy-MM-dd'
               String formattedEventDate =
-               "${eventDate.year}-${eventDate.month.toString().padLeft(2, '0')}-${eventDate.day.toString().padLeft(2, '0')}";
-              
+                  "${eventDate.year}-${eventDate.month.toString().padLeft(2, '0')}-${eventDate.day.toString().padLeft(2, '0')}";
+
               // Hide posts with conflicting dates unless it's the applied post
               if (shouldHidePost(postId, eventDate)) {
                 return Container();
@@ -175,10 +173,10 @@ class _LeadersPageState extends State<LeadersPage> {
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        
                         IconButton(
                           icon: Icon(Icons.more_horiz,
-                              color: Theme.of(context).colorScheme.inversePrimary),
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary),
                           onPressed: () {
                             showModalBottomSheet(
                               context: context,
@@ -200,43 +198,45 @@ class _LeadersPageState extends State<LeadersPage> {
                           },
                         ),
                         Row(
-                       children: [
-                         Text(username),
-
-                         SizedBox(width: 7,),
-
-                          CircleAvatar(
-                                  radius: 25,
-                                  backgroundImage: userData?['profilePicture'] != null
-                                      ? NetworkImage(userData!['profilePicture'])
-                                      : const AssetImage('assets/photo_2024-11-02_19-33-14.jpg')
-                                          as ImageProvider,
-                                   ),
-                            ],
-                          ),
+                          children: [
+                            Text(username),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            CircleAvatar(
+                              radius: 25,
+                              backgroundImage: userData?['profilePicture'] !=
+                                      null
+                                  ? NetworkImage(userData!['profilePicture'])
+                                  : const AssetImage(
+                                          'assets/photo_2024-11-02_19-33-14.jpg')
+                                      as ImageProvider,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                     
                         // ...[
-                    const SizedBox(height: 8),
-                    Text(
-                      "Event Date: $formattedEventDate",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).colorScheme.inversePrimary,
-                      ),
-                    ),
-                    // ],
+                        const SizedBox(height: 8),
+                        Text(
+                          "Event Date: $formattedEventDate",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
+                        ),
+                        // ],
                         SizedBox(height: 10),
                         Text(message),
                         if (imageUrl != null)
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Image.network(imageUrl, width: 100, height: 100),
+                            child: Image.network(imageUrl,
+                                width: 100, height: 100),
                           ),
                         SizedBox(height: 10),
                         // Supervisor progress and button
@@ -253,26 +253,30 @@ class _LeadersPageState extends State<LeadersPage> {
                             ElevatedButton(
                               onPressed: () async {
                                 if (isLeader) {
-                                  await database.cancelLeaderApplication(postId);
+                                  await database
+                                      .cancelLeaderApplication(postId);
                                 } else {
                                   // Remove from Volunteers if they apply as Supervisor
                                   if (isVolunteer) {
                                     await database.cancelApplication(postId);
                                   }
-                                  await database.applyAsLeader(postId ,eventDate);
+                                  await database.applyAsLeader(
+                                      postId, eventDate);
                                 }
                                 // Fetch applied posts and rebuild
                                 fetchAppliedPosts();
-                              
+
                                 //  setState(() {
-                                   
-                                //  }); 
-                                 },
+
+                                //  });
+                              },
                               child: Text(
                                 isLeader
                                     ? "Cancel as Leader"
                                     : "Apply as Leader",
-                                style: TextStyle(color: const Color.fromARGB(255, 169, 101, 5)),
+                                style: TextStyle(
+                                    color:
+                                        const Color.fromARGB(255, 169, 101, 5)),
                               ),
                             ),
                             Text('$leaderCount / $maxLeaders (Leaders)'),
@@ -297,12 +301,13 @@ class _LeadersPageState extends State<LeadersPage> {
                                 } else {
                                   // Remove from Supervisors if they apply as Volunteer
                                   if (isLeader) {
-                                    await database.cancelLeaderApplication(postId);
+                                    await database
+                                        .cancelLeaderApplication(postId);
                                   }
-                                  await database.applyToEvent(postId ,eventDate);
+                                  await database.applyToEvent(
+                                      postId, eventDate);
                                 }
-                                  fetchAppliedPosts();
-
+                                fetchAppliedPosts();
                               },
                               child: Text(
                                 isVolunteer ? "Cancel" : "Apply",
@@ -316,16 +321,17 @@ class _LeadersPageState extends State<LeadersPage> {
                           ],
                         ),
                         if (isLeader) ...[
-                        Wrap(
-                          spacing: 5,
-                          children: appliedUsers
-                              .map<Widget>((volunteer) => Chip(
-                                    label: Text(volunteer),
-                                    backgroundColor:
-                                        Theme.of(context).colorScheme.surface,
-                                  ))
-                              .toList(),
-                        ),]
+                          Wrap(
+                            spacing: 5,
+                            children: appliedUsers
+                                .map<Widget>((volunteer) => Chip(
+                                      label: Text(volunteer),
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.surface,
+                                    ))
+                                .toList(),
+                          ),
+                        ]
                       ],
                     ),
                   ),
@@ -337,4 +343,4 @@ class _LeadersPageState extends State<LeadersPage> {
       ),
     );
   }
-}  
+}

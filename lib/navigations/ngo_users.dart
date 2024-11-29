@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_progect_v2/components/nav_par_leader.dart';
-import 'package:graduation_progect_v2/components/nav_par_ngo.dart';
-import 'package:graduation_progect_v2/components/nav_par_users.dart';
+import 'package:graduation_progect_v2/components/nav_bar_leader.dart';
+import 'package:graduation_progect_v2/components/nav_bar_ngo.dart';
+import 'package:graduation_progect_v2/components/nav_bar_users.dart';
 import 'package:graduation_progect_v2/pages/admin/nav_par_admin.dart';
 import 'package:graduation_progect_v2/pages/admin/posts_active.dart';
 import 'package:graduation_progect_v2/pages/auth_pages/login_page.dart';

@@ -43,7 +43,7 @@ class _WallPageState extends State<WallPage> {
   @override
   void initState() {
     super.initState();
-    _getUserData();
+    getUserData();
   }
   
   // methode of picking image 
@@ -59,7 +59,7 @@ class _WallPageState extends State<WallPage> {
   }
   }
    
-   Future<void> _getUserData() async {
+   Future<void> getUserData() async {
     try {
       user = _auth.currentUser;
       if (user != null) {

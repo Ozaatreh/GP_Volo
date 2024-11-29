@@ -10,6 +10,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:graduation_progect_v2/components/custom_notifications.dart';
 
 
 
@@ -132,7 +133,7 @@ Future<void> applyToEvent(String postId ,DateTime eventDate) async {
           userEmail: data['UserEmail'],
           notificationType: 'apply',
         );
-      //  CustomNotificationState().scheduleEventNotifications(eventDate);
+       CustomNotificationState().scheduleEventNotificationsForTesting();
 
       print("Volunteer successfully applied and notifications scheduled.");
     }
@@ -179,8 +180,8 @@ Future<void> applyAsLeader(String postId, DateTime eventDate) async {
   bool alreadyApplied = await hasAppliedOnSameDate(eventDate);
 
   if (alreadyApplied) {
-    // If the user has already applied on this date, show a message or handle as needed
-    print("You have already applied to an event on this date.");
+    // // If the user has already applied on this date, show a message or handle as needed
+    // print("You have already applied to an event on this date.");
     return; // Prevent applying
   }
 
@@ -210,7 +211,7 @@ Future<void> applyAsLeader(String postId, DateTime eventDate) async {
           notificationType: 'apply_leader',
         );
         // Schedule notifications for the leader
-      // CustomNotificationState().scheduleEventNotifications(eventDate);
+      CustomNotificationState().scheduleEventNotificationsForTesting();
 
       print("Leader successfully applied and notifications scheduled.");
     }

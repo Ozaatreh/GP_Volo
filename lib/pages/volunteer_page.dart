@@ -22,8 +22,8 @@ class _UserPageState extends State<UserPage> {
     int selectedIndex = 1;
   
     
-   final FirebaseAuth _auth = FirebaseAuth.instance;
-   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+   final FirebaseAuth auth = FirebaseAuth.instance;
+   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   User? user;
   Map<String, dynamic>? userData;
@@ -32,9 +32,9 @@ class _UserPageState extends State<UserPage> {
 
    Future<void> getUserData() async {
     try {
-      user = _auth.currentUser;
+      user = auth.currentUser;
       if (user != null) {
-        final doc = await _firestore.collection('Users').doc(user!.email).get();
+        final doc = await firestore.collection('Users').doc(user!.email).get();
         setState(() {
           userData = doc.data();
           isLoading = false;
