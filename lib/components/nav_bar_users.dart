@@ -4,14 +4,14 @@ import 'package:graduation_progect_v2/pages/profile_pages/profile_volunteer.dart
 import 'package:graduation_progect_v2/pages/volunteer_page.dart';
 
 
-class UserNavigation extends StatefulWidget {
-  const UserNavigation({super.key});
+class VolunteerNavigation extends StatefulWidget {
+  const VolunteerNavigation({super.key});
 
   @override
-  State<UserNavigation> createState() => _UserNavigationState();
+  State<VolunteerNavigation> createState() => _VolunteerNavigationState();
 }
 
-class _UserNavigationState extends State<UserNavigation> {
+class _VolunteerNavigationState extends State<VolunteerNavigation> {
  
   int selectedIndex = 1;
   

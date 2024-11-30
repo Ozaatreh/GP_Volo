@@ -59,6 +59,7 @@ class _UserPageState extends State<UserPage> {
   void initState() {
     super.initState();
     fetchAppliedPosts(); // Fetch applied posts on initialization
+    database.updateEventStatus();
     getUserData();
   }
 

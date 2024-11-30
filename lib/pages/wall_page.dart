@@ -44,6 +44,7 @@ class _WallPageState extends State<WallPage> {
   void initState() {
     super.initState();
     getUserData();
+    database.updateEventStatus();
   }
   
   // methode of picking image 

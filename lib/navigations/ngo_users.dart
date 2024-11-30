@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/components/nav_bar_leader.dart';
 import 'package:graduation_progect_v2/components/nav_bar_ngo.dart';
+import 'package:graduation_progect_v2/components/nav_bar_university.dart';
 import 'package:graduation_progect_v2/components/nav_bar_users.dart';
-import 'package:graduation_progect_v2/pages/admin/nav_par_admin.dart';
+import 'package:graduation_progect_v2/pages/admin/nav_bar_admin.dart';
 import 'package:graduation_progect_v2/pages/admin/posts_active.dart';
 import 'package:graduation_progect_v2/pages/auth_pages/login_page.dart';
 import 'package:graduation_progect_v2/pages/admin/posts_archive.dart';
@@ -53,12 +54,17 @@ class _AllUsersToggleState extends State<AllUsersToggle> {
           }else if (userType == 'Volunteer') {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) =>  UserNavigation()),
+              MaterialPageRoute(builder: (context) =>  VolunteerNavigation()),
             );
             }else if (userType == 'Admin') {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) =>  AdminNavigation()),
+            );
+            }else if (userType == 'University') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) =>  UniversityNavigation()),
             );
             }else {
             _showError("Invalid user type.");

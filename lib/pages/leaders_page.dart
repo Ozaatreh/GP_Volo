@@ -48,6 +48,8 @@ class _LeadersPageState extends State<LeadersPage> {
   @override
   void initState() {
     super.initState();
+     // Update event statuses
+    database.updateEventStatus();
     fetchCurrentUserType();
     fetchAppliedPosts(); // Fetch applied event dates when the page loads
     getUserData();

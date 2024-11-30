@@ -7,12 +7,13 @@ import 'package:graduation_progect_v2/components/check_notification.dart';
 import 'package:graduation_progect_v2/components/custom_notifications.dart';
 import 'package:graduation_progect_v2/components/nav_bar_leader.dart';
 import 'package:graduation_progect_v2/components/nav_bar_ngo.dart';
+import 'package:graduation_progect_v2/components/nav_bar_university.dart';
 import 'package:graduation_progect_v2/components/nav_bar_users.dart';
 import 'package:graduation_progect_v2/database/firebase_options.dart';
 import 'package:graduation_progect_v2/helper/rating.dart';
 import 'package:graduation_progect_v2/navigations/login_regis.dart';
 import 'package:graduation_progect_v2/pages/about_us_page.dart';
-import 'package:graduation_progect_v2/pages/admin/nav_par_admin.dart';
+import 'package:graduation_progect_v2/pages/admin/nav_bar_admin.dart';
 import 'package:graduation_progect_v2/pages/profile_pages/profile_page.dart';
 import 'package:graduation_progect_v2/pages/setting_page.dart';
 import 'package:graduation_progect_v2/pages/users_log_page.dart';
@@ -73,11 +74,12 @@ class MainPage extends StatelessWidget {
         'Home_page' : (context) =>  WallPage(),
         'Admin_page': (context) =>  AdminNavigation(),
         'Ngo_page' : (context) =>  NGONavigation(),
-        'User_page' : (context) =>  UserNavigation(),
+        'User_page' : (context) =>  VolunteerNavigation(),
         'Leader_page' : (context) =>  LeaderNavigation(),
+        'University_page' : (context) =>  UniversityNavigation(),
         'profile_page' : (context) =>  ProfilePage(),
         'users_log_page' : (context) => const UsersLogPage(),
-        'about_us_page' : (context) => RatingApp(),
+        'about_us_page' : (context) => RatingPage(),
         'setting_page' : (context) =>  SettingsPage(),
         'Contact_us_page' :(context) =>  ContactUsPage(),
         

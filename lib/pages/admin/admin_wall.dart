@@ -45,6 +45,7 @@ class AdminWallWallPageState extends State<AdminWall> {
    @override
   void initState() {
     super.initState();
+    database.updateEventStatus();
     getUserData();
   }
 

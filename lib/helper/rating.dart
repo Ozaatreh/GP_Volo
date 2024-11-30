@@ -1,287 +1,168 @@
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Authentication
 
-
-void main() {
-  runApp(RatingApp());
+class RatingPage extends StatefulWidget {
+  @override
+  _RatingPageState createState() => _RatingPageState();
 }
 
+class _RatingPageState extends State<RatingPage> {
+  // Variables for leader and event ratings
+  double _leaderRating = 0;
+  double _eventRating = 0;
 
-class RatingApp extends StatelessWidget {
+  String _leaderComment = '';
+  String _eventComment = '';
+
+  String? _selectedLeader; // Variable to store the selected leader
+  List<String> _leaders = []; // To store the list of leaders from Firestore
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Multi-Page Rating',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: LeaderRatingPage(),
-    );
+  void initState() {
+    super.initState();
+    fetchLeaders();
   }
-}
 
+  // Function to fetch leaders from Firebase Firestore
+  Future<void> fetchLeaders() async {
+    final leaderCollection = FirebaseFirestore.instance.collection('leaders');
+    final snapshot = await leaderCollection.get();
 
-// Global variables to collect all ratings
-double leaderRateEvent = 0.0;
-double leaderRateVolunteer = 0.0;
-double eventRateLeader = 0.0;
-double eventRateVolunteer = 0.0;
-double volunteerRateEvent = 0.0;
-double volunteerRateLeader = 0.0;
+    if (snapshot.docs.isNotEmpty) {
+      setState(() {
+        _leaders = snapshot.docs.map((doc) => doc['name'] as String).toList();
+      });
+    } else {
+      // If no leaders are found in Firestore, add a default leader or display a message
+      setState(() {
+        _leaders = ['No leaders available'];
+      });
+    }
+  }
 
+  // Function to save the ratings
+  void _saveRatings() {
+    // Ensure both leader and event ratings are provided before submission
+    if (_leaderRating == 0 || _eventRating == 0 || _selectedLeader == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Please provide ratings for both Leader and Event, and select a leader for the event'),
+      ));
+      return;
+    }
 
-final TextEditingController leaderCommentController = TextEditingController();
-final TextEditingController eventCommentController = TextEditingController();
-final TextEditingController volunteerCommentController =
-    TextEditingController();
-final TextEditingController leaderCommandController = TextEditingController();
-final TextEditingController eventCommandController = TextEditingController();
-final TextEditingController volunteerCommandController =
-    TextEditingController();
-
-
-/// Leader Rating Page
-class LeaderRatingPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Leader Ratings')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Rate Event',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            RatingBar.builder(
-              initialRating: leaderRateEvent,
-              minRating: 1,
-              direction: Axis.horizontal,
-              itemCount: 5,
-              itemSize: 40,
-              itemBuilder: (context, _) =>
-                  Icon(Icons.star, color: Colors.orange),
-              onRatingUpdate: (value) {
-                leaderRateEvent = value;
-              },
-            ),
-            SizedBox(height: 16),
-            Text('Rate Volunteer',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            RatingBar.builder(
-              initialRating: leaderRateVolunteer,
-              minRating: 1,
-              direction: Axis.horizontal,
-              itemCount: 5,
-              itemSize: 40,
-              itemBuilder: (context, _) =>
-                  Icon(Icons.star, color: Colors.orange),
-              onRatingUpdate: (value) {
-                leaderRateVolunteer = value;
-              },
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: leaderCommentController,
-              decoration: InputDecoration(
-                  labelText: 'Event Comments', border: OutlineInputBorder()),
-              maxLines: 3,
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: leaderCommandController,
-              decoration: InputDecoration(
-                  labelText: 'Volunteer Comments',
-                  border: OutlineInputBorder()),
-              maxLines: 2,
-            ),
-            Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                // Proceed to the next page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EventRatingPage()),
-                );
-              },
-              child: Text('Next'),
-            ),
-          ],
-        ),
+    // Display ratings after submission
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        'Leader Rating: $_leaderRating\nEvent Rating: $_eventRating\n'
+        'Leader: $_selectedLeader\nLeader Comment: $_leaderComment\nEvent Comment: $_eventComment',
       ),
-    );
+    ));
   }
-}
 
-
-/// Event Rating Page
-class EventRatingPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Event Ratings')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Rate Leader',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            RatingBar.builder(
-              initialRating: eventRateLeader,
-              minRating: 1,
-              direction: Axis.horizontal,
-              itemCount: 5,
-              itemSize: 40,
-              itemBuilder: (context, _) =>
-                  Icon(Icons.star, color: Colors.orange),
-              onRatingUpdate: (value) {
-                eventRateLeader = value;
-              },
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: eventCommentController,
-              decoration: InputDecoration(
-                  labelText: 'Leader Comments', border: OutlineInputBorder()),
-              maxLines: 3,
-            ),
-            Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                // Proceed to the next page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => VolunteerRatingPage()),
-                );
-              },
-              child: Text('Next'),
-            ),
-          ],
+  // Build the rating interface
+  Widget _buildRatingSection(String ratingType) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Rate this $ratingType:',
+          style: TextStyle(fontSize: 18),
         ),
-      ),
+        SizedBox(height: 10),
+        RatingBar.builder(
+          initialRating: ratingType == 'Leader' ? _leaderRating : _eventRating,
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: false, // Disable half-stars
+          itemCount: 5,
+          itemSize: 40.0,
+          itemBuilder: (context, _) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) {
+            setState(() {
+              if (ratingType == 'Leader') {
+                _leaderRating = rating;
+              } else {
+                _eventRating = rating;
+              }
+            });
+          },
+        ),
+        SizedBox(height: 20),
+        Text(
+          'Rating: ${ratingType == 'Leader' ? _leaderRating : _eventRating}',
+          style: TextStyle(fontSize: 16),
+        ),
+        SizedBox(height: 20),
+        TextField(
+          decoration: InputDecoration(
+            labelText: 'Enter your comment for $ratingType (optional)',
+            border: OutlineInputBorder(),
+          ),
+          onChanged: (text) {
+            setState(() {
+              if (ratingType == 'Leader') {
+                _leaderComment = text;
+              } else {
+                _eventComment = text;
+              }
+            });
+          },
+        ),
+        SizedBox(height: 20),
+      ],
     );
   }
-}
 
-
-/// Volunteer Rating Page
-class VolunteerRatingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Volunteer Ratings')),
+      appBar: AppBar(title: Text('Rate Volunteer Leader and Event')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Rate Event',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            RatingBar.builder(
-              initialRating: volunteerRateEvent,
-              minRating: 1,
-              direction: Axis.horizontal,
-              itemCount: 5,
-              itemSize: 40,
-              itemBuilder: (context, _) =>
-                  Icon(Icons.star, color: Colors.orange),
-              onRatingUpdate: (value) {
-                volunteerRateEvent = value;
-              },
+            // Section to select a leader for the event
+            Text(
+              'Select Leader for the Event:',
+              style: TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 16),
-            Text('Rate Leader',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            RatingBar.builder(
-              initialRating: volunteerRateLeader,
-              minRating: 1,
-              direction: Axis.horizontal,
-              itemCount: 5,
-              itemSize: 40,
-              itemBuilder: (context, _) =>
-                  Icon(Icons.star, color: Colors.orange),
-              onRatingUpdate: (value) {
-                volunteerRateLeader = value;
-              },
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: volunteerCommentController,
-              decoration: InputDecoration(
-                  labelText: 'Event Comments', border: OutlineInputBorder()),
-              maxLines: 3,
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: volunteerCommandController,
-              decoration: InputDecoration(
-                  labelText: 'Leader Comments', border: OutlineInputBorder()),
-              maxLines: 2,
-            ),
-            Spacer(),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  // Get the current user's email and username from Firebase Authentication
-                  User? user = FirebaseAuth.instance.currentUser;
-                  String email = user?.email ?? 'Unknown';
-                  String username = user?.displayName ?? 'Anonymous';
-
-
-                  // Submit the ratings and points to Firebase
-                  await FirebaseFirestore.instance.collection('ratings').add({
-                    'leaderRateEvent': leaderRateEvent,
-                    'leaderRateVolunteer': leaderRateVolunteer,
-                    'eventRateLeader': eventRateLeader,
-                    'eventRateVolunteer': eventRateVolunteer,
-                    'volunteerRateEvent': volunteerRateEvent,
-                    'volunteerRateLeader': volunteerRateLeader,
-                    'totalLeaderPoints': leaderRateEvent + leaderRateVolunteer,
-                    'totalEventPoints': eventRateLeader + eventRateVolunteer,
-                    'totalVolunteerPoints':
-                        volunteerRateEvent + volunteerRateLeader,
-                    'comments': {
-                      'leader': leaderCommentController.text,
-                      'event': eventCommentController.text,
-                      'volunteer': volunteerCommentController.text,
+            // Display the list of leaders from Firebase
+            _leaders.isEmpty
+                ? CircularProgressIndicator()
+                : DropdownButton<String>(
+                    value: _selectedLeader,
+                    hint: Text('Choose a leader'),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedLeader = newValue;
+                      });
                     },
-                    'commands': {
-                      'leader': leaderCommandController.text,
-                      'event': eventCommandController.text,
-                      'volunteer': volunteerCommandController.text,
-                    },
-                    'userEmail': email, // Add email to the Firestore document
-                    'userName':
-                        username, // Add username to the Firestore document
-                    'timestamp': FieldValue.serverTimestamp(),
-                  });
+                    items:
+                        _leaders.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+            SizedBox(height: 20),
 
-
-                  // Confirm data submission
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Feedback Submitted Successfully!')));
-
-
-                  // Navigate back to the first screen
-                  Navigator.popUntil(context, (route) => route.isFirst);
-
-
-                  // Optional: Show a thank you message on the final screen
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Thank you for your feedback!'),
-                    backgroundColor: Colors.green,
-                  ));
-                } catch (e) {
-                  // Handle error
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text('Error: $e')));
-                }
-              },
-              child: Text('Submit'),
+            // Display leader rating interface
+            _buildRatingSection('Leader'),
+            SizedBox(height: 40),
+            // Display event rating interface
+            _buildRatingSection('Event'),
+            SizedBox(height: 20),
+            // A single button to submit ratings
+            ElevatedButton(
+              onPressed: _saveRatings,
+              child: Text('Submit Ratings'),
             ),
           ],
         ),
@@ -289,6 +170,3 @@ class VolunteerRatingPage extends StatelessWidget {
     );
   }
 }
-
-
-

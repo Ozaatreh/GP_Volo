@@ -57,21 +57,43 @@ Future addPost(String messages ,
 
 }
 
-void updateEventStatus() async {
+Future<void> updateEventStatus() async {
   final now = DateTime.now();
-  final posts = await FirebaseFirestore.instance.collection('Posts').get();
 
-  for (var doc in posts.docs) {
-    DateTime eventDate = (doc['EventDate'] as Timestamp).toDate();
-    String status = doc['status'] ?? "upcoming";
+  try {
+    final postsSnapshot = await FirebaseFirestore.instance.collection('Posts').get();
 
-    if (eventDate.isBefore(now) && status != "completed") {
-      await doc.reference.update({'status': 'completed'});
-    } else if (eventDate.isAtSameMomentAs(now) && status != "in_progress") {
-      await doc.reference.update({'status': 'in_progress'});
+    for (var post in postsSnapshot.docs) {
+      final eventDate = (post['EventDate'] as Timestamp).toDate();
+      String postStatus = post.data().containsKey('status') ? post['status'] : '';
+
+      // If status doesn't exist, initialize it
+      if (postStatus.isEmpty) {
+        await post.reference.update({'status': 'upcoming'});
+        postStatus = 'upcoming';  // Set to upcoming by default
+      }
+
+      if (eventDate.isBefore(now)) {
+        if (postStatus != 'completed') {
+          await post.reference.update({'status': 'completed'});
+        }
+      } else if (eventDate.isAfter(now) && eventDate.difference(now).inDays == 0) {
+        if (postStatus != 'in_progress') {
+          await post.reference.update({'status': 'in_progress'});
+        }
+      } else {
+        if (postStatus != 'upcoming') {
+          await post.reference.update({'status': 'upcoming'});
+        }
+      }
     }
+  } catch (e) {
+    print('Error updating event statuses: $e');
   }
 }
+
+
+
 
   // Method to send notifications
   Future<void> sendNotification({
@@ -95,7 +117,7 @@ Stream<QuerySnapshot> getNgoUserPostsStream(String userEmail) {
   return FirebaseFirestore.instance
       .collection('Posts')
       .where('UserEmail', isEqualTo: userEmail) // Filter by user email
-      .where('status', isEqualTo: 'upcoming') //Fetch only upcoming events
+      .where('status', whereIn: ['upcoming', 'in_progress']) // Include only active events
       .snapshots();
 }
 

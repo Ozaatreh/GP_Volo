@@ -17,8 +17,8 @@ class AdminNavigationState extends State<AdminNavigation> {
   // List of pages to display based on selected index
   final List<Widget> pages = [
      AdminWall(),
-     PostArchive(),
      ActiveEvents(),
+     PostArchive(),
   ];
   // pages changer
   void onItemTapped(int index) {
