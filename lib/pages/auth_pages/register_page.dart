@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_progect_v2/components/my_buttons.dart';
@@ -33,62 +32,85 @@ class _RegisterPageState extends State<RegisterPage> {
   String? selectedCity;
   String? selectedUserType; // New variable to store user type selection
   String? selectedUniversity;
-  void registerUser() async {
-    // loding circle
-    showDialog(
-      context: context,
-      builder: (context) => Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-    if (passwordControler.text != confirmPasControler.text) {
+ void registerUser() async {
+  // Show loading circle
+  showDialog(
+    context: context,
+    barrierDismissible: false, // Prevent closing the dialog by tapping outside
+    builder: (context) => const Center(
+      child: CircularProgressIndicator(),
+    ),
+  );
+
+  if (passwordControler.text != confirmPasControler.text) {
+    // Dismiss loading circle
+    Navigator.pop(context);
+
+    // Show error message
+    displayMessageToUser("Passwords don't match!", context);
+    Navigator.pop(context);
+  } else {
+    try {
+      // Create user with email and password
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailControler.text, password: passwordControler.text);
+
+      final User? user = userCredential.user;
+      if (user == null) throw FirebaseAuthException(code: "user-not-found");
+
+      // Send email verification
+      await user.sendEmailVerification();
+
+      // Create user document in Firestore
+      await creatUserDocument(userCredential);
+
+      // Dismiss loading circle
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+
+      // Notify user about email verification
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Verify Your Email'),
+          content: const Text(
+              'A verification link has been sent to your email. Please verify your email before logging in.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
       // Dismiss loading circle
       Navigator.pop(context);
 
       // Show error message
-      displayMessageToUser("Passwords don't match!", context);
-    } else {
-      try {
-        // Create user
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emailControler.text, password: passwordControler.text);
-
-        // Create a user document in Firestore
-        await creatUserDocument(userCredential);
-
-        // Dismiss loading circle
-        if (context.mounted) {
-          Navigator.pop(context);
-        }
-
-        // Navigate to the appropriate page based on user type
-        if (userCredential.user != null) {
-          await handleUserNavigation(userCredential.user!);
-        }
-      } on FirebaseAuthException catch (e) {
-        // Dismiss loading circle
-        Navigator.pop(context);
-
-        // Show error message
-        displayMessageToUser(e.code, context);
-      }
+      displayMessageToUser(
+          e.message ?? "An error occurred. Please try again.", context);
     }
   }
+}
 
-  void navigateToPage(String userType) {
-    if (userType == "Ngo") {
-      Navigator.pushReplacementNamed(context, 'Ngo_page');
-    } else if (userType == "Volunteer") {
-      Navigator.pushReplacementNamed(context, 'User_page');
-    } else if (userType == "Leader") {
-      Navigator.pushReplacementNamed(context, 'Leader_page');
-    } else if (userType == "Admin") {
-      Navigator.pushReplacementNamed(context, 'Admin_page');
-    } else if (userType == "University") {
-      Navigator.pushReplacementNamed(context, 'University_page');
-    }
+void navigateToPage(String userType) {
+  if (userType == "Ngo") {
+    Navigator.pushReplacementNamed(context, 'Ngo_page');
+  } else if (userType == "Volunteer") {
+    Navigator.pushReplacementNamed(context, 'User_page');
+  } else if (userType == "Leader") {
+    Navigator.pushReplacementNamed(context, 'Leader_page');
+  } else if (userType == "Admin") {
+    Navigator.pushReplacementNamed(context, 'Admin_page');
+  } else if (userType == "University") {
+    Navigator.pushReplacementNamed(context, 'University_page');
   }
+}
 
   Future<void> handleUserNavigation(User user) async {
     final currentUser = FirebaseAuth.instance.currentUser;
@@ -100,6 +122,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
       final userType = userDoc['userType'];
       navigateToPage(userType);
+
+      
     }
   }
 
@@ -166,12 +190,6 @@ class _RegisterPageState extends State<RegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Email verified! You can now proceed.')),
       );
-
-      // Navigate to hobbies selection page after successful verification
-      // Navigator.pushReplacement(
-      // context,
-      // MaterialPageRoute(builder: (context) => HobbiesSelectionPage()),
-      // );
     }
   }
 

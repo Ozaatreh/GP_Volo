@@ -14,6 +14,7 @@ import 'package:graduation_progect_v2/helper/rating.dart';
 import 'package:graduation_progect_v2/navigations/login_regis.dart';
 import 'package:graduation_progect_v2/pages/about_us_page.dart';
 import 'package:graduation_progect_v2/pages/admin/nav_bar_admin.dart';
+import 'package:graduation_progect_v2/pages/auth_pages/forget_password.dart';
 import 'package:graduation_progect_v2/pages/profile_pages/profile_page.dart';
 import 'package:graduation_progect_v2/pages/setting_page.dart';
 import 'package:graduation_progect_v2/pages/users_log_page.dart';
@@ -82,7 +83,7 @@ class MainPage extends StatelessWidget {
         'about_us_page' : (context) => RatingPage(),
         'setting_page' : (context) =>  SettingsPage(),
         'Contact_us_page' :(context) =>  ContactUsPage(),
-        
+        'forgot_password' :(context) =>  ForgotPasswordPage(),
       },
      
     );
