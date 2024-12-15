@@ -39,6 +39,7 @@ class _AchievementPageState extends State<AchievementPage> {
         
           ],
         ),
+        leading: SizedBox(),
       ),
     );
   }

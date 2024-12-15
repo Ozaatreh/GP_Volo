@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,6 +19,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   /// Send Password Reset Email
   void sendPasswordResetEmail() async {
+    // Show progress indicator
+    showDialog(
+      context: context,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
     if (emailController.text.isEmpty) {
       displayMessageToUser("Email field cannot be empty", context);
       return;
@@ -27,10 +36,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       displayMessageToUser("Invalid email format", context);
       return;
     }
-
-    setState(() {
-      isLoading = true;
-    });
 
     try {
       // Send password reset email
@@ -57,13 +62,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ],
         ),
       );
+      
     } on FirebaseAuthException catch (e) {
       displayMessageToUser(
           e.message ?? "An error occurred. Please try again.", context);
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      // Dismiss progress indicator
+      if (context.mounted) Navigator.pop(context);
     }
   }
 
@@ -77,10 +82,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        title: const Text("Forgot Password"),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
@@ -88,7 +89,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 50),
+                const SizedBox(height: 90),
 
                 Text(
                   "Reset Your Password",

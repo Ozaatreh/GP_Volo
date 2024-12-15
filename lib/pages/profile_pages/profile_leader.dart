@@ -81,13 +81,21 @@ class LeaderProfileState extends State<LeaderProfile> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Leader Profile'),
-        actions: [
-          IconButton(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(),
+            const Text('Leader Profile'),
+            IconButton(
             icon: const Icon(Icons.edit),
             onPressed: navigateToEditProfile,
           ),
-        ],
+          ],
+        ),
+        // actions: [
+        leading: 
+          SizedBox()
+        // ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),

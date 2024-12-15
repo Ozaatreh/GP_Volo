@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_progect_v2/components/my_buttons.dart';
@@ -43,6 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
     if (passwordControler.text != confirmPasControler.text) {
       // Dismiss loading circle
+      // Dismiss loading circle
       Navigator.pop(context);
 
       // Show error message
@@ -57,19 +57,25 @@ class _RegisterPageState extends State<RegisterPage> {
         // Create a user document in Firestore
         await creatUserDocument(userCredential);
 
-        // Dismiss loading circle
-        if (context.mounted) {
-          Navigator.pop(context);
-        }
+        // Dismiss loading indicator
+        Navigator.pop(context); 
 
-        // Navigate to the appropriate page based on user type
-        if (userCredential.user != null) {
-          await handleUserNavigation(userCredential.user!);
-        }
-      } on FirebaseAuthException catch (e) {
-        // Dismiss loading circle
-        Navigator.pop(context);
+        // Send verification email
+        await userCredential.user!.sendEmailVerification();
 
+        // Display message to check email
+        displayMessageToUser(
+            "Verification email sent! Please check your inbox.", context);
+
+        // Navigate based on user type
+        handleUserNavigation(userCredential.user!);
+      } on FirebaseAuthException catch (e) { 
+        // If sign-in fails, display a message to the user.
+        // print('Sign in failed with error code: ${e.code}');
+        // print(e.message);
+
+        // Dismiss loading indicator and any previous dialogs
+        Navigator.popUntil(context, (route) => route.isFirst);
         // Show error message
         displayMessageToUser(e.code, context);
       }
@@ -91,15 +97,40 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> handleUserNavigation(User user) async {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      final userDoc = await FirebaseFirestore.instance
-          .collection("Users")
-          .doc(currentUser.email)
-          .get();
+    // Check if email is verified
+    print("handleUserNavigation called");
+    await user.reload(); // Reload user data to get the latest verification status
+    if (user.emailVerified) {
+      final currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        final userDocSnapshot = await FirebaseFirestore.instance
+            .collection("Users")
+            .doc(currentUser.email)
+            .get();
 
-      final userType = userDoc['userType'];
-      navigateToPage(userType);
+        if (userDocSnapshot.exists) {
+          final userType = userDocSnapshot.data()?['userType'] as String;
+          navigateToPage(userType);
+        } else {
+          displayMessageToUser("User document not found!", context);
+        }
+      }
+    } else {
+      print("Email not verified yet");
+      // Show a dialog or snackbar prompting the user to verify their email
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Verify Email"),
+              content: Text(
+                  "Please check your inbox and verify your email to proceed."),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context), child: Text("OK"))
+              ],
+            );
+          });
     }
   }
 
@@ -122,56 +153,36 @@ class _RegisterPageState extends State<RegisterPage> {
 
   // user doucument colect to firebase
   Future<void> creatUserDocument(UserCredential? userCredential) async {
-    if (userCredential != null &&
-        userCredential.user != null &&
-        selectedBirthDate != null) {
-      await FirebaseFirestore.instance
-          .collection("Users")
-          .doc(userCredential.user!.email)
-          .set({
-        'email': userCredential.user!.email,
-        'username': userNameControler.text,
-        'userType': selectedUserType, // Assign default type if none selected
-        'city': selectedCity,
-        'birthday': selectedBirthDate,
-        'gender': selectedGender,
-        'university': selectedUniversity,
-      });
-    } else {
-      // Show error if no birthdate is selected
-      showDialog(
-          context: context,
-          builder: (context) => Text('Please select your birthdate'));
-    }
-  }
+    if (userCredential != null && userCredential.user != null) {
+      // Ensure all required fields are selected
+      String userType = selectedUserType ?? 'Volunteer'; // Default to Volunteer
+      String city = selectedCity ?? 'Amman'; // Default to Amman
+      DateTime birthday = selectedBirthDate!; // Birthdate is now required
+      String gender = selectedGender ?? 'Not specified'; // Default to Not specified
+      String university = selectedUniversity ?? 'Not specified'; // Default to Not specified
 
-  Future<void> checkEmailVerification(User? user) async {
-    if (user == null) return print('User is not here lol');
+      if (selectedBirthDate == null) {
+        displayMessageToUser("Please select your birthdate", context);
+        return;
+      }
 
-    // Check if email is verified and wait until it's verified.
-    bool isVerified = user.emailVerified;
-
-    while (!isVerified) {
-      // Wait for 2 seconds before checking the status again
-      await Future.delayed(Duration(seconds: 2));
-
-      // Reload the user's data to check the latest email verification status
-      await user.reload();
-
-      // Get the updated email verification status
-      isVerified = user.emailVerified;
-    }
-
-    if (isVerified) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Email verified! You can now proceed.')),
-      );
-
-      // Navigate to hobbies selection page after successful verification
-      // Navigator.pushReplacement(
-      // context,
-      // MaterialPageRoute(builder: (context) => HobbiesSelectionPage()),
-      // );
+      try {
+        await FirebaseFirestore.instance
+            .collection("Users")
+            .doc(userCredential.user!.email)
+            .set({
+          'email': userCredential.user!.email,
+          'username': userNameControler.text,
+          'userType': userType, 
+          'city': city,
+          'birthday': birthday,
+          'gender': gender,
+          'university': university,
+        });
+      } catch (e) {
+        print("Error creating user document: $e");
+        displayMessageToUser("Error creating user document", context);
+      }
     }
   }
 
@@ -871,18 +882,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 14,
                 ),
 
-                MyButton(
+                MyButton(                  
                   buttonText: "Register",
-                  onTap: () {
-                    setState(() {
-                      registerUser();
-                      // registerUser();
-                      //pop out drawer
-                      Navigator.pop(context);
-                      // navigat to
-                      // Navigator.pushNamed(context, 'User_Ngo_page');
-                    });
-                  },
+                  onTap: registerUser,
                 ),
 
                 const SizedBox(

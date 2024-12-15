@@ -94,14 +94,19 @@ class _UniversityProfileState extends State<UniversityProfile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // University Logo
-            Center(
-              child: CircleAvatar(
-                radius: 60,
-                backgroundImage: userData?['universityLogo'] != null
-                    ? NetworkImage(userData!['universityLogo'])
-                    : const AssetImage('assets/default_logo.png') as ImageProvider,
-              ),
-            ),
+            Container(
+                  // top: 60,
+                  // right: 250,
+                  child: Center(
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage: userData?['profilePicture'] != null
+                          ? NetworkImage(userData!['profilePicture'])
+                          : const AssetImage('assets/photo_2024-11-02_19-33-14.jpg')
+                              as ImageProvider,
+                    ),
+                  ),
+                ),
             const SizedBox(height: 30),
 
             // University Name and Email
