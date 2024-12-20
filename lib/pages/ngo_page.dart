@@ -3,10 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:graduation_progect_v2/components/my_drawer.dart';
 import 'package:graduation_progect_v2/components/my_textfield.dart';
 import 'package:graduation_progect_v2/components/post_button.dart';
 import 'package:graduation_progect_v2/database/firestore.dart';
+import 'package:graduation_progect_v2/helper/location_picker.dart';
 import 'package:image_picker/image_picker.dart';
 
 class NgoPage extends StatefulWidget {
@@ -23,6 +25,7 @@ class _NgoPageState extends State<NgoPage> {
   final TextEditingController eventSizeController = TextEditingController();
   final TextEditingController leadresController = TextEditingController();
   final TextEditingController eventDateController = TextEditingController(); // Added
+  final TextEditingController locationController = TextEditingController();
   File? selectedImage;
   final ImagePicker picker = ImagePicker();
   int selectedIndex = 1;
@@ -59,6 +62,19 @@ class _NgoPageState extends State<NgoPage> {
       String? imageUrl;
       int eventSize = int.tryParse(eventSizeController.text) ?? 10;
       int leader = int.tryParse(leadresController.text) ?? 3;
+      String location = locationController.text; // Get the location input
+
+      double? latitude;
+      double? longitude;
+
+    // Extract latitude and longitude from the location text if needed
+    if (location.isNotEmpty) {
+      final parts = location.split(',');
+      if (parts.length == 2) {
+        latitude = double.tryParse(parts[0].substring(4));
+        longitude = double.tryParse(parts[1].substring(5));
+      }
+    }
       if (selectedImage != null) {
         imageUrl = await database.uploadImage(selectedImage!);
       }
@@ -69,6 +85,9 @@ class _NgoPageState extends State<NgoPage> {
         targetCount: eventSize,
         leaderMaxCount: leader,
         eventDate: selectedEventDate,
+        location: location, // Store the location
+        latitude: latitude,  // Store latitude
+        longitude: longitude, // Store longitude
       );
       
       // Schedule Notifications
@@ -79,6 +98,7 @@ class _NgoPageState extends State<NgoPage> {
       eventSizeController.clear();
       leadresController.clear();
       eventDateController.clear();
+      locationController.clear();
       selectedEventDate = null;
 
        // Show success message
@@ -200,6 +220,24 @@ class _NgoPageState extends State<NgoPage> {
                   // Event Date
                   Row(
                     children: [
+
+                      IconButton(
+  icon: Icon(Icons.location_on),
+  onPressed: () async {
+    // Navigate to the SelectLocationPage to choose the location
+    LatLng? selectedLocation = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SelectLocationPage()),
+    );
+
+    // If a location was selected, update the locationController and state
+    if (selectedLocation != null) {
+      setState(() {
+        locationController.text = 'Lat: ${selectedLocation.latitude}, Long: ${selectedLocation.longitude}';
+      });
+    }
+  },
+),
                       Expanded(
                         child: TextField(
                           cursorColor: Theme.of(context).colorScheme.inversePrimary,
@@ -287,6 +325,7 @@ class _NgoPageState extends State<NgoPage> {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          
                           IconButton(
                           icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.inversePrimary),
                           onPressed: () {

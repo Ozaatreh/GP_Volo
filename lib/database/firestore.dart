@@ -10,7 +10,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/components/custom_notifications.dart';
+import 'package:graduation_progect_v2/helper/location_picker.dart';
 
 
 
@@ -33,7 +35,11 @@ Future addPost(String messages ,
  {String? imageUrl,
   int leaderMaxCount = 7,
   int targetCount = 30 ,
-  DateTime? eventDate,  } ) async{
+  DateTime? eventDate,
+  String? location,
+  double? latitude,
+  double? longitude,
+    } ) async{
    // Retrieve username from user's profile document
       String? username = await getUsername(user!.email!);
       String? userType = await getUserType(user!.email!);
@@ -52,9 +58,37 @@ Future addPost(String messages ,
        'LeaderCount': 0, // Initialize leader count to 0
        'LeaderMaxCount': leaderMaxCount,
        'status': 'upcoming',
+       'Location': location,
+       'Latitude': latitude, // Add latitude to Firestore
+       'Longitude': longitude, // Add longitude to Firestore
     }
   );
 
+}
+ void createPost(BuildContext context) async {
+  double? latitude;
+  double? longitude;
+
+  // Navigate to the location picker screen
+  await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => SelectLocationPage(),
+      
+    ),
+  );
+
+  if (latitude != null && longitude != null) {
+    // Call addPost with the selected location
+    await FirestoreDatabase().addPost(
+      "Your post message here",
+      latitude: latitude,
+      longitude: longitude,
+    );
+    print("Post created with location: $latitude, $longitude");
+  } else {
+    print("Location not selected.");
+  }
 }
 
 Future<void> updateEventStatus() async {
@@ -66,14 +100,14 @@ Future<void> updateEventStatus() async {
     for (var post in postsSnapshot.docs) {
       final eventDate = (post['EventDate'] as Timestamp).toDate();
       String postStatus = post.data().containsKey('status') ? post['status'] : '';
-
+      final differenceInDays = now.difference(eventDate).inDays;
       // If status doesn't exist, initialize it
       if (postStatus.isEmpty) {
         await post.reference.update({'status': 'upcoming'});
         postStatus = 'upcoming';  // Set to upcoming by default
       }
 
-      if (eventDate.isBefore(now)) {
+      if (differenceInDays > 1) {
         if (postStatus != 'completed') {
           await post.reference.update({'status': 'completed'});
         }
@@ -81,7 +115,8 @@ Future<void> updateEventStatus() async {
         if (postStatus != 'in_progress') {
           await post.reference.update({'status': 'in_progress'});
         }
-      } else {
+      } else if (differenceInDays < -1) {
+        // Event is upcoming (more than one day before)
         if (postStatus != 'upcoming') {
           await post.reference.update({'status': 'upcoming'});
         }
