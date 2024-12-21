@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
           if (userType != null) {
             // Navigate based on user type
             if (userType == 'Ngo') {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const NgoPage()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  NgoPage()));
             } else if (userType == 'Volunteer') {
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const UsersLogPage()));
             } else if (userType == 'Leader') {

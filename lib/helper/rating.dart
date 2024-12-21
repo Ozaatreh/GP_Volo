@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RatingPage extends StatefulWidget {
+  const RatingPage({super.key});
+
   @override
   _RatingPageState createState() => _RatingPageState();
 }
@@ -16,15 +18,24 @@ class _RatingPageState extends State<RatingPage> {
   String _eventComment = '';
 
   String? _selectedLeader; // Variable to store the selected leader
+  String? _selectedNgo; // Variable to store the selected NGO
   List<String> _leaders = []; // To store the list of leaders from Firestore
+  List<String> _ngos = []; // To store the list of NGOs from Firestore
+  Map<String, List<Map<String, dynamic>>> _leaderBadges = {}; // Store badges with points for leaders
+  Map<String, List<Map<String, dynamic>>> _ngoBadges = {}; // Store badges for NGOs
+  double _extraPoints = 0; // Points awarded from selected badges
+  String? _selectedLeaderBadge; // Variable to store the selected badge for leader
+  String? _selectedNgoBadge; // Variable to store the selected badge for NGO
+  String? _ngoComment = ''; // Comment section for NGO
 
   @override
   void initState() {
     super.initState();
     fetchLeaders();
+    fetchNgos();
   }
 
-  // Function to fetch leaders from Firebase Firestore
+  // Fetch leaders from Firestore
   Future<void> fetchLeaders() async {
     final leaderCollection = FirebaseFirestore.instance.collection('leaders');
     final snapshot = await leaderCollection.get();
@@ -32,11 +43,46 @@ class _RatingPageState extends State<RatingPage> {
     if (snapshot.docs.isNotEmpty) {
       setState(() {
         _leaders = snapshot.docs.map((doc) => doc['name'] as String).toList();
+        _leaderBadges = Map.fromIterable(
+          snapshot.docs,
+          key: (doc) => doc['name'],
+          value: (doc) => List<Map<String, dynamic>>.from(doc['badges']?.map((badge) {
+            return {
+              'badge': badge['name'] as String,
+              'points': badge['points'] as double,
+            };
+          }) ?? []),
+        );
       });
     } else {
-      // If no leaders are found in Firestore, add a default leader or display a message
       setState(() {
         _leaders = ['No leaders available'];
+      });
+    }
+  }
+
+  // Fetch NGOs from Firestore
+  Future<void> fetchNgos() async {
+    final ngoCollection = FirebaseFirestore.instance.collection('ngos');
+    final snapshot = await ngoCollection.get();
+
+    if (snapshot.docs.isNotEmpty) {
+      setState(() {
+        _ngos = snapshot.docs.map((doc) => doc['name'] as String).toList();
+        _ngoBadges = Map.fromIterable(
+          snapshot.docs,
+          key: (doc) => doc['name'],
+          value: (doc) => List<Map<String, dynamic>>.from(doc['badges']?.map((badge) {
+            return {
+              'badge': badge['name'] as String,
+              'points': badge['points'] as double,
+            };
+          }) ?? []),
+        );
+      });
+    } else {
+      setState(() {
+        _ngos = ['No NGOs available'];
       });
     }
   }
@@ -44,24 +90,35 @@ class _RatingPageState extends State<RatingPage> {
   // Function to save the ratings
   void _saveRatings() {
     // Ensure both leader and event ratings are provided before submission
-    if (_leaderRating == 0 || _eventRating == 0 || _selectedLeader == null) {
+    if (_leaderRating == 0 || _eventRating == 0 || _selectedLeader == null || _selectedNgo == null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-            'Please provide ratings for both Leader and Event, and select a leader for the event'),
+        content: Text('Please provide ratings for both Leader and Event, and select a Leader and NGO for the event'),
       ));
       return;
     }
 
-    // Display ratings after submission
+    // Save ratings to Firestore
+    FirebaseFirestore.instance.collection('ratings').add({
+      'leader': _selectedLeader,
+      'leaderRating': _leaderRating,
+      'leaderComment': _leaderComment,
+      'eventRating': _eventRating,
+      'eventComment': _eventComment,
+      'ngo': _selectedNgo,
+      'timestamp': FieldValue.serverTimestamp(),
+      'extraPoints': _extraPoints, // Save the extra points earned from badges
+      'selectedLeaderBadge': _selectedLeaderBadge,
+      'selectedNgoBadge': _selectedNgoBadge,
+      'ngoComment': _ngoComment,
+    });
+
+    // Show confirmation
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        'Leader Rating: $_leaderRating\nEvent Rating: $_eventRating\n'
-        'Leader: $_selectedLeader\nLeader Comment: $_leaderComment\nEvent Comment: $_eventComment',
-      ),
+      content: Text('Ratings submitted for $_selectedLeader and $_selectedNgo'),
     ));
   }
 
-  // Build the rating interface
+  // Build the rating section
   Widget _buildRatingSection(String ratingType) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +132,7 @@ class _RatingPageState extends State<RatingPage> {
           initialRating: ratingType == 'Leader' ? _leaderRating : _eventRating,
           minRating: 1,
           direction: Axis.horizontal,
-          allowHalfRating: false, // Disable half-stars
+          allowHalfRating: false,
           itemCount: 5,
           itemSize: 40.0,
           itemBuilder: (context, _) => Icon(
@@ -118,6 +175,44 @@ class _RatingPageState extends State<RatingPage> {
     );
   }
 
+  // Build the badge buttons for leader (only allow selecting one badge)
+  Widget _buildLeaderBadgeButtons(String leader) {
+    List<Map<String, dynamic>> badges = _leaderBadges[leader] ?? [];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: badges.map((badge) {
+        return ElevatedButton(
+          onPressed: _selectedLeaderBadge == null || _selectedLeaderBadge != badge['badge']
+              ? () {
+                  setState(() {
+                    _selectedLeaderBadge = badge['badge']; // Set the selected badge
+                    _extraPoints = badge['points']; // Set the points from selected badge
+                  });
+                }
+              : null, // Disable button if the badge is already selected
+          child: Text('${badge['badge']} (+${badge['points']} points)'),
+        );
+      }).toList(),
+    );
+  }
+  // Build the badge buttons for NGO (allow multiple badges and comment section)
+  Widget _buildNgoBadgeButtons(String ngo) {
+    List<Map<String, dynamic>> badges = _ngoBadges[ngo] ?? [];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: badges.map((badge) {
+        return ElevatedButton(
+          onPressed: () {
+            setState(() {
+              _selectedNgoBadge = badge['badge']; // Allow selecting only one badge
+              _extraPoints = badge['points']; // Set the points for the badge
+            });
+          },
+          child: Text('${badge['badge']} (+${badge['points']} points)'),
+        );
+      }).toList(),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,12 +222,35 @@ class _RatingPageState extends State<RatingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Section to select a leader for the event
+            // Select NGO
+            Text(
+              'Select NGO for the Event:',
+              style: TextStyle(fontSize: 18),
+            ),
+            _ngos.isEmpty
+                ? CircularProgressIndicator()
+                : DropdownButton<String>(
+                    value: _selectedNgo,
+                    hint: Text('Choose an NGO'),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedNgo = newValue;
+                      });
+                    },
+                    items: _ngos.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+            SizedBox(height: 20),
+
+            // Select Leader
             Text(
               'Select Leader for the Event:',
               style: TextStyle(fontSize: 18),
             ),
-            // Display the list of leaders from Firebase
             _leaders.isEmpty
                 ? CircularProgressIndicator()
                 : DropdownButton<String>(
@@ -143,8 +261,7 @@ class _RatingPageState extends State<RatingPage> {
                         _selectedLeader = newValue;
                       });
                     },
-                    items:
-                        _leaders.map<DropdownMenuItem<String>>((String value) {
+                    items: _leaders.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -153,13 +270,37 @@ class _RatingPageState extends State<RatingPage> {
                   ),
             SizedBox(height: 20),
 
-            // Display leader rating interface
-            _buildRatingSection('Leader'),
-            SizedBox(height: 40),
-            // Display event rating interface
-            _buildRatingSection('Event'),
+            // Leader Rating Section
+            _selectedLeader != null
+                ? _buildRatingSection('Leader')
+                : SizedBox(),
+            // Event Rating Section
+            _selectedNgo != null
+                ? _buildRatingSection('Event')
+                : SizedBox(),
+            // Badge Buttons for Leader
+            _selectedLeader != null
+                ? _buildLeaderBadgeButtons(_selectedLeader!)
+                : SizedBox(),
+            // Badge Buttons for NGO with optional comment section
+            _selectedNgo != null
+                ? _buildNgoBadgeButtons(_selectedNgo!)
+                : SizedBox(),
+            // NGO Comment Section
+            _selectedNgo != null
+                ? TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Enter a comment for the NGO (optional)',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (text) {
+                      setState(() {
+                        _ngoComment = text;
+                      });
+                    },
+                  )
+                : SizedBox(),
             SizedBox(height: 20),
-            // A single button to submit ratings
             ElevatedButton(
               onPressed: _saveRatings,
               child: Text('Submit Ratings'),

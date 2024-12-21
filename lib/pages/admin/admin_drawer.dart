@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class AdminDrawer extends StatelessWidget {
-   AdminDrawer({super.key});
+  AdminDrawer({super.key});
 
- String? currentUserType; 
+  String? currentUserType; // Store the logged-in user's type
 
- // Store the logged-in user's type
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -42,13 +40,10 @@ class AdminDrawer extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    // Navigator.pop(context);
                     Navigator.pushNamed(context, 'Users_Toggle_page');
                   },
                 ),
               ),
-      
-
               Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(
@@ -65,14 +60,11 @@ class AdminDrawer extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    //pop out drawer
-                     Navigator.pop(context);
-                    // navigat ot user
+                    Navigator.pop(context); // Close the drawer
                     Navigator.pushNamed(context, 'setting_page');
                   },
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(
@@ -89,15 +81,32 @@ class AdminDrawer extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    //pop out drawer
-                     Navigator.pop(context);
-                    // navigat ot user
+                    Navigator.pop(context); // Close the drawer
                     Navigator.pushNamed(context, 'User_page');
                   },
                 ),
               ),
-
-              //users tile
+              Padding(
+                padding: const EdgeInsets.only(left: 25.0),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.add_circle_outline,
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                  title: Text(
+                    "Add Achievement",
+                    style: GoogleFonts.roboto(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                      textStyle: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w300),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.pushNamed(context, 'reward_creation');
+                  },
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(
@@ -114,14 +123,11 @@ class AdminDrawer extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    //pop out drawer
-                     Navigator.pop(context);
-                    // navigat ot user
+                    Navigator.pop(context); // Close the drawer
                     Navigator.pushNamed(context, 'about_us_page');
                   },
                 ),
               ),
-          
               Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(
@@ -138,64 +144,59 @@ class AdminDrawer extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    //pop out drawer
-                     Navigator.pop(context);
-                    // navigat ot user
+                    Navigator.pop(context); // Close the drawer
                     Navigator.pushNamed(context, 'Contact_us_page');
                   },
                 ),
               ),
-              if  (1==1) ...[
-              Padding(
-                padding: const EdgeInsets.only(left: 25.0),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.people_outline,
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                  ),
-                  title: Text(
-                    "Userslog",
-                    style: GoogleFonts.roboto(
+              // Conditional rendering of Userslog tile
+              // if (currentUserType == 'admin') ...[
+                Padding(
+                  padding: const EdgeInsets.only(left: 25.0),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.people_outline,
                       color: Theme.of(context).colorScheme.inversePrimary,
-                      textStyle: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w300),
                     ),
+                    title: Text(
+                      "Userslog",
+                      style: GoogleFonts.roboto(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        textStyle: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w300),
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context); // Close the drawer
+                      Navigator.pushNamed(context, 'users_log_page');
+                    },
                   ),
-                  onTap: () {
-                    //pop out drawer
-                     Navigator.pop(context);
-                    // navigat ot user
-                    Navigator.pushNamed(context, 'users_log_page');
-                  },
                 ),
-              ),]
-
-            ],
+              ],
+            // ],
           ),
-              //Logout tile
-              Padding(
-                padding: const EdgeInsets.only(left: 25.0 , bottom: 25),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.logout,
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                  ),
-                  title: Text(
-                    "Logout",
-                    style: GoogleFonts.roboto(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                      textStyle: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w300),
-                    ),
-                  ),
-                  onTap: () {
-                      //pop out drawer
-                     Navigator.pop(context);
-                    // navigat ot loginreg
-                    Navigator.pushNamed(context, 'login_register_page');
-                  },
+          // Logout tile
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0, bottom: 25),
+            child: ListTile(
+              leading: Icon(
+                Icons.logout,
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
+              title: Text(
+                "Logout",
+                style: GoogleFonts.roboto(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  textStyle: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w300),
                 ),
-              ),             
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.pushNamed(context, 'login_register_page');
+              },
+            ),
+          ),
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/components/my_drawer.dart';
 import 'package:graduation_progect_v2/database/firestore.dart';
+import 'package:graduation_progect_v2/helper/status.dart';
 
 
 class UserPage extends StatefulWidget {
@@ -98,7 +99,7 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("User Page")),
+      appBar: AppBar(title: Text("Volunteers Page")),
       drawer:  MyDrawer(),
       body: StreamBuilder(
         // Filter events with "Upcoming" status
@@ -129,6 +130,8 @@ class _UserPageState extends State<UserPage> {
               int targetCount = post['TargetCount'] ?? 10;
               String? imageUrl = post['ImageUrl'];
               final postId = post.id;
+              final postData = post.data() as Map<String, dynamic>;
+              String status = postData['status'] ?? 'unknown';
               List<dynamic> appliedUsers = post['AppliedUsers'] ?? [];
               bool hasApplied = appliedUsers.contains(currentUserEmail);
               DateTime eventDate = post['EventDate']?.toDate() ?? DateTime.now();
@@ -153,29 +156,38 @@ class _UserPageState extends State<UserPage> {
                 title: Row(
                   mainAxisAlignment:MainAxisAlignment.spaceBetween ,
                   children: [
+                     Row(
+                       children: [
+                         IconButton(
+                              icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.inversePrimary),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) => Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              ListTile(
+                                                leading: Icon(Icons.report_gmailerrorred),
+                                                title: Text('Report Problem'),
+                                                onTap: (){
+                                                 Navigator.pop(context);
+                                                 // navigat ot user
+                                                  Navigator.pushNamed(context, 'Contact_us_page');
+                                                  }
+                                                ),
+                                            ],
+                                          ),
+                                        );
+                              },
+                            ),
 
-                     IconButton(
-                          icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.inversePrimary),
-                          onPressed: () {
-                            showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) => Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          ListTile(
-                                            leading: Icon(Icons.report_gmailerrorred),
-                                            title: Text('Report Problem'),
-                                            onTap: (){
-                                             Navigator.pop(context);
-                                             // navigat ot user
-                                              Navigator.pushNamed(context, 'Contact_us_page');
-                                              }
-                                            ),
-                                        ],
-                                      ),
-                                    );
-                          },
-                        ),
+                            StatusDot(
+                            onTap: () => StatusUtils.showStatusDialog(context, status), // Call static method
+                            color: StatusUtils.getStatusColor(status), // Call static method
+                          ),
+                         
+                       ],
+                     ),
 
                      Row(
                        children: [

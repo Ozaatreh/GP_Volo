@@ -65,31 +65,7 @@ Future addPost(String messages ,
   );
 
 }
- void createPost(BuildContext context) async {
-  double? latitude;
-  double? longitude;
-
-  // Navigate to the location picker screen
-  await Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => SelectLocationPage(),
-      
-    ),
-  );
-
-  if (latitude != null && longitude != null) {
-    // Call addPost with the selected location
-    await FirestoreDatabase().addPost(
-      "Your post message here",
-      latitude: latitude,
-      longitude: longitude,
-    );
-    print("Post created with location: $latitude, $longitude");
-  } else {
-    print("Location not selected.");
-  }
-}
+ 
 
 Future<void> updateEventStatus() async {
   final now = DateTime.now();
@@ -107,7 +83,7 @@ Future<void> updateEventStatus() async {
         postStatus = 'upcoming';  // Set to upcoming by default
       }
 
-      if (differenceInDays > 1) {
+      if (eventDate.isBefore(now)) {
         if (postStatus != 'completed') {
           await post.reference.update({'status': 'completed'});
         }
@@ -115,7 +91,7 @@ Future<void> updateEventStatus() async {
         if (postStatus != 'in_progress') {
           await post.reference.update({'status': 'in_progress'});
         }
-      } else if (differenceInDays < -1) {
+      } else if (eventDate.isAfter(now) && eventDate.difference(now).inDays == 0) {
         // Event is upcoming (more than one day before)
         if (postStatus != 'upcoming') {
           await post.reference.update({'status': 'upcoming'});

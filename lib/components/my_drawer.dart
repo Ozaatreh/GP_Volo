@@ -44,7 +44,7 @@ class MyDrawer extends StatelessWidget {
                   },
                 ),
               ),
-          
+
               //profile tile
               // Padding(
               //   padding: const EdgeInsets.only(left: 25.0),
@@ -93,7 +93,7 @@ class MyDrawer extends StatelessWidget {
                   },
                 ),
               ),
-
+              
               Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(
@@ -142,7 +142,7 @@ class MyDrawer extends StatelessWidget {
                   },
                 ),
               ),
-          
+
               Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(
@@ -167,6 +167,26 @@ class MyDrawer extends StatelessWidget {
                 ),
               ),
               Padding(
+  padding: const EdgeInsets.only(left: 25.0),
+  child: ListTile(
+    leading: const Icon(Icons.history),
+    title: Text(
+      "History",
+      style: GoogleFonts.roboto(
+        color: Theme.of(context).colorScheme.inversePrimary,
+        textStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w300,
+        ),
+      ),
+    ),
+    onTap: () {
+      Navigator.pop(context); // Close the drawer
+      Navigator.pushNamed(context, '/history');
+    },
+  ),
+),
+              Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(
                   leading: Icon(
@@ -189,6 +209,7 @@ class MyDrawer extends StatelessWidget {
                   },
                 ),
               ),
+              
 
             ],
           ),

@@ -3,13 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:graduation_progect_v2/components/my_drawer.dart';
 import 'package:graduation_progect_v2/components/my_textfield.dart';
 import 'package:graduation_progect_v2/components/post_button.dart';
 import 'package:graduation_progect_v2/database/firestore.dart';
 import 'package:graduation_progect_v2/helper/location_picker.dart';
+import 'package:graduation_progect_v2/helper/status.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:latlong2/latlong.dart';
 
 class NgoPage extends StatefulWidget {
   const NgoPage({super.key});
@@ -30,6 +32,7 @@ class _NgoPageState extends State<NgoPage> {
   final ImagePicker picker = ImagePicker();
   int selectedIndex = 1;
   DateTime? selectedEventDate; // To store the picked date
+
 
   Future<void> pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -63,7 +66,6 @@ class _NgoPageState extends State<NgoPage> {
       int eventSize = int.tryParse(eventSizeController.text) ?? 10;
       int leader = int.tryParse(leadresController.text) ?? 3;
       String location = locationController.text; // Get the location input
-
       double? latitude;
       double? longitude;
 
@@ -221,23 +223,6 @@ class _NgoPageState extends State<NgoPage> {
                   Row(
                     children: [
 
-                      IconButton(
-  icon: Icon(Icons.location_on),
-  onPressed: () async {
-    // Navigate to the SelectLocationPage to choose the location
-    LatLng? selectedLocation = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => SelectLocationPage()),
-    );
-
-    // If a location was selected, update the locationController and state
-    if (selectedLocation != null) {
-      setState(() {
-        locationController.text = 'Lat: ${selectedLocation.latitude}, Long: ${selectedLocation.longitude}';
-      });
-    }
-  },
-),
                       Expanded(
                         child: TextField(
                           cursorColor: Theme.of(context).colorScheme.inversePrimary,
@@ -262,6 +247,50 @@ class _NgoPageState extends State<NgoPage> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 15,),
+                  Row(
+  children: [
+    Expanded(
+      child: TextField(
+        cursorColor: Theme.of(context).colorScheme.inversePrimary,
+        enabled: false, // Make the text field read-only
+        controller: locationController, // Use locationController for displaying selected location
+        decoration: InputDecoration(
+          labelStyle: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+          label: Text(
+            "Event Location",
+            style: GoogleFonts.roboto(
+              fontSize: 16,
+              fontWeight: FontWeight.w300,
+              color: Theme.of(context).colorScheme.inversePrimary,
+            ),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+    ),
+    IconButton(
+      icon: const Icon(Icons.location_on),
+      onPressed: () async {
+    // Navigate to the LocationPickerPage and wait for the returned selected location
+    LatLng? selectedLocation = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LocationPickerPage()),
+    );
+
+    // Check if the location was selected and set it in the locationController
+    if (selectedLocation != null) {
+      setState(() {
+        locationController.text = '${selectedLocation.latitude}, ${selectedLocation.longitude}';
+      });
+      print("Selected Location: ${locationController.text}");
+    }
+  },
+    ),
+  ],
+),
 
         // Divider
         Divider(height: 20, thickness: 2),
@@ -294,6 +323,8 @@ class _NgoPageState extends State<NgoPage> {
                   int currentCount = post['CurrentCount'] ?? 0;
                   int targetCount = post['TargetCount'] ?? 10;
                   int leaderCount = post['LeaderCount'] ?? 0;
+                  final postData = post.data() as Map<String, dynamic>;
+                  String status = postData['status']                                                                                                                                                                                                                                        ;
                   int maxLeaders = post['LeaderMaxCount'] ?? 10; 
                   List<dynamic> leaders = post['Leaders'] ?? [];
                   List<dynamic> appliedUsers = post['AppliedUsers'] ?? [];
@@ -326,38 +357,46 @@ class _NgoPageState extends State<NgoPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           
-                          IconButton(
-                          icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.inversePrimary),
-                          onPressed: () {
-                            showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) => Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          ListTile(
-                                            leading: Icon(Icons.delete),
-                                            title: Text('Delete Post'),
-                                            onTap: () async {
-                                              await database.deletePost(post.id);
-                                              Navigator.pop(context);
-                                            },
+                          Row(
+                            children: [
+                              IconButton(
+                              icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.inversePrimary),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) => Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              ListTile(
+                                                leading: Icon(Icons.delete),
+                                                title: Text('Delete Post'),
+                                                onTap: () async {
+                                                  await database.deletePost(post.id);
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                              ListTile(
+                                                leading: Icon(Icons.report_gmailerrorred),
+                                                title: Text('Report Problem'),
+                                                onTap: (){
+                                                 Navigator.pop(context);
+                                                 // navigat ot user
+                                                  Navigator.pushNamed(context, 'Contact_us_page');
+                                                  }
+                                                ),
+                                           
+                                StatusDot(
+                                onTap: () => StatusUtils.showStatusDialog(context, status), // Call static method
+                                color: StatusUtils.getStatusColor(status), // Call static method
+                              ),   
+                                              
+                                            ],
                                           ),
-                                          ListTile(
-                                            leading: Icon(Icons.report_gmailerrorred),
-                                            title: Text('Report Problem'),
-                                            onTap: (){
-                                             Navigator.pop(context);
-                                             // navigat ot user
-                                              Navigator.pushNamed(context, 'Contact_us_page');
-                                              }
-                                            ),
-                                          
-                                          
-                                        ],
-                                      ),
-                                    );
-                          },
-                        ),
+                                        );
+                              },
+                                                      ),
+                            ],
+                          ),
                         // SizedBox(height: 100,),
                         if (eventDate != null) ...[
               const SizedBox(height: 8),

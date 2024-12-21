@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/components/my_drawer.dart';
 import 'package:graduation_progect_v2/database/firestore.dart';
+import 'package:graduation_progect_v2/helper/status.dart';
 
 class LeadersPage extends StatefulWidget {
   @override
@@ -124,7 +125,7 @@ class _LeadersPageState extends State<LeadersPage> {
         // Filter events with "Upcoming" status
         stream: FirebaseFirestore.instance
             .collection('Posts')
-            .where('status', isEqualTo: 'upcoming')
+            .where('status', isEqualTo:'upcoming')
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -148,6 +149,8 @@ class _LeadersPageState extends State<LeadersPage> {
               int targetCount = post['TargetCount'] ?? 10;
               String? imageUrl = post['ImageUrl'];
               final postId = post.id;
+              final postData = post.data() as Map<String, dynamic>;
+              String status = postData['status'] ?? 'unknown';
               List<dynamic> leaders = post['Leaders'] ?? [];
               List<dynamic> appliedUsers = post['AppliedUsers'] ?? [];
               bool isLeader = leaders.contains(currentUserEmail);
@@ -175,29 +178,38 @@ class _LeadersPageState extends State<LeadersPage> {
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(
-                          icon: Icon(Icons.more_horiz,
-                              color:
-                                  Theme.of(context).colorScheme.inversePrimary),
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (context) => Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ListTile(
-                                    leading: Icon(Icons.report_gmailerrorred),
-                                    title: Text('Report Problem'),
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                      Navigator.pushNamed(
-                                          context, 'Contact_us_page');
-                                    },
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.more_horiz,
+                                  color:
+                                      Theme.of(context).colorScheme.inversePrimary),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ListTile(
+                                        leading: Icon(Icons.report_gmailerrorred),
+                                        title: Text('Report Problem'),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          Navigator.pushNamed(
+                                              context, 'Contact_us_page');
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                );
+                              },
+                            ),
+                            
+                             StatusDot(
+                                onTap: () => StatusUtils.showStatusDialog(context, status), // Call static method
+                                color: StatusUtils.getStatusColor(status), // Call static method
                               ),
-                            );
-                          },
+                          ],
                         ),
                         Row(
                           children: [
