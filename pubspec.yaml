@@ -40,7 +40,7 @@ dependencies:
   cloud_firestore: ^5.5.0
   firebase_storage: ^12.3.6
   google_fonts: ^6.2.1
-  flutter_neumorphic: ^3.2.0
+  # flutter_neumorphic: ^3.2.0
   flutter_svg: ^2.0.10+1
   image_picker: ^1.1.2
   flutter_dotenv: ^5.2.1

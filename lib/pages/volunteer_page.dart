@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/components/my_drawer.dart';
 import 'package:graduation_progect_v2/database/firestore.dart';
+import 'package:graduation_progect_v2/helper/event_location_users.dart';
 import 'package:graduation_progect_v2/helper/status.dart';
 
 
@@ -131,19 +132,40 @@ class _UserPageState extends State<UserPage> {
               String? imageUrl = post['ImageUrl'];
               final postId = post.id;
               final postData = post.data() as Map<String, dynamic>;
-              String status = postData['status'] ?? 'unknown';
+              String status = postData['status']  ;
               List<dynamic> appliedUsers = post['AppliedUsers'] ?? [];
               bool hasApplied = appliedUsers.contains(currentUserEmail);
               DateTime eventDate = post['EventDate']?.toDate() ?? DateTime.now();
               // Format to 'yyyy-MM-dd'
               String formattedEventDate =
                "${eventDate.year}-${eventDate.month.toString().padLeft(2, '0')}-${eventDate.day.toString().padLeft(2, '0')}";
-
+ 
               // Hide conflicting posts
               if (shouldHidePost(postId, eventDate)) {
                 return Container(); // Skip rendering this post
               }
+              final location = post['Location'];
+              if (location == null) return Container(); // Skip if location is not available
 
+              double latitude = 0.0;
+              double longitude = 0.0;
+
+              // If location is a map with latitude and longitude
+              if (location is Map) {
+                latitude = location['latitude']?.toDouble() ?? 0.0;
+                longitude = location['longitude']?.toDouble() ?? 0.0;
+              } 
+              // If location is a string
+              else if (location is String) {
+                try {
+                  List<String> locationParts = location.split(',');
+                  latitude = double.tryParse(locationParts[0]) ?? 0.0;
+                  longitude = double.tryParse(locationParts[1]) ?? 0.0;
+                } catch (e) {
+                  print('Error parsing location: $e');
+                }
+              }
+              
               return Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Card(
@@ -213,14 +235,36 @@ class _UserPageState extends State<UserPage> {
                   children: [
                     //  ...[
                     const SizedBox(height: 8),
-                    Text(
-                      "Event Date: $formattedEventDate",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).colorScheme.inversePrimary,
-                      ),
-                    ),
+                    
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Location button: on pressed, navigate to EventMapPage
+                            IconButton(
+                              icon: Icon(Icons.location_on,size: 21, color: Colors.red,),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => 
+                                    EventMapPage(
+                                      latitude: latitude,
+                                      longitude: longitude,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            Text(
+                              "Event Date: $formattedEventDate",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.inversePrimary,
+                              ),
+                            ),
+                          ],
+                        ),
                     // ],
                     SizedBox(height: 11,),
                      

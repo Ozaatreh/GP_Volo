@@ -8,6 +8,7 @@ import 'package:graduation_progect_v2/components/my_drawer.dart';
 import 'package:graduation_progect_v2/components/my_textfield.dart';
 import 'package:graduation_progect_v2/components/post_button.dart';
 import 'package:graduation_progect_v2/database/firestore.dart';
+import 'package:graduation_progect_v2/helper/event_location_users.dart';
 import 'package:graduation_progect_v2/helper/location_picker.dart';
 import 'package:graduation_progect_v2/helper/status.dart';
 import 'package:image_picker/image_picker.dart';
@@ -335,7 +336,27 @@ class _NgoPageState extends State<NgoPage> {
                         .toString()
                         .split(' ')[0] // Format the date as yyyy-MM-dd
                     : null;
-                    
+                  final location = post['Location'];
+              if (location == null) return Container(); // Skip if location is not available
+
+              double latitude = 0.0;
+              double longitude = 0.0;
+
+              // If location is a map with latitude and longitude
+              if (location is Map) {
+                latitude = location['latitude']?.toDouble() ?? 0.0;
+                longitude = location['longitude']?.toDouble() ?? 0.0;
+              } 
+              // If location is a string
+              else if (location is String) {
+                try {
+                  List<String> locationParts = location.split(',');
+                  latitude = double.tryParse(locationParts[0]) ?? 0.0;
+                  longitude = double.tryParse(locationParts[1]) ?? 0.0;
+                } catch (e) {
+                  print('Error parsing location: $e');
+                }
+              } 
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Container(
@@ -353,61 +374,91 @@ class _NgoPageState extends State<NgoPage> {
                         border: Border.all(color: Colors.grey[300]!),
                       ),
                     child: ListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      title: Column(
                         children: [
-                          
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              IconButton(
-                              icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.inversePrimary),
-                              onPressed: () {
-                                showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              ListTile(
-                                                leading: Icon(Icons.delete),
-                                                title: Text('Delete Post'),
-                                                onTap: () async {
-                                                  await database.deletePost(post.id);
-                                                  Navigator.pop(context);
-                                                },
+                              
+                              Row(
+                                children: [
+                                  
+                                  IconButton(
+                                  icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.inversePrimary),
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) => Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  ListTile(
+                                                    leading: Icon(Icons.delete),
+                                                    title: Text('Delete Post'),
+                                                    onTap: () async {
+                                                      await database.deletePost(post.id);
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                  ListTile(
+                                                    leading: Icon(Icons.report_gmailerrorred),
+                                                    title: Text('Report Problem'),
+                                                    onTap: (){
+                                                     Navigator.pop(context);
+                                                     // navigat ot user
+                                                      Navigator.pushNamed(context, 'Contact_us_page');
+                                                      }
+                                                    ),
+                                               
+                                   
+                                                  
+                                                ],
                                               ),
-                                              ListTile(
-                                                leading: Icon(Icons.report_gmailerrorred),
-                                                title: Text('Report Problem'),
-                                                onTap: (){
-                                                 Navigator.pop(context);
-                                                 // navigat ot user
-                                                  Navigator.pushNamed(context, 'Contact_us_page');
-                                                  }
-                                                ),
-                                           
-                                StatusDot(
-                                onTap: () => StatusUtils.showStatusDialog(context, status), // Call static method
-                                color: StatusUtils.getStatusColor(status), // Call static method
-                              ),   
-                                              
-                                            ],
+                                            );
+                                  },
+                                  ),
+                                  
+                                  StatusDot(
+                                    onTap: () => StatusUtils.showStatusDialog(context, status), // Call static method
+                                    color: StatusUtils.getStatusColor(status), // Call static method
+                                  ),  
+
+                                  IconButton(
+                                  icon: Icon(Icons.location_on,size: 21, color: Colors.red,),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => 
+                                        EventMapPage(
+                                          latitude: latitude,
+                                          longitude: longitude,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                    
+                                ],
+                              ),
+                            // SizedBox(height: 100,),
+                            if (eventDate != null) ...[
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          "Event Date: $eventDate",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Theme.of(context).colorScheme.inversePrimary,
                                           ),
-                                        );
-                              },
-                                                      ),
+                                        ),],
                             ],
                           ),
-                        // SizedBox(height: 100,),
-                        if (eventDate != null) ...[
-              const SizedBox(height: 8),
-              Text(
-                "Event Date: $eventDate",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                ),
-              ),],
+                          Row(
+                            children: [
+                              
+                              
+                            ],
+                          ),
                         ],
                       ),
                       

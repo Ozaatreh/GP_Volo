@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_progect_v2/components/my_drawer.dart';
 import 'package:graduation_progect_v2/database/firestore.dart';
+import 'package:graduation_progect_v2/helper/event_location_users.dart';
+import 'package:graduation_progect_v2/helper/status.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AdminWall extends StatefulWidget {
@@ -165,13 +167,15 @@ class AdminWallWallPageState extends State<AdminWall> {
                 final post = posts[index];
                 String username = post['Username'] ;
                 String userEmail = post['UserEmail'];
-                String userType = post['UserType'] ;
+                // String userType = post['UserType'] ;
                 String message = post['PostMessage'];
                 int leaderCount = post['LeaderCount'] ?? 0;
                 int maxLeaders = post['LeaderMaxCount']; 
                 int currentCount = post['CurrentCount'] ?? 0;
                 int targetCount = post['TargetCount'] ?? 10;  // Default target
                 String? imageUrl = post['ImageUrl'];
+                final postData = post.data() as Map<String, dynamic>;
+                String status = postData['status']  ;
                 final postId = post.id; // Get document ID for delete
                 List<dynamic> appliedUsers = post['AppliedUsers'] ?? [];
                 Timestamp? eventTimestamp = post['EventDate']; // Retrieve the event date field
@@ -182,7 +186,28 @@ class AdminWallWallPageState extends State<AdminWall> {
                         .split(' ')[0] // Format the date as yyyy-MM-dd
                     : null;
                 bool hasApplied = appliedUsers.contains(FirebaseAuth.instance.currentUser!.email);
-               
+                
+                final location = post['Location'];
+              if (location == null) return Container(); // Skip if location is not available
+
+              double latitude = 0.0;
+              double longitude = 0.0;
+
+              // If location is a map with latitude and longitude
+              if (location is Map) {
+                latitude = location['latitude']?.toDouble() ?? 0.0;
+                longitude = location['longitude']?.toDouble() ?? 0.0;
+              } 
+              // If location is a string
+              else if (location is String) {
+                try {
+                  List<String> locationParts = location.split(',');
+                  latitude = double.tryParse(locationParts[0]) ?? 0.0;
+                  longitude = double.tryParse(locationParts[1]) ?? 0.0;
+                } catch (e) {
+                  print('Error parsing location: $e');
+                }
+              }
                 return  Padding(
                   padding: const EdgeInsets.only(bottom: 20), 
                   child: Card
@@ -195,38 +220,47 @@ class AdminWallWallPageState extends State<AdminWall> {
                        title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          children: [
-                           IconButton(icon:Icon(Icons.more_horiz),
-                            onPressed: () {
-                               showModalBottomSheet(
-                                 context: context,
-                                 builder: (context) => Column(
-                                   mainAxisSize: MainAxisSize.min,
-                                   children: [
-                                     
-                                     // Show delete only for own posts or moderators
-                                     ListTile(
-                                       leading: Icon(Icons.delete),
-                                       title: Text('Delete Post'),
-                                       onTap: () async {
-                                         await database.deletePost(postId);
-                                         Navigator.pop(context);
-                                       },
+                           Row(
+                             children: [
+                               IconButton(icon:Icon(Icons.more_horiz),
+                                onPressed: () {
+                                   showModalBottomSheet(
+                                     context: context,
+                                     builder: (context) => Column(
+                                       mainAxisSize: MainAxisSize.min,
+                                       children: [
+                                         
+                                         // Show delete only for own posts or moderators
+                                         ListTile(
+                                           leading: Icon(Icons.delete),
+                                           title: Text('Delete Post'),
+                                           onTap: () async {
+                                             await database.deletePost(postId);
+                                             Navigator.pop(context);
+                                           },
+                                         ),
+                                         ListTile(
+                                           leading: Icon(Icons.message_rounded),
+                                           title: Text('Send Message'),
+                                           onTap: (){
+                                            Navigator.pop(context);
+                                            // navigat ot user
+                                             Navigator.pushNamed(context, 'Contact_us_page');
+                                             }
+                                           ),
+                                         
+                                         
+                                       ],
                                      ),
-                                     ListTile(
-                                       leading: Icon(Icons.message_rounded),
-                                       title: Text('Send Message'),
-                                       onTap: (){
-                                        Navigator.pop(context);
-                                        // navigat ot user
-                                         Navigator.pushNamed(context, 'Contact_us_page');
-                                         }
-                                       ),
-                                     
-                                     
-                                   ],
-                                 ),
-                               );
-                             }, ),
+                                   );
+                                 },
+                                  ),
+                                  StatusDot(
+                                onTap: () => StatusUtils.showStatusDialog(context, status), // Call static method
+                                color: StatusUtils.getStatusColor(status), // Call static method
+                                                         ),
+                             ],
+                           ),
                                                           
                                                           
                            //useremail and username
@@ -255,6 +289,26 @@ class AdminWallWallPageState extends State<AdminWall> {
                                ),
                                  if (eventDate != null) ...[
                                   const SizedBox(height: 8),
+                                  Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Location button: on pressed, navigate to EventMapPage
+                            IconButton(
+                              icon: Icon(Icons.location_on,size: 21, color: Colors.red,),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => 
+                                    EventMapPage(
+                                      latitude: latitude,
+                                      longitude: longitude,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          
                                   Text(
                                     "Event Date: $eventDate",
                                     style: TextStyle(
@@ -262,7 +316,10 @@ class AdminWallWallPageState extends State<AdminWall> {
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).colorScheme.inversePrimary,
                                     ),
-                                  ),],
+                                  ),
+                                  ],
+                        ),
+                        ],
                                  ],
                            ),
                                                    

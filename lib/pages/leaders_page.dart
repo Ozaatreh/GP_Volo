@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:graduation_progect_v2/components/my_drawer.dart';
 import 'package:graduation_progect_v2/database/firestore.dart';
+import 'package:graduation_progect_v2/helper/event_location_users.dart';
 import 'package:graduation_progect_v2/helper/status.dart';
+import 'package:latlong2/latlong.dart';
+
 
 class LeadersPage extends StatefulWidget {
   @override
@@ -25,7 +29,7 @@ class _LeadersPageState extends State<LeadersPage> {
   User? user;
   Map<String, dynamic>? userData;
   bool isLoading = true;
-
+  LatLng? currentLocation;
   Future<void> getUserData() async {
     try {
       user = auth.currentUser;
@@ -45,11 +49,13 @@ class _LeadersPageState extends State<LeadersPage> {
       );
     }
   }
-
+  
+  
   @override
   void initState() {
     super.initState();
      // Update event statuses
+    // getCurrentLocation();
     database.updateEventStatus();
     fetchCurrentUserType();
     fetchAppliedPosts(); // Fetch applied event dates when the page loads
@@ -160,12 +166,32 @@ class _LeadersPageState extends State<LeadersPage> {
               // Format to 'yyyy-MM-dd'
               String formattedEventDate =
                   "${eventDate.year}-${eventDate.month.toString().padLeft(2, '0')}-${eventDate.day.toString().padLeft(2, '0')}";
-
+              
               // Hide posts with conflicting dates unless it's the applied post
               if (shouldHidePost(postId, eventDate)) {
                 return Container();
               }
+             final location = post['Location'];
+              if (location == null) return Container(); // Skip if location is not available
 
+              double latitude = 0.0;
+              double longitude = 0.0;
+
+              // If location is a map with latitude and longitude
+              if (location is Map) {
+                latitude = location['latitude']?.toDouble() ?? 0.0;
+                longitude = location['longitude']?.toDouble() ?? 0.0;
+              } 
+              // If location is a string
+              else if (location is String) {
+                try {
+                  List<String> locationParts = location.split(',');
+                  latitude = double.tryParse(locationParts[0]) ?? 0.0;
+                  longitude = double.tryParse(locationParts[1]) ?? 0.0;
+                } catch (e) {
+                  print('Error parsing location: $e');
+                }
+              }
               return Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Card(
@@ -235,13 +261,35 @@ class _LeadersPageState extends State<LeadersPage> {
                       children: [
                         // ...[
                         const SizedBox(height: 8),
-                        Text(
-                          "Event Date: $formattedEventDate",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                          ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Location button: on pressed, navigate to EventMapPage
+                            IconButton(
+                              icon: Icon(Icons.location_on,size: 21, color: Colors.red,),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => 
+                                    EventMapPage(
+                                      latitude: latitude,
+                                      longitude: longitude,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            Text(
+                              "Event Date: $formattedEventDate",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.inversePrimary,
+                              ),
+                            ),
+                          ],
                         ),
                         // ],
                         SizedBox(height: 10),
