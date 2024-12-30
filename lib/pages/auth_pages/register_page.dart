@@ -201,19 +201,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 90,
                 ),
 
-                Icon(
-                  Icons.person,
-                  size: 90,
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                ),
+                Image(image: AssetImage("assets/volunteers_icon.png") , height: 150, width:150 ),
 
                 const SizedBox(
-                  height: 25,
+                  height: 17,
                 ),
 
                 Text(
                   "V o l u n t e e r s",
-                  style: GoogleFonts.roboto(
+                  style: GoogleFonts.nanumMyeongjo(
                     color: Theme.of(context).colorScheme.inversePrimary,
                     textStyle: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.w300),

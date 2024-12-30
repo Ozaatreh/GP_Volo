@@ -126,13 +126,14 @@ class _LoginPageState extends State<LoginPage> {
                 //   size: 90,
                 //   color: Theme.of(context).colorScheme.inversePrimary,
                 // ),
+                Image(image: AssetImage("assets/volunteers_icon.png"),colorBlendMode:BlendMode.darken, height: 150, width:150),
 
                 const SizedBox(
-                  height: 25,
+                  height: 17,
                 ),
 
                 Text(
-                  "V o l u n t u r s",
+                  "V o l u n t e e r s",
                   style: GoogleFonts.nanumMyeongjo(
                     color: Theme.of(context).colorScheme.inversePrimary,
                     textStyle: const TextStyle(

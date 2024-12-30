@@ -59,7 +59,9 @@ class _ActiveEventsState extends State<ActiveEvents> {
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
+                  
                 ),
+                color: Theme.of(context).colorScheme.onPrimary,
                 elevation: 4,
                 child: Column(
                   children: [

@@ -9,6 +9,7 @@ class EventDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Theme.of(context).colorScheme.onPrimary,
       appBar: AppBar(
         title: Text("Event Details"),
       ),
@@ -47,12 +48,12 @@ class EventDetailsPage extends StatelessWidget {
               children: [
                 Text(
                   "Posted by: $username",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold ,color: Theme.of(context).colorScheme.onSecondary,),
                 ),
                 SizedBox(height: 10),
                 Text(
                   "Event Date: $formattedEventDate",
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16 , color: Theme.of(context).colorScheme.onSecondary),
                 ),
                 SizedBox(height: 10),
                 if (imageUrl != null)
@@ -62,13 +63,13 @@ class EventDetailsPage extends StatelessWidget {
                 SizedBox(height: 10),
                 Text(
                   "Message:",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold ,color: Theme.of(context).colorScheme.onSecondary),
                 ),
                 Text(message),
                 SizedBox(height: 20),
                 Text(
                   "Leaders: $leaderCount / $maxLeaders",
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16 , color: Theme.of(context).colorScheme.onSecondary),
                 ),
                 LinearProgressIndicator(
                   value: leaderCount / maxLeaders,
@@ -79,7 +80,7 @@ class EventDetailsPage extends StatelessWidget {
                 SizedBox(height: 20),
                 Text(
                   "Volunteers: $currentCount / $targetCount",
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.onSecondary),
                 ),
                 LinearProgressIndicator(
                   value: currentCount / targetCount,
@@ -90,13 +91,15 @@ class EventDetailsPage extends StatelessWidget {
                 SizedBox(height: 20),
                 Text(
                   "Applied Users:",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSecondary),
                 ),
                 ...appliedUsers.map((user) => Text("- $user")).toList(),
                 SizedBox(height: 10),
                 Text(
                   "Leaders:",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSecondary),
                 ),
                 ...leaders.map((leader) => Text("- $leader")).toList(),
               ],

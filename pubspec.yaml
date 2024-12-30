@@ -58,6 +58,10 @@ dependencies:
   # google_maps_flutter: ^2.10.0
   geolocator: ^13.0.2
   location: ^7.0.1
+  easy_localization: ^3.0.7
+  flutter_locales: ^3.0.4
+  emailjs: ^4.0.0
+  flutter_localization: ^0.3.0
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +90,7 @@ flutter:
     - assets/photo_2024-11-02_19-33-14.jpg
     - assets/icon_v1.png
     - assets/prf_pic.jpg
+    - assets/
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -4,20 +4,6 @@ import 'package:http/http.dart' as http; // For HTTP requests
 import 'package:url_launcher/url_launcher.dart'; // For launching URLs
 
 
-// void main() {
-//   runApp(MyApp());
-// }
-
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: ContactUsPage(),
-//     );
-//   }
-// }
 
 
 class ContactUsPage extends StatefulWidget {
@@ -99,9 +85,10 @@ class _ContactUsPageState extends State<ContactUsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.onPrimary,
       appBar: AppBar(
         title: Text('Contact Us & Report'),
-        backgroundColor: Colors.teal,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -116,7 +103,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
               SizedBox(height: 8),
               ContactInfoRow(
                 icon: Icons.location_on,
-                text: 'Amman . Tabarbour',
+                text: 'Amman',
               ),
               ContactInfoRow(
                 icon: Icons.email,

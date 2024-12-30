@@ -42,7 +42,7 @@ class _NGONavigationState extends State<NGONavigation> {
         onTap: onItemTapped,
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         selectedItemColor:Theme.of(context).colorScheme.inversePrimary ,
-        unselectedItemColor: const Color.fromARGB(255, 33, 33, 191),
+        unselectedItemColor: Theme.of(context).colorScheme.surface,
         showSelectedLabels: true,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,

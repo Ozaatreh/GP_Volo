@@ -1,10 +1,9 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_progect_v2/authentication/auth.dart';
 import 'package:graduation_progect_v2/components/check_notification.dart';
-import 'package:graduation_progect_v2/components/custom_notifications.dart';
 import 'package:graduation_progect_v2/components/nav_bar_leader.dart';
 import 'package:graduation_progect_v2/components/nav_bar_ngo.dart';
 import 'package:graduation_progect_v2/components/nav_bar_university.dart';
@@ -48,6 +47,9 @@ void main() async{
     // androidProvider: AndroidProvider.
   //   webRecaptchaSiteKey: 'your-site-key', //// For web, use your reCAPTCHA site key
   );
+ WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization
+      .ensureInitialized(); // Ensure translations are initialized
 
   // Initialize Firebase Messaging and request notification permissions
   // await FirebaseMessaging.instance.requestPermission();
@@ -56,7 +58,12 @@ void main() async{
   // String? token = await FirebaseMessaging.instance.getToken();
   // print("FCM Token: $token"); // Log token for testing
   // CustomNotificationState().initializeNotifications();
-  runApp(const MainPage());
+  runApp( EasyLocalization(
+      supportedLocales: [Locale('en'), Locale('ar')], // Supported languages
+      path: 'assets/lang', // Path to translation files
+      fallbackLocale: Locale('en'), // Default language
+      child: MainPage()
+    ),);
 }
 
 
