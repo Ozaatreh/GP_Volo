@@ -1,6 +1,10 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_progect_v2/helper/animation.dart';
 import 'dart:math';
+
+import 'package:graduation_progect_v2/helper/language_page.dart';
 
 
 class SettingsPage extends StatefulWidget {
@@ -42,11 +46,16 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     super.dispose();
   }
 
+  void onLanguageChange(Locale newLocale) {
+    context.setLocale(newLocale); // Change locale when language is selected
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Center(child: Text('Settings').tr()),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -70,33 +79,45 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
             children: [
               SizedBox(height: 70),
 
-              _buildSettingsTile(
-                context,
-                icon: Icons.person,
-                title: 'Profile Settings',
-                onTap: () {},
-              ),
+              // buildSettingsTile(
+              //   context,
+              //   icon: Icons.person,
+              //   title: Text('Profile Setting').tr(),
+              //   onTap: () {},
+              // ),
               SizedBox(height: 16),
-              _buildSettingsTile(
+              buildSettingsTile(
                 context,
                 icon: Icons.help,
-                title: 'Support and Feedback',
+                title: Text('Support and Feedback').tr(),
                 onTap: () {},
               ),
+              // SizedBox(height: 16),
+              // buildSettingsTile(
+              //   context,
+              //   icon: Icons.info,
+              //   title: Text('Legal Information').tr(),
+              //   onTap: () {},
+              // ),
               SizedBox(height: 16),
-              _buildSettingsTile(
+
+               buildSettingsTile(
                 context,
-                icon: Icons.info,
-                title: 'Legal Information',
-                onTap: () {},
-              ),
-              SizedBox(height: 16),
-              _buildSettingsTile(
+                icon: Icons.translate,
+                title: Text('Language').tr(), 
+                onTap: () {
+              // Navigate to the LanguagePage and pass the onLanguageChange callback
+              Navigator.push(
                 context,
-                icon: Icons.language,
-                title: 'Language',
-                onTap: () {},
+                MaterialPageRoute(
+                  builder: (context) => LanguagePage(
+                    onLanguageChange: onLanguageChange,
+                  ),
+                ),
+              );
+            },
               ),
+             
               // SizedBox(height: 16),
               // _buildSettingsTile(
               //   context,
@@ -111,7 +132,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     );
   }
 
-  Widget _buildSettingsTile(BuildContext context, {required IconData icon, required String title, required VoidCallback onTap}) {
+  Widget buildSettingsTile(BuildContext context, {required IconData icon, required Widget title, required VoidCallback onTap}) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut,
@@ -122,7 +143,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
         elevation: 4,
         child: ListTile(
           leading: Icon(icon, color: Theme.of(context).colorScheme.inversePrimary),
-          title: Text(title),
+          title: title,
           trailing: Icon(Icons.arrow_forward_ios),
           onTap: onTap,
         ),
@@ -131,43 +152,43 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
   }
 }
 
-class PopInPopOutPainter extends CustomPainter {
-  final List<Animation<double>> animations;
-  final Random random = Random(30);
+// class PopInPopOutPainter extends CustomPainter {
+//   final List<Animation<double>> animations;
+//   final Random random = Random(30);
 
-  PopInPopOutPainter(this.animations);
+//   PopInPopOutPainter(this.animations);
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    final icon = Icons.settings;
-    final paint = Paint();
-    final iconSize = 24.0;
+  // @override
+  // void paint(Canvas canvas, Size size) {
+  //   final icon = Icons.settings;
+  //   final paint = Paint();
+  //   final iconSize = 24.0;
 
-    for (int i = 0; i < animations.length; i++) {
-      final x = random.nextDouble() * size.width;
-      final y = random.nextDouble() * size.height;
-      final scale = animations[i].value;
-      final textPainter = TextPainter(
-        text: TextSpan(
-          text: String.fromCharCode(icon.codePoint),
-          style: TextStyle(
-            fontSize: iconSize * scale,
-            fontFamily: icon.fontFamily,
-            color: const Color.fromARGB(255, 42, 38, 38).withOpacity(0.5),
-          ),
-        ),
-        textDirection: TextDirection.ltr,
-      );
-      textPainter.layout();
-      textPainter.paint(canvas, Offset(x, y));
-    }
-  }
+  //   for (int i = 0; i < animations.length; i++) {
+  //     final x = random.nextDouble() * size.width;
+  //     final y = random.nextDouble() * size.height;
+  //     final scale = animations[i].value;
+  //     final textPainter = TextPainter(
+  //       text: TextSpan(
+  //         text: String.fromCharCode(icon.codePoint),
+  //         style: TextStyle(
+  //           fontSize: iconSize * scale,
+  //           fontFamily: icon.fontFamily,
+  //           color: const Color.fromARGB(255, 42, 38, 38).withOpacity(0.5),
+  //         ),
+  //       ),
+  //       textDirection: TextDirection.RTL,
+  //     );
+  //     textPainter.layout();
+  //     textPainter.paint(canvas, Offset(x, y));
+  //   }
+  // }
 
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-}
+//   @override
+//   bool shouldRepaint(covariant CustomPainter oldDelegate) {
+//     return true;
+//   }
+// }
 
 
 // class FallingIconsPainter extends CustomPainter {

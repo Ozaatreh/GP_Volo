@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -208,7 +209,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
 
                 Text(
-                  "V o l u n t e e r s",
+                  "V o l o",
                   style: GoogleFonts.nanumMyeongjo(
                     color: Theme.of(context).colorScheme.inversePrimary,
                     textStyle: const TextStyle(
@@ -302,7 +303,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         value: "Male",
                         child: Column(
                           children: [
-                            Text("Male"),
+                            Text("Male").tr(),
                             SizedBox(
                               height: 10,
                             ),
@@ -315,7 +316,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         value: "Female",
                         child: Column(
                           children: [
-                            Text("Female"),
+                            Text("Female").tr(),
                             SizedBox(
                               height: 10,
                             ),
@@ -338,7 +339,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(selectedGender ?? "Select Gender Type",
+                        Text(selectedGender ?? "Sex",
                             style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w300,
                                 fontSize: 16,
@@ -368,7 +369,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         value: "Ngo",
                         child: Column(
                           children: [
-                            Text("Ngo"),
+                            Text("Npo"),
                             SizedBox(
                               height: 10,
                             ),

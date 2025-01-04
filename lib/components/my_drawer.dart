@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,10 +16,7 @@ class MyDrawer extends StatelessWidget {
             children: [
               // Drawer header
               DrawerHeader(
-                child: Icon(
-                  Icons.favorite,
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                ),
+                child: Image.asset('assets/volunteers_icon.png')
               ),
               const SizedBox(
                 height: 20,
@@ -37,7 +35,7 @@ class MyDrawer extends StatelessWidget {
                       textStyle: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w300),
                     ),
-                  ),
+                  ).tr(),
                   onTap: () {
                     // Navigator.pop(context);
                     Navigator.pushNamed(context, 'Users_Toggle_page');
@@ -84,7 +82,7 @@ class MyDrawer extends StatelessWidget {
                       textStyle: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w300),
                     ),
-                  ),
+                  ).tr(),
                   onTap: () {
                     //pop out drawer
                      Navigator.pop(context);
@@ -108,7 +106,7 @@ class MyDrawer extends StatelessWidget {
                       textStyle: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w300),
                     ),
-                  ),
+                  ).tr(),
                   onTap: () {
                     //pop out drawer
                      Navigator.pop(context);
@@ -133,7 +131,7 @@ class MyDrawer extends StatelessWidget {
                       textStyle: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w300),
                     ),
-                  ),
+                  ).tr(),
                   onTap: () {
                     //pop out drawer
                      Navigator.pop(context);
@@ -157,7 +155,7 @@ class MyDrawer extends StatelessWidget {
                       textStyle: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w300),
                     ),
-                  ),
+                  ).tr(),
                   onTap: () {
                     //pop out drawer
                      Navigator.pop(context);
@@ -179,7 +177,7 @@ class MyDrawer extends StatelessWidget {
           fontWeight: FontWeight.w300,
         ),
       ),
-    ),
+    ).tr(),
     onTap: () {
       Navigator.pop(context); // Close the drawer
       Navigator.pushNamed(context, '/history');
@@ -200,7 +198,7 @@ class MyDrawer extends StatelessWidget {
                       textStyle: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w300),
                     ),
-                  ),
+                  ).tr(),
                   onTap: () {
                     //pop out drawer
                      Navigator.pop(context);
@@ -228,7 +226,7 @@ class MyDrawer extends StatelessWidget {
                       textStyle: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w300),
                     ),
-                  ),
+                  ).tr(),
                   onTap: () {
                       //pop out drawer
                      Navigator.pop(context);

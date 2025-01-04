@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert'; // For JSON encoding
 import 'package:http/http.dart' as http; // For HTTP requests
@@ -85,10 +86,12 @@ class _ContactUsPageState extends State<ContactUsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onPrimary,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: Text('Contact Us & Report'),
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        title: Text('Contact Us & Report').tr(),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+
+        
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -98,8 +101,8 @@ class _ContactUsPageState extends State<ContactUsPage> {
             children: [
               Text(
                 'Get in Touch',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w200),
+              ).tr(),
               SizedBox(height: 8),
               ContactInfoRow(
                 icon: Icons.location_on,
@@ -113,15 +116,26 @@ class _ContactUsPageState extends State<ContactUsPage> {
                 icon: Icons.phone,
                 text: '0785434449',
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SocialIcon(
-                    icon: Icons.facebook,
-                    onPressed: _launchFacebook,
-                  ),
-                ],
-              ),
+              // Padding(
+                // padding: const EdgeInsets.only(right: 33),
+                // child: IconButton(
+
+                //  icon:
+                  Icon(Icons.facebook, color: const Color.fromARGB(255, 10, 106, 217),size: 20,),
+                //  onPressed: _launchFacebook,
+                //              ),
+              // ),
+
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   // mainAxisAlignment: MainAxisAlignment.start,
+              //   children: [
+              //     SocialIcon(
+              //       icon: Icons.facebook,
+              //       onPressed: _launchFacebook,
+              //     ),
+              //   ],
+              // ),
               SizedBox(height: 20),
               Text(
                 'Report',
@@ -155,12 +169,12 @@ class _ContactUsPageState extends State<ContactUsPage> {
                           sendEmail();
                         }
                       },
-                      child: Text('Submit'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.teal,
+                        backgroundColor:Theme.of(context).colorScheme.primary,
                         padding:
                             EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       ),
+                      child: Text('Submit' , style: TextStyle(color:Theme.of(context).colorScheme.inversePrimary, ),),
                     ),
                   ],
                 ),
@@ -186,7 +200,7 @@ class ContactInfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, color: Colors.teal),
+        Icon(icon, color: const Color.fromARGB(255, 21, 21, 21), size: 18,),
         SizedBox(width: 8),
         Text(
           text,
@@ -245,7 +259,7 @@ class SocialIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(icon, color: Colors.teal),
+      icon: Icon(icon, color: const Color.fromARGB(255, 10, 106, 217),size: 20,),
       onPressed: onPressed,
     );
   }

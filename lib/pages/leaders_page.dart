@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -125,7 +126,7 @@ class _LeadersPageState extends State<LeadersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Leaders Page")),
+      appBar: AppBar(title: Text("Leaders Page").tr()),
       drawer: MyDrawer(),
       body: StreamBuilder(
         // Filter events with "Upcoming" status
@@ -140,7 +141,7 @@ class _LeadersPageState extends State<LeadersPage> {
 
           final posts = snapshot.data!.docs;
           if (posts.isEmpty) {
-            return Center(child: Text("No Upcoming Events Yet."));
+            return Center(child: Text("No Upcoming Events Yet.").tr());
           }
 //  return Center(child: Text("No Posts Yet.. Post Something!"));
           return ListView.builder(
@@ -218,7 +219,7 @@ class _LeadersPageState extends State<LeadersPage> {
                                     children: [
                                       ListTile(
                                         leading: Icon(Icons.report_gmailerrorred),
-                                        title: Text('Report Problem'),
+                                        title: Text('Report Problem').tr(),
                                         onTap: () {
                                           Navigator.pop(context);
                                           Navigator.pushNamed(
@@ -288,7 +289,7 @@ class _LeadersPageState extends State<LeadersPage> {
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).colorScheme.inversePrimary,
                               ),
-                            ),
+                            ).tr(),
                           ],
                         ),
                         // ],
@@ -341,7 +342,7 @@ class _LeadersPageState extends State<LeadersPage> {
                                         const Color.fromARGB(255, 169, 101, 5)),
                               ),
                             ),
-                            Text('$leaderCount / $maxLeaders (Leaders)'),
+                            Text('$leaderCount / $maxLeaders (Leaders)').tr(),
                           ],
                         ),
                         SizedBox(height: 20),
@@ -377,9 +378,9 @@ class _LeadersPageState extends State<LeadersPage> {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .inversePrimary),
-                              ),
+                              ).tr(),
                             ),
-                            Text('$currentCount / $targetCount (Volunteers)'),
+                            Text('$currentCount / $targetCount (Volunteers)').tr(),
                           ],
                         ),
                         if (isLeader) ...[

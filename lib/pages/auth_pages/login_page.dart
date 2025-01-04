@@ -133,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
 
                 Text(
-                  "V o l u n t e e r s",
+                  "V o l o",
                   style: GoogleFonts.nanumMyeongjo(
                     color: Theme.of(context).colorScheme.inversePrimary,
                     textStyle: const TextStyle(
