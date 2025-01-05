@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,12 +51,12 @@ class _LoginPageState extends State<LoginPage> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: const Text('Email Verification'),
-              content: const Text('Please verify your email before logging in.'),
+              title: const Text('Email Verification').tr(),
+              content: const Text('Please verify your email before logging in.').tr(),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('OK'),
+                  child: const Text('OK').tr(),
                 ),
               ],
             ),
@@ -85,11 +86,11 @@ class _LoginPageState extends State<LoginPage> {
             }
           } else {
             // Handle case where userType is not found in the document
-            displayMessageToUser("User type not found", context);
+            displayMessageToUser("User type not found".tr(), context);
           }
         } else {
           // Handle case where user document doesn't exist
-          displayMessageToUser("User document not found", context);
+          displayMessageToUser("User document not found".tr(), context);
         }
 
         // Dismiss progress indicator after successful navigation or error handling
@@ -102,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
     } catch (e) {
       // Handle other potential errors
       if (context.mounted) Navigator.pop(context);
-      displayMessageToUser("An unknown error occurred", context);
+      displayMessageToUser("An unknown error occurred".tr(), context);
     }
   }
 
@@ -147,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 // Email textfield
                 MyTextfield(
-                    hintText: "Email",
+                    hintText: "Email".tr(),
                     obscuretext: false,
                     controller: emailControler),
 
@@ -157,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 // Password textfield
                 MyTextfield(
-                    hintText: "Password",
+                    hintText: "Password".tr(),
                     obscuretext: true,
                     controller: passwordControler),
 
@@ -171,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     TextButton(
 
-                      child:  Text("ForgetPassword?",
+                      child:  Text("ForgetPassword?".tr(),
                       style:  TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -188,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 25,
                 ),
 
-                MyButton(buttonText: "Login", onTap: loginUser),
+                MyButton(buttonText: "Login".tr(), onTap: loginUser),
 
                 const SizedBox(
                   height: 7,
@@ -197,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Dont have an account?",
+                      "Dont have an account?".tr(),
                       style: TextStyle(
                         fontSize: 14,
                         // fontWeight: FontWeight.w500,
@@ -207,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                     GestureDetector(
                       onTap: widget.loginPageTap,
                       child:  Text(
-                        " Register Here",
+                        " Register Here".tr(),
                         style: GoogleFonts.roboto(fontSize: 14 ,fontWeight: FontWeight.w600),
                       ),
                     ),

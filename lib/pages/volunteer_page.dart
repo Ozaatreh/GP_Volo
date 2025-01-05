@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/components/my_drawer.dart';
@@ -47,7 +48,7 @@ class _UserPageState extends State<UserPage> {
         isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load profile: $e')),
+        SnackBar(content: Text('${'Failed to load profile:'.tr()} $e')),
       );
     }
   }
@@ -100,7 +101,7 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Volunteers Page")),
+      appBar: AppBar(title: Text("Volunteers Page".tr())),
       drawer:  MyDrawer(),
       body: StreamBuilder(
         // Filter events with "Upcoming" status
@@ -115,7 +116,7 @@ class _UserPageState extends State<UserPage> {
 
           final posts = snapshot.data!.docs;
           if (posts.isEmpty) {
-            return Center(child: Text("No Upcoming Events Yet."));
+            return Center(child: Text("No Upcoming Events Yet.".tr()));
           }
 
           return ListView.builder(
@@ -190,7 +191,7 @@ class _UserPageState extends State<UserPage> {
                                             children: [
                                               ListTile(
                                                 leading: Icon(Icons.report_gmailerrorred),
-                                                title: Text('Report Problem'),
+                                                title: Text('Report Problem'.tr()),
                                                 onTap: (){
                                                  Navigator.pop(context);
                                                  // navigat ot user
@@ -256,7 +257,7 @@ class _UserPageState extends State<UserPage> {
                               },
                             ),
                             Text(
-                              "Event Date: $formattedEventDate",
+                              "${'Event Date:'.tr()} $formattedEventDate",
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -284,7 +285,7 @@ class _UserPageState extends State<UserPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [ 
                          
-                           Text('$leaderCount / $maxLeaders (Leaders)'),
+                           Text('$leaderCount / $maxLeaders ${'(Leaders)'.tr()}'),
                         ],),
                       
                       SizedBox(height: 15,),
@@ -310,10 +311,10 @@ class _UserPageState extends State<UserPage> {
                             }
                             fetchAppliedPosts(); // Refresh applied posts
                           },
-                          child: Text(hasApplied ? "Cancel" : "Apply" ,style: TextStyle(color :Theme.of(context).colorScheme.inversePrimary,)),
+                          child: Text(hasApplied ? "Cancel".tr() : "Apply".tr() ,style: TextStyle(color :Theme.of(context).colorScheme.inversePrimary,)),
                         ),
 
-                        Text('$currentCount / $targetCount (Volnteers)'),
+                        Text('$currentCount / $targetCount ${'(Volnteers)'.tr()}'),
                       ],
                     ),                  
                   ],

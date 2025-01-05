@@ -1,34 +1,41 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class AboutUsPage extends StatefulWidget {
-  const AboutUsPage({Key? key}) : super(key: key);
+
+class LegalInfoPage extends StatefulWidget {
+  const LegalInfoPage({Key? key}) : super(key: key);
 
   @override
-  State<AboutUsPage> createState() => _AboutUsPageState();
+  State<LegalInfoPage> createState() => _LegalInfoPageState();
 }
 
-class _AboutUsPageState extends State<AboutUsPage> {
+class _LegalInfoPageState extends State<LegalInfoPage>
+    with SingleTickerProviderStateMixin {
   final List<Map<String, String>> items = [
     {
-      'title': 'Our Vision',
-      'description': 'To bridge the gap between the youth and meaningful charitable activities. We make service fun and rewarding!',
+      'title': 'Terms of Service',
+      'description':
+          'By using our platform, you agree to abide by our rules and regulations. Ensure you provide accurate information and avoid prohibited activities.'.tr(),
     },
     {
-      'title': 'Our Story',
-      'description': 'Born from the idea of simplifying community service. We provide a platform to discover, connect, and give back.',
+      'title': 'Privacy Policy',
+      'description':
+          'We value your privacy. Your data is used to enhance your experience. You can request to access or delete your data anytime.'.tr(),
     },
     {
-      'title': 'Opportunities at Your Fingertips',
-      'description': 'Easily explore projects that matter to you.',
+      'title': 'Disclaimer',
+      'description':
+          'Our app acts as an intermediary. We are not liable for actions or interactions between users or third parties.',
     },
     {
-      'title': 'User-Friendly Experience',
-      'description': 'Simple and impactful for students, volunteers, and NGOs.',
+      'title': 'Community Guidelines',
+      'description':
+          'Respect, inclusivity, and cooperation are key to our community. Violating these guidelines may lead to account suspension.',
     },
     {
-      'title': 'Meaningful Engagement',
-      'description': 'Track progress, earn recognition, and make a difference.',
+      'title': 'Contact Us',
+      'description':
+          'For legal or compliance concerns, feel free to reach out via our support email.',
     },
   ];
 
@@ -38,10 +45,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Text(
-          'About Us'.tr(),
-          style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-        ),
+        title:  Text('Legal Information'.tr(), style: TextStyle(color:Theme.of(context).colorScheme.inversePrimary,)),
         elevation: 0,
       ),
       body: ListView.builder(
@@ -122,7 +126,7 @@ class _FadeInCardState extends State<FadeInCard>
             children: [
               Text(
                 widget.title,
-                style: TextStyle(
+                style:   TextStyle(
                   color: Theme.of(context).colorScheme.inversePrimary,
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -131,7 +135,7 @@ class _FadeInCardState extends State<FadeInCard>
               const SizedBox(height: 8.0),
               Text(
                 widget.description,
-                style: TextStyle(
+                style:   TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
                   fontSize: 14.0,
                 ),

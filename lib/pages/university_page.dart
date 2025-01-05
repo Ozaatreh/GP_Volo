@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/components/my_drawer.dart';
@@ -37,7 +38,7 @@ class _UniversityPageState extends State<UniversityPage> {
         isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load profile: $e')),
+        SnackBar(content: Text('${'Failed to load profile:'.tr()} $e')),
       );
     }
   }
@@ -51,7 +52,7 @@ class _UniversityPageState extends State<UniversityPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("University Page")),
+      appBar: AppBar(title: const Text("University Page").tr()),
       drawer: MyDrawer(),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -65,7 +66,7 @@ class _UniversityPageState extends State<UniversityPage> {
 
           final posts = snapshot.data!.docs;
           if (posts.isEmpty) {
-            return const Center(child: Text("No Upcoming Events Yet."));
+            return  Center(child: Text("No Upcoming Events Yet.".tr()));
           }
 
           return ListView.builder(
@@ -102,7 +103,7 @@ class _UniversityPageState extends State<UniversityPage> {
                                 children: [
                                   ListTile(
                                     leading: const Icon(Icons.report_gmailerrorred),
-                                    title: const Text('Report Problem'),
+                                    title:  Text('Report Problem'.tr()),
                                     onTap: () {
                                       Navigator.pop(context);
                                       Navigator.pushNamed(context, 'Contact_us_page');
@@ -133,7 +134,7 @@ class _UniversityPageState extends State<UniversityPage> {
                       children: [
                         const SizedBox(height: 8),
                         Text(
-                          "Event Date: $formattedEventDate",
+                          "${'Event Date:'.tr()} $formattedEventDate",
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,

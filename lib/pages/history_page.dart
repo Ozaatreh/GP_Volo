@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -12,10 +13,10 @@ class HistoryPage extends StatelessWidget {
 
     // Check if currentUserEmail is null
     if (currentUserEmail == null) {
-      return const Center(child: Text('You must be logged in to view event history.'));
+      return Center(child: Text('You must be logged in to view event history.'.tr()));
     }
     return Scaffold(
-      appBar: AppBar(title: const Text('Event History')),
+      appBar: AppBar(title: const Text('Event History').tr()),
       body: FutureBuilder<DocumentSnapshot>(
         future: FirebaseFirestore.instance.collection('Users').doc(currentUserEmail).get(),
         builder: (context, userSnapshot) {
@@ -23,7 +24,7 @@ class HistoryPage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (userSnapshot.hasError || !userSnapshot.hasData) {
-            return const Center(child: Text('Error loading user data.'));
+            return Center(child: Text('Error loading user data.'.tr()));
           }
 
           final userData = userSnapshot.data!.data() as Map<String, dynamic>;
@@ -51,13 +52,13 @@ class HistoryPage extends StatelessWidget {
               }
 
               if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
+                return Center(child: Text('${'Error:'.tr()} ${snapshot.error}'));
               }
 
               final posts = snapshot.data!.docs;
 
               if (posts.isEmpty) {
-                return const Center(child: Text('No completed events yet.'));
+                return Center(child: Text('No completed events yet.'.tr()));
               }
 
               return ListView.builder(
@@ -76,7 +77,7 @@ class HistoryPage extends StatelessWidget {
                     color: userType == 'NGO' ? Colors.lightGreen[100] : null,
                     child: ListTile(
                       title: Text(message, style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text('Event Date: $formattedDate'),
+                      subtitle: Text('${'Event Date:'.tr()} $formattedDate'),
                     ),
                   );
                 },

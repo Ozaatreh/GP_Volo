@@ -22,8 +22,8 @@ class _ContactUsPageState extends State<ContactUsPage> {
 
 
   Future<void> sendEmail() async {
-    const serviceId = "service_cgn74sv";
-    const templateId = "template_7zudo4f";
+    const serviceId = "service_uv9c4n6";
+    const templateId = "template_m8c4b6d";
     const userId = "SsMk8ta65lDlhUvzQ";
 
 
@@ -43,16 +43,21 @@ class _ContactUsPageState extends State<ContactUsPage> {
           },
         }),
       );
+            print("Response Status Code: ${response.statusCode}");
+            print("Response Body: ${response.body}");
 
 
       if (response.statusCode == 200) {
-        _showDialog("Success", "Your report has been sent successfully!");
+        _showDialog("Success".tr(), "Your report has been sent successfully!".tr());
       } else {
-        _showDialog("Error", "Failed to send your report. Please try again.");
+        _showDialog("Error".tr(), "Failed to send your report. Please try again.".tr());
       }
-    } catch (error) {
-      _showDialog("Error", "An error occurred. Please try again.");
-    }
+       
+    } 
+    catch (error) {
+             _showDialog("Error".tr(), "Network error: Please check your internet connection.".tr());
+            print("Error: $error");
+      }
   }
 
 
@@ -65,7 +70,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text("OK"),
+            child: Text("OK".tr()),
           ),
         ],
       ),
@@ -100,18 +105,19 @@ class _ContactUsPageState extends State<ContactUsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Get in Touch',
+                'Get in Touch'.tr(),
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w200),
               ).tr(),
               SizedBox(height: 8),
               ContactInfoRow(
                 icon: Icons.location_on,
-                text: 'Amman',
+                text: 'Amman'.tr(),
               ),
               ContactInfoRow(
                 icon: Icons.email,
                 text: 'appvolunter@gmail.com',
               ),
+              // Icon(Icons.facebook, color: const Color.fromARGB(255, 10, 106, 217),size: 20,),
               ContactInfoRow(
                 icon: Icons.phone,
                 text: '0785434449',
@@ -138,27 +144,41 @@ class _ContactUsPageState extends State<ContactUsPage> {
               // ),
               SizedBox(height: 20),
               Text(
-                'Report',
+                'Report'.tr(),
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
+              SizedBox(height: 16),
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     CustomTextField(
-                      labelText: 'Name',
+                      labelText: 'Name'.tr(),
                       controller: _nameController,
                     ),
-                    CustomTextField(
-                      labelText: 'Email',
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText:  'Email'.tr(),
+                        border: OutlineInputBorder(),
+                      ),
+                      
                       controller: _emailController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter email'.tr();
+                        } else if (!value.endsWith('@gmail.com')) {
+                          return 'Please enter a valid Gmail address'.tr();
+                        }
+                        return null;
+                      },
                     ),
+                    SizedBox(height: 16),
                     CustomTextField(
-                      labelText: 'Phone',
+                      labelText: 'Phone'.tr(),
                       controller: _phoneController,
                     ),
                     CustomTextField(
-                      labelText: 'Message',
+                      labelText: 'Message'.tr(),
                       controller: _messageController,
                       maxLines: 3,
                     ),
@@ -174,7 +194,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       ),
-                      child: Text('Submit' , style: TextStyle(color:Theme.of(context).colorScheme.inversePrimary, ),),
+                      child: Text('Submit'.tr() , style: TextStyle(color:Theme.of(context).colorScheme.inversePrimary, ),),
                     ),
                   ],
                 ),
@@ -238,7 +258,7 @@ class CustomTextField extends StatelessWidget {
         ),
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Please enter $labelText';
+            return '${'Please enter'.tr()} $labelText';
           }
           return null;
         },

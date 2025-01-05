@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/authentication/auth.dart';
 import 'package:graduation_progect_v2/main.dart';
@@ -50,16 +51,16 @@ class _NotificationPermissionScreenState
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Permission Required'),
+          title: Text('Permission Required').tr(),
           content: Text(
-              'Notification permission is required to use this app. Please enable it to proceed.'),
+              'Notification permission is required to use this app. Please enable it to proceed.').tr(),
           actions: [
             TextButton(
               onPressed: () async {
                 Navigator.of(context).pop(); // Close dialog
                 await checkNotificationPermission(); // Retry permission check
               },
-              child: Text('Try Again'),
+              child: Text('Try Again').tr(),
             ),
           ],
         );

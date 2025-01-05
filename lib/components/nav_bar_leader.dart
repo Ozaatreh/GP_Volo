@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/pages/achievement_page.dart';
 import 'package:graduation_progect_v2/pages/leaders_page.dart';
@@ -48,15 +49,15 @@ class _LeaderNavigationState extends State<LeaderNavigation> {
         items:  [
           BottomNavigationBarItem(
             icon: Icon(Icons.card_giftcard_outlined),
-            label: 'Achievement',
+            label: 'Achievement'.tr(),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Home'.tr(),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Account',
+            label: 'Account'.tr(),
           ),
         ],
       ),

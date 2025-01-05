@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,17 +29,17 @@ class _UploadImagePageState extends State<UploadImagePage> {
     if (_selectedImage == null) return;
 
     try {
-      final ref = _storage.ref().child('uploaded_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+      final ref = _storage.ref().child('uploaded_images/${DateTime.now().millisecondsSinceEpoch}.jpg'.tr());
       await ref.putFile(_selectedImage!);
       final imageUrl = await ref.getDownloadURL();
-      print('Image uploaded successfully: $imageUrl');
+      print('Image uploaded successfully: $imageUrl'.tr());
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Image uploaded successfully! URL: $imageUrl")),
+        SnackBar(content: Text("Image uploaded successfully! URL: $imageUrl".tr())),
       );
     } catch (e) {
-      print('Error uploading image: $e');
+      print('Error uploading image: $e'.tr());
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to upload image: $e")),
+        SnackBar(content: Text("Failed to upload image: $e".tr())),
       );
     }
   }
@@ -47,7 +48,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Upload Image'),
+        title: Text('Upload Image').tr(),
       ),
       body: Center(
         child: Column(
@@ -55,15 +56,15 @@ class _UploadImagePageState extends State<UploadImagePage> {
           children: [
             _selectedImage != null
                 ? Image.file(_selectedImage!, width: 200, height: 200, fit: BoxFit.cover)
-                : Text("No image selected"),
+                : Text("No image selected").tr(),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _pickImage,
-              child: Text("Select Image"),
+              child: Text("Select Image").tr(),
             ),
             ElevatedButton(
               onPressed: _uploadImage,
-              child: Text("Upload Image"),
+              child: Text("Upload Image").tr(),
             ),
           ],
         ),

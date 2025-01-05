@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -75,7 +76,7 @@ class _WallPageState extends State<WallPage> {
         isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load profile: $e')),
+        SnackBar(content: Text('${'Failed to load profile:'.tr()} $e')),
       );
     }
   }
@@ -121,7 +122,7 @@ class _WallPageState extends State<WallPage> {
           child: Padding(
             padding: const EdgeInsets.only(right: 40),
             child: Text(
-              "W A L L",
+              "W A L L".tr(),
               style: GoogleFonts.roboto(
                 color: Theme.of(context).colorScheme.inversePrimary,
                 textStyle: const TextStyle(
@@ -151,7 +152,7 @@ class _WallPageState extends State<WallPage> {
 
           final posts = snapshot.data!.docs;
           if (posts.isEmpty) {
-            return Center(child: Text("No Events Yet.. !"));
+            return Center(child: Text("No Events Yet.. !".tr()));
           }
 
             //return as a list
@@ -204,7 +205,7 @@ class _WallPageState extends State<WallPage> {
                                      if (currentUserEmail=="al@gmail.com" || userEmail == currentUserEmail) 
                                      ListTile(
                                        leading: Icon(Icons.delete),
-                                       title: Text('Delete Post'),
+                                       title: Text('Delete Post'.tr()),
                                        onTap: () async {
                                          await database.deletePost(postId);
                                          Navigator.pop(context);
@@ -212,7 +213,7 @@ class _WallPageState extends State<WallPage> {
                                      ),
                                      ListTile(
                                        leading: Icon(Icons.report_gmailerrorred),
-                                       title: Text('Report Problem'),
+                                       title: Text('Report Problem'.tr()),
                                        onTap: (){
                                         Navigator.pop(context);
                                         // navigat ot user
@@ -254,7 +255,7 @@ class _WallPageState extends State<WallPage> {
                                  if (eventDate != null) ...[
                                   const SizedBox(height: 8),
                                   Text(
-                                    "Event Date: $eventDate",
+                                    "${'Event Date:'.tr()} $eventDate",
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
@@ -300,7 +301,7 @@ class _WallPageState extends State<WallPage> {
                       ),
                      SizedBox(height: 8,),
                       // Supervisor Apply Section
-                       Text('$leaderCount / $maxLeaders (Leaders)'),
+                       Text('$leaderCount / $maxLeaders ${'(Leaders)'.tr()}'),
                                           
                       SizedBox(height: 15,),
                                           Divider(height: 21, indent: 1,endIndent: 1,),
@@ -313,7 +314,7 @@ class _WallPageState extends State<WallPage> {
                             minHeight: 8,
                           ),
                           SizedBox(height: 8),
-                          Text('$currentCount / $targetCount (Volnteers)'),
+                          Text('$currentCount / $targetCount ${'(Volnteers)'.tr()}'),
                             
                         ],
                       ),

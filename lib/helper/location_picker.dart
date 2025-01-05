@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:graduation_progect_v2/pages/ngo_page.dart';
@@ -30,7 +31,7 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enable location services')),
+        SnackBar(content: Text('Please enable location services'.tr())),
       );
       return;
     }
@@ -41,7 +42,7 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Location permissions are denied')),
+          SnackBar(content: Text('Location permissions are denied'.tr())),
         );
         return;
       }
@@ -49,7 +50,7 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
 
     if (permission == LocationPermission.deniedForever) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Location permissions are permanently denied')),
+        SnackBar(content: Text('Location permissions are permanently denied'.tr())),
       );
       return;
     }
@@ -68,7 +69,7 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Event Location'),
+        title: Text('Select Event Location'.tr()),
         leading: BackButton(),
       ),
       body: Column(
@@ -80,7 +81,7 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
               controller: locationController,
               readOnly: true,
               decoration: InputDecoration(
-                labelText: 'Selected Location',
+                labelText: 'Selected Location'.tr(),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -154,7 +155,7 @@ void _assignLocation() {
     });
      Navigator.pop(context , selectedLocation);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Location assigned to the event')),
+      SnackBar(content: Text('Location assigned to the event'.tr())),
     );
     
     // Navigate to NgoPage with the selected location

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -91,7 +92,7 @@ class _RewardCreationPageState extends State<RewardCreationPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Reward Creation Management',
+          'Reward Creation Management'.tr(),
           style: GoogleFonts.roboto(
             color: Theme.of(context).colorScheme.inversePrimary,
             textStyle: const TextStyle(fontSize: 20),
@@ -111,7 +112,7 @@ class _RewardCreationPageState extends State<RewardCreationPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Manage Rewards',
+              'Manage Rewards'.tr(),
               style: GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
@@ -122,20 +123,20 @@ class _RewardCreationPageState extends State<RewardCreationPage> {
                 children: [
                   TextFormField(
                     controller: _nameController,
-                    decoration: InputDecoration(labelText: 'Reward Name'),
+                    decoration: InputDecoration(labelText: 'Reward Name'.tr()),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a reward name';
+                        return 'Please enter a reward name'.tr();
                       }
                       return null;
                     },
                   ),
                   TextFormField(
                     controller: _descriptionController,
-                    decoration: InputDecoration(labelText: 'Description'),
+                    decoration: InputDecoration(labelText: 'Description'.tr()),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a description';
+                        return 'Please enter a description'.tr();
                       }
                       return null;
                     },
@@ -165,7 +166,7 @@ class _RewardCreationPageState extends State<RewardCreationPage> {
                     decoration: InputDecoration(labelText: 'Cost (Points)'),
                     validator: (value) {
                       if (value == null || value.isEmpty || int.tryParse(value) == null) {
-                        return 'Please enter a valid number';
+                        return 'Please enter a valid number'.tr();
                       }
                       return null;
                     },
@@ -175,7 +176,7 @@ class _RewardCreationPageState extends State<RewardCreationPage> {
                     decoration: InputDecoration(labelText: 'Redeem Link or Code'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a redeem link or code';
+                        return 'Please enter a redeem link or code'.tr();
                       }
                       return null;
                     },
@@ -183,7 +184,7 @@ class _RewardCreationPageState extends State<RewardCreationPage> {
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _addAchievement,
-                    child: Text('Add Reward'),
+                    child: Text('Add Reward'.tr()),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                     ),
@@ -217,22 +218,22 @@ class _RewardCreationPageState extends State<RewardCreationPage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        achievement['name'],
+                                        achievement['name'.tr()],
                                         style: GoogleFonts.roboto(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       SizedBox(height: 8),
-                                      Text(achievement['description']),
+                                      Text(achievement['description'.tr()]),
                                       SizedBox(height: 8),
-                                      Text('Cost: ${achievement['cost']} points'),
+                                      Text('${'Cost:'.tr()} ${achievement['cost']} ${'points'.tr()}'),
                                       SizedBox(height: 8),
                                       ElevatedButton(
                                         onPressed: () {
                                           _deleteAchievement(achievement['id']);
                                         },
-                                        child: Text('Delete Reward'),
+                                        child: Text('Delete Reward'.tr()),
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.red,
                                         ),

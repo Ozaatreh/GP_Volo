@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -93,14 +94,14 @@ class _AchievementPageState extends State<AchievementPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Redeem $reward'),
-        content: Text('You have redeemed the $reward for ${reward.length * 10} points!'),
+        title: Text('${'Redeem' .tr()} $reward'),
+        content: Text('${"You have redeemed the".tr()} $reward ${"for".tr()} ${reward.length * 10} ${"points" .tr()}!'),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text('OK'),
+            child: Text('OK'.tr()),
           ),
         ],
       ),
@@ -109,15 +110,16 @@ class _AchievementPageState extends State<AchievementPage> {
   // Create a list of rewards based on pointsCount
   List<Widget> _buildRewardCards() {
     List<Map<String, dynamic>> rewards = [
-      {'reward': 'Free T-shirt', 'cost': 20},
-      {'reward': 'Gift Card', 'cost': 50},
-      {'reward': 'Event Ticket', 'cost': 100},
-      {'reward': 'Premium Membership', 'cost': 200},
+      {'reward': 'Free T-shirt' .tr(), 'cost': 20},
+      {'reward': 'Gift Card'.tr(), 'cost': 50},
+      {'reward': 'Event Ticket'.tr(), 'cost': 100},
+      {'reward': 'Premium Membership'.tr(), 'cost': 200},
     ];
     List<Widget> rewardCards = [];
     for (var reward in rewards) {
       rewardCards.add(
         Card(
+          color: Theme.of(context).colorScheme.primary,
           margin: const EdgeInsets.all(8),
           elevation: 5,
           child: Padding(
@@ -130,13 +132,14 @@ class _AchievementPageState extends State<AchievementPage> {
                   style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 ElevatedButton(
+                  
                   onPressed: pointsCount >= reward['cost']
                       ? () {
                           // Handle reward redemption logic
                           _redeemReward(reward['reward']);
                         }
                       : null, // Disable button if the user doesn't have enough points
-                  child: Text('Redeem'),
+                  child: Text('Redeem').tr(),
                 ),
               ],
             ),
@@ -154,7 +157,7 @@ class _AchievementPageState extends State<AchievementPage> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'You have earned $pointsCount points!',
+              '${"You have earned".tr()} $pointsCount ${"points".tr()}!',
               style: GoogleFonts.roboto(fontSize: 18),
             ),
           ),
@@ -172,7 +175,7 @@ class _AchievementPageState extends State<AchievementPage> {
           children: [
             SizedBox(width: 20),
             Text(
-              "Rewards",
+              "Rewards".tr(),
               style: GoogleFonts.roboto(
                 color: Theme.of(context).colorScheme.inversePrimary,
                 textStyle: const TextStyle(
@@ -181,7 +184,7 @@ class _AchievementPageState extends State<AchievementPage> {
               ),
             ),
             Text(
-              "MY POINTS ($pointsCount)",
+              "${"MY POINTS" .tr()} ($pointsCount)",
               style: GoogleFonts.roboto(
                 color: Theme.of(context).colorScheme.inversePrimary,
                 textStyle: const TextStyle(

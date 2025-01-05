@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,12 +29,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     );
 
     if (emailController.text.isEmpty) {
-      displayMessageToUser("Email field cannot be empty", context);
+      displayMessageToUser("Email field cannot be empty".tr(), context);
       return;
     }
 
     if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(emailController.text)) {
-      displayMessageToUser("Invalid email format", context);
+      displayMessageToUser("Invalid email format".tr(), context);
       return;
     }
 
@@ -47,9 +48,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text("Password Reset Email Sent"),
+          title: const Text("Password Reset Email Sent").tr(),
           content: Text(
-            "A password reset link has been sent to ${emailController.text}. Please check your email.",
+            "A password reset link has been sent to ${emailController.text}. Please check your email.".tr(),
           ),
           actions: [
             TextButton(
@@ -57,7 +58,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 Navigator.pop(context); // Close the dialog
                 Navigator.pop(context); // Go back to the login page
               },
-              child: const Text("OK"),
+              child: const Text("OK").tr(),
             ),
           ],
         ),
@@ -65,7 +66,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       
     } on FirebaseAuthException catch (e) {
       displayMessageToUser(
-          e.message ?? "An error occurred. Please try again.", context);
+          e.message ?? "An error occurred. Please try again.".tr(), context);
     } finally {
       // Dismiss progress indicator
       if (context.mounted) Navigator.pop(context);
@@ -92,7 +93,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 const SizedBox(height: 90),
 
                 Text(
-                  "Reset Your Password",
+                  "Reset Your Password".tr(),
                   style: GoogleFonts.nanumMyeongjo(
                     color: Theme.of(context).colorScheme.inversePrimary,
                     textStyle: const TextStyle(
@@ -105,7 +106,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                 // Email TextField
                 MyTextfield(
-                  hintText: "Enter your email",
+                  hintText: "Enter your email".tr(),
                   obscuretext: false,
                   controller: emailController,
                 ),
@@ -115,7 +116,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 isLoading
                     ? const CircularProgressIndicator()
                     : MyButton(
-                        buttonText: "Send Reset Link",
+                        buttonText: "Send Reset Link".tr(),
                         onTap: sendPasswordResetEmail,
                       ),
                 const SizedBox(height: 10),
@@ -125,8 +126,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   onPressed: () {
                     Navigator.pop(context); // Go back to the login page
                   },
-                  child: const Text(
-                    "Back to Login",
+                  child:  Text(
+                    "Back to Login".tr(),
                     style: TextStyle(fontSize: 14),
                   ),
                 ),

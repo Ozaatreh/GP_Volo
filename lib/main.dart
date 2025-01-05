@@ -16,6 +16,7 @@ import 'package:graduation_progect_v2/pages/achievement_page.dart';
 import 'package:graduation_progect_v2/pages/admin/nav_bar_admin.dart';
 import 'package:graduation_progect_v2/pages/auth_pages/forget_password.dart';
 import 'package:graduation_progect_v2/pages/contact_us_page.dart';
+import 'package:graduation_progect_v2/pages/faq.dart';
 import 'package:graduation_progect_v2/pages/history_page.dart';
 import 'package:graduation_progect_v2/pages/profile_pages/profile_page.dart';
 import 'package:graduation_progect_v2/pages/rewards_creation.dart';
@@ -96,9 +97,9 @@ class MainPage extends StatelessWidget {
         'University_page' : (context) =>  UniversityNavigation(),
         'profile_page' : (context) =>  ProfilePage(),
         'users_log_page' : (context) => const UsersLogPage(),
-        'about_us_page' : (context) => RatingPage(),
+        'about_us_page' : (context) => AboutUsPage(),
         'setting_page' : (context) =>  SettingsPage(),
-      
+        'FAQ' : (context) =>  FAQPage(),
         'Contact_us_page' :(context) =>  ContactUsPage(),
         '/history': (context) => const HistoryPage(),
         'forgot_password' :(context) =>  ForgotPasswordPage(),

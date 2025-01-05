@@ -67,42 +67,80 @@ Future addPost(String messages ,
 
 }
  
-
 Future<void> updateEventStatus() async {
   final now = DateTime.now();
 
   try {
+    // Fetch all posts from Firestore
     final postsSnapshot = await FirebaseFirestore.instance.collection('Posts').get();
 
     for (var post in postsSnapshot.docs) {
-      final eventDate = (post['EventDate'] as Timestamp).toDate();
-      String postStatus = post.data().containsKey('status') ? post['status'] : '';
-      final differenceInDays = now.difference(eventDate).inDays;
-      // If status doesn't exist, initialize it
-      if (postStatus.isEmpty) {
-        await post.reference.update({'status': 'upcoming'});
-        postStatus = 'upcoming';  // Set to upcoming by default
-      }
+  final eventDate = post['EventDate'] != null 
+      ? (post['EventDate'] as Timestamp).toDate() 
+      : null;
 
-      if (eventDate.isBefore(now)) {
-        if (postStatus != 'completed') {
-          await post.reference.update({'status': 'completed'});
-        }
-      } else if (eventDate.isAfter(now) && eventDate.difference(now).inDays == 0) {
-        if (postStatus != 'in_progress') {
-          await post.reference.update({'status': 'in_progress'});
-        }
-      } else if (eventDate.isAfter(now) && eventDate.difference(now).inDays == 0) {
-        // Event is upcoming (more than one day before)
-        if (postStatus != 'upcoming') {
-          await post.reference.update({'status': 'upcoming'});
-        }
-      }
+  if (eventDate == null) {
+    print('EventDate is missing or null for post: ${post.id}');
+    continue; // Skip this document and move to the next
+  }
+
+  // Continue with your logic
+  final postStatus = post['status'];
+  if (eventDate.isBefore(now)) {
+    if (postStatus != 'completed') {
+      await post.reference.update({'status': 'completed'});
     }
+  } else if (eventDate.isAfter(now) && eventDate.difference(now).inDays == 0) {
+    if (postStatus != 'in_progress') {
+      await post.reference.update({'status': 'in_progress'});
+    }
+  } else {
+    if (postStatus != 'upcoming') {
+      await post.reference.update({'status': 'upcoming'});
+    }
+  }
+}
+
   } catch (e) {
     print('Error updating event statuses: $e');
   }
 }
+
+// Future<void> updateEventStatus() async {
+//   final now = DateTime.now();
+
+//   try {
+//     final postsSnapshot = await FirebaseFirestore.instance.collection('Posts').get();
+
+//     for (var post in postsSnapshot.docs) {
+//       final eventDate = (post['EventDate'] as Timestamp).toDate();
+//       String postStatus = post.data().containsKey('status') ? post['status'] : '';
+//       final differenceInDays = now.difference(eventDate).inDays;
+//       // If status doesn't exist, initialize it
+//       if (postStatus.isEmpty) {
+//         await post.reference.update({'status': 'upcoming'});
+//         postStatus = 'upcoming';  // Set to upcoming by default
+//       }
+
+//       if (eventDate.isBefore(now)) {
+//         if (postStatus != 'completed') {
+//           await post.reference.update({'status': 'completed'});
+//         }
+//       } else if (eventDate.isAfter(now) && eventDate.difference(now).inDays == 0) {
+//         if (postStatus != 'in_progress') {
+//           await post.reference.update({'status': 'in_progress'});
+//         }
+//       } else if (eventDate.isAfter(now) && eventDate.difference(now).inDays == 0) {
+//         // Event is upcoming (more than one day before)
+//         if (postStatus != 'upcoming') {
+//           await post.reference.update({'status': 'upcoming'});
+//         }
+//       }
+//     }
+//   } catch (e) {
+//     print('Error updating event statuses: $e');
+//   }
+// }
 
 
 

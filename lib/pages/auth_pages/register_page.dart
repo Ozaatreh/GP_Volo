@@ -47,7 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
       Navigator.pop(context);
 
       // Show error message
-      displayMessageToUser("Passwords don't match!", context);
+      displayMessageToUser("Passwords don't match!".tr(), context);
     } else {
       try {
         // Create user
@@ -66,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
         // Display message to check email
         displayMessageToUser(
-            "Verification email sent! Please check your inbox.", context);
+            "Verification email sent! Please check your inbox.".tr(), context);
 
         // Navigate based on user type
         handleUserNavigation(userCredential.user!);
@@ -113,7 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
           final userType = userDocSnapshot.data()?['userType'] as String;
           navigateToPage(userType);
         } else {
-          displayMessageToUser("User document not found!", context);
+          displayMessageToUser("User document not found!".tr(), context);
         }
       }
     } else {
@@ -123,12 +123,12 @@ class _RegisterPageState extends State<RegisterPage> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text("Verify Email"),
+              title: Text("Verify Email".tr()),
               content: Text(
-                  "Please check your inbox and verify your email to proceed."),
+                  "Please check your inbox and verify your email to proceed.".tr()),
               actions: [
                 TextButton(
-                    onPressed: () => Navigator.pop(context), child: Text("OK"))
+                    onPressed: () => Navigator.pop(context), child: Text("OK".tr()))
               ],
             );
           });
@@ -163,13 +163,13 @@ class _RegisterPageState extends State<RegisterPage> {
       String university = selectedUniversity ?? 'Not specified'; // Default to Not specified
 
       if (selectedBirthDate == null) {
-        displayMessageToUser("Please select your birthdate", context);
+        displayMessageToUser("Please select your birthdate".tr(), context);
         return;
       }
 
       try {
         await FirebaseFirestore.instance
-            .collection("Users")
+            .collection("Users".tr())
             .doc(userCredential.user!.email)
             .set({
           'email': userCredential.user!.email,
@@ -181,8 +181,8 @@ class _RegisterPageState extends State<RegisterPage> {
           'university': university,
         });
       } catch (e) {
-        print("Error creating user document: $e");
-        displayMessageToUser("Error creating user document", context);
+        print("Error creating user document: $e".tr());
+        displayMessageToUser("Error creating user document".tr(), context);
       }
     }
   }
@@ -223,7 +223,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 // Username textfield
                 MyTextfield(
-                    hintText: "Username",
+                    hintText: "Username".tr(),
                     obscuretext: false,
                     controller: userNameControler),
 
@@ -233,7 +233,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 // Email textfield
                 MyTextfield(
-                    hintText: "Email",
+                    hintText: "Email".tr(),
                     obscuretext: false,
                     controller: emailControler),
 
@@ -243,7 +243,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 // Password textfield
                 MyTextfield(
-                    hintText: "Password",
+                    hintText: "Password".tr(),
                     obscuretext: true,
                     controller: passwordControler),
 
@@ -252,7 +252,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
 
                 MyTextfield(
-                    hintText: "Confirm Password",
+                    hintText: "Confirm Password".tr(),
                     obscuretext: true,
                     controller: confirmPasControler),
 
@@ -269,7 +269,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             Theme.of(context).colorScheme.inversePrimary,
                         enabled: false,
                         decoration: InputDecoration(
-                          labelText: 'Birth Date',
+                          labelText: 'Birth Date'.tr(),
                           labelStyle: GoogleFonts.roboto(
                             fontSize: 16,
                             fontWeight: FontWeight.w300,
@@ -339,7 +339,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(selectedGender ?? "Sex",
+                        Text(selectedGender ?? "Sex".tr(),
                             style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w300,
                                 fontSize: 16,
@@ -369,7 +369,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         value: "Ngo",
                         child: Column(
                           children: [
-                            Text("Npo"),
+                            Text("Npo").tr(),
                             SizedBox(
                               height: 10,
                             ),
@@ -382,7 +382,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         value: "Volunteer",
                         child: Column(
                           children: [
-                            Text("Volunteer"),
+                            Text("Volunteer").tr(),
                             SizedBox(
                               height: 10,
                             ),
@@ -395,7 +395,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         value: "University",
                         child: Column(
                           children: [
-                            Text("University"),
+                            Text("University").tr(),
                             SizedBox(
                               height: 10,
                             ),
@@ -418,7 +418,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(selectedUserType ?? "Select User Type",
+                        Text(selectedUserType ?? "Select User Type".tr(),
                             style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w300,
                                 fontSize: 16,
@@ -449,7 +449,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Not a Student",
                       child: Column(
                         children: [
-                          Text("Not a Student"),
+                          Text("Not a Student").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -459,7 +459,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "University of Jordan",
                       child: Column(
                         children: [
-                          Text("University of Jordan"),
+                          Text("University of Jordan").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -469,7 +469,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Yarmouk University",
                       child: Column(
                         children: [
-                          Text("Yarmouk University"),
+                          Text("Yarmouk University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -479,7 +479,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Jordan University of Science and Technology",
                       child: Column(
                         children: [
-                          Text("Jordan University of Science and Technology"),
+                          Text("Jordan University of Science and Technology").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -489,7 +489,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Al-Balqa' Applied University",
                       child: Column(
                         children: [
-                          Text("Al-Balqa' Applied University"),
+                          Text("Al-Balqa' Applied University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -499,7 +499,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Hashemite University",
                       child: Column(
                         children: [
-                          Text("Hashemite University"),
+                          Text("Hashemite University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -509,7 +509,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Mutah University",
                       child: Column(
                         children: [
-                          Text("Mutah University"),
+                          Text("Mutah University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -519,7 +519,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "German Jordanian University",
                       child: Column(
                         children: [
-                          Text("German Jordanian University"),
+                          Text("German Jordanian University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -529,7 +529,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Princess Sumaya University for Technology",
                       child: Column(
                         children: [
-                          Text("Princess Sumaya University for Technology"),
+                          Text("Princess Sumaya University for Technology").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -539,7 +539,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Al-Hussein Bin Talal University",
                       child: Column(
                         children: [
-                          Text("Al-Hussein Bin Talal University"),
+                          Text("Al-Hussein Bin Talal University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -549,7 +549,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Tafila Technical University",
                       child: Column(
                         children: [
-                          Text("Tafila Technical University"),
+                          Text("Tafila Technical University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -559,7 +559,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Al-Ahliyya Amman University",
                       child: Column(
                         children: [
-                          Text("Al-Ahliyya Amman University"),
+                          Text("Al-Ahliyya Amman University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -569,7 +569,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Applied Science Private University",
                       child: Column(
                         children: [
-                          Text("Applied Science Private University"),
+                          Text("Applied Science Private University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -579,7 +579,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Middle East University",
                       child: Column(
                         children: [
-                          Text("Middle East University"),
+                          Text("Middle East University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -589,7 +589,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Petra University",
                       child: Column(
                         children: [
-                          Text("Petra University"),
+                          Text("Petra University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -599,7 +599,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Philadelphia University",
                       child: Column(
                         children: [
-                          Text("Philadelphia University"),
+                          Text("Philadelphia University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -609,7 +609,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Zarqa University",
                       child: Column(
                         children: [
-                          Text("Zarqa University"),
+                          Text("Zarqa University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -619,7 +619,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Amman Arab University",
                       child: Column(
                         children: [
-                          Text("Amman Arab University"),
+                          Text("Amman Arab University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -629,7 +629,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Irbid National University",
                       child: Column(
                         children: [
-                          Text("Irbid National University"),
+                          Text("Irbid National University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -639,7 +639,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Jadara University",
                       child: Column(
                         children: [
-                          Text("Jadara University"),
+                          Text("Jadara University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -649,7 +649,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Ajloun National University",
                       child: Column(
                         children: [
-                          Text("Ajloun National University"),
+                          Text("Ajloun National University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -659,7 +659,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "American University of Madaba",
                       child: Column(
                         children: [
-                          Text("American University of Madaba"),
+                          Text("American University of Madaba").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -669,7 +669,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Al-Isra University",
                       child: Column(
                         children: [
-                          Text("Al-Isra University"),
+                          Text("Al-Isra University").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -679,7 +679,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Jordan Academy of Music",
                       child: Column(
                         children: [
-                          Text("Jordan Academy of Music"),
+                          Text("Jordan Academy of Music").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -698,7 +698,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          selectedUniversity ?? "Select University",
+                          selectedUniversity ?? "Select University".tr(),
                           style: GoogleFonts.roboto(
                             fontWeight: FontWeight.w300,
                             fontSize: 16,
@@ -728,7 +728,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Amman",
                       child: Column(
                         children: [
-                          Text("Amman"),
+                          Text("Amman").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -738,7 +738,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Irbid",
                       child: Column(
                         children: [
-                          Text("Irbid"),
+                          Text("Irbid").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -748,7 +748,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Zarqa",
                       child: Column(
                         children: [
-                          Text("Zarqa"),
+                          Text("Zarqa").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -758,7 +758,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Balqa",
                       child: Column(
                         children: [
-                          Text("Balqa"),
+                          Text("Balqa").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -768,7 +768,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Madaba",
                       child: Column(
                         children: [
-                          Text("Madaba"),
+                          Text("Madaba").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -778,7 +778,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Aqaba",
                       child: Column(
                         children: [
-                          Text("Aqaba"),
+                          Text("Aqaba").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -788,7 +788,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Mafraq",
                       child: Column(
                         children: [
-                          Text("Mafraq"),
+                          Text("Mafraq").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -798,7 +798,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Jerash",
                       child: Column(
                         children: [
-                          Text("Jerash"),
+                          Text("Jerash").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -808,7 +808,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Ajloun",
                       child: Column(
                         children: [
-                          Text("Ajloun"),
+                          Text("Ajloun").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -818,7 +818,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Karak",
                       child: Column(
                         children: [
-                          Text("Karak"),
+                          Text("Karak").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -828,7 +828,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Tafilah",
                       child: Column(
                         children: [
-                          Text("Tafilah"),
+                          Text("Tafilah").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -838,7 +838,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       value: "Ma'an",
                       child: Column(
                         children: [
-                          Text("Ma'an"),
+                          Text("Ma'an").tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -857,7 +857,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          selectedCity ?? "Select City",
+                          selectedCity ?? "Select City".tr(),
                           style: GoogleFonts.roboto(
                             fontWeight: FontWeight.w300,
                             fontSize: 16,
@@ -880,7 +880,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
 
                 MyButton(                  
-                  buttonText: "Register",
+                  buttonText: "Register".tr(),
                   onTap: registerUser,
                 ),
 
@@ -891,7 +891,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Already have an account?",
+                      "Already have an account?".tr(),
                       style: TextStyle(
                         fontSize: 14,
                         // fontWeight: FontWeight.w500,
@@ -901,7 +901,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     GestureDetector(
                       onTap: widget.registerPageTap,
                       child: Text(
-                        " Login Here",
+                        " Login Here".tr(),
                         style: GoogleFonts.roboto(
                             fontSize: 14, fontWeight: FontWeight.w600),
                       ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/pages/university_page.dart';
 import 'package:graduation_progect_v2/pages/profile_pages/profile_university.dart';
@@ -31,18 +32,18 @@ class _UniversityNavigationState extends State<UniversityNavigation> {
             _currentIndex = index; // Update the selected tab
           });
         },
-        items: const [
+        items:  [
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'Home',
+            label: 'Home'.tr(),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.event),
-            label: 'Events',
+            label: 'Events'.tr(),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile',
+            label: 'Profile'.tr(),
           ),
         ],
         selectedItemColor: Theme.of(context).colorScheme.inversePrimary,

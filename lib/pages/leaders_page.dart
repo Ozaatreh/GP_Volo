@@ -46,7 +46,7 @@ class _LeadersPageState extends State<LeadersPage> {
         isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load profile: $e')),
+        SnackBar(content: Text('${'Failed to load profile:'.tr()} $e')),
       );
     }
   }
@@ -57,7 +57,7 @@ class _LeadersPageState extends State<LeadersPage> {
     super.initState();
      // Update event statuses
     // getCurrentLocation();
-    database.updateEventStatus();
+    Future.microtask(() => database.updateEventStatus());
     fetchCurrentUserType();
     fetchAppliedPosts(); // Fetch applied event dates when the page loads
     getUserData();
@@ -190,7 +190,7 @@ class _LeadersPageState extends State<LeadersPage> {
                   latitude = double.tryParse(locationParts[0]) ?? 0.0;
                   longitude = double.tryParse(locationParts[1]) ?? 0.0;
                 } catch (e) {
-                  print('Error parsing location: $e');
+                  print('${'Error parsing location:'.tr()} $e');
                 }
               }
               return Padding(
@@ -283,7 +283,7 @@ class _LeadersPageState extends State<LeadersPage> {
                               },
                             ),
                             Text(
-                              "Event Date: $formattedEventDate",
+                              "${"Event Date:".tr()}$formattedEventDate" ,
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -335,14 +335,14 @@ class _LeadersPageState extends State<LeadersPage> {
                               },
                               child: Text(
                                 isLeader
-                                    ? "Cancel as Leader"
-                                    : "Apply as Leader",
+                                    ? "Cancel as Leader".tr()
+                                    : "Apply as Leader".tr(),
                                 style: TextStyle(
                                     color:
                                         const Color.fromARGB(255, 169, 101, 5)),
-                              ),
+                              ).tr(),
                             ),
-                            Text('$leaderCount / $maxLeaders (Leaders)').tr(),
+                            Text('$leaderCount / $maxLeaders (${"Leaders".tr()})'),
                           ],
                         ),
                         SizedBox(height: 20),
@@ -373,14 +373,14 @@ class _LeadersPageState extends State<LeadersPage> {
                                 fetchAppliedPosts();
                               },
                               child: Text(
-                                isVolunteer ? "Cancel" : "Apply",
+                                isVolunteer ? "Cancel".tr() : "Apply".tr(),
                                 style: TextStyle(
                                     color: Theme.of(context)
                                         .colorScheme
                                         .inversePrimary),
                               ).tr(),
                             ),
-                            Text('$currentCount / $targetCount (Volunteers)').tr(),
+                            Text('$currentCount / $targetCount (${"Volunteers" .tr()})').tr(),
                           ],
                         ),
                         if (isLeader) ...[

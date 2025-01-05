@@ -106,12 +106,12 @@ class MyDrawer extends StatelessWidget {
                       textStyle: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w300),
                     ),
-                  ).tr(),
+                  ),
                   onTap: () {
                     //pop out drawer
                      Navigator.pop(context);
                     // navigat ot user
-                    Navigator.pushNamed(context, 'User_page');
+                    Navigator.pushNamed(context, 'FAQ');
                   },
                 ),
               ),
@@ -220,7 +220,7 @@ class MyDrawer extends StatelessWidget {
                     color: Theme.of(context).colorScheme.inversePrimary,
                   ),
                   title: Text(
-                    "Logout",
+                    "Logout".tr(),
                     style: GoogleFonts.roboto(
                       color: Theme.of(context).colorScheme.inversePrimary,
                       textStyle: const TextStyle(

@@ -5,7 +5,7 @@ brightness: Brightness.dark,
 colorScheme: ColorScheme.dark(
   surface: Colors.grey.shade900,
   primary:  Colors.grey.shade800,
-  secondary:  Colors.grey.shade700,
+  secondary:  const Color.fromARGB(255, 203, 199, 199),
   inversePrimary: Colors.grey[200],
   inverseSurface:  const Color.fromARGB(255, 62, 58, 58),
   ),

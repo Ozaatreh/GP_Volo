@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 // import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -31,7 +32,7 @@ class _EventMapPageState extends State<EventMapPage> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enable location services')),
+        SnackBar(content: Text('Please enable location services'.tr())),
       );
       return;
     }
@@ -42,7 +43,7 @@ class _EventMapPageState extends State<EventMapPage> {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Location permissions are denied')),
+          SnackBar(content: Text('Location permissions are denied'.tr())),
         );
         return;
       }
@@ -50,7 +51,7 @@ class _EventMapPageState extends State<EventMapPage> {
 
     if (permission == LocationPermission.deniedForever) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Location permissions are permanently denied')),
+        SnackBar(content: Text('Location permissions are permanently denied'.tr())),
       );
       return;
     }
@@ -68,7 +69,7 @@ class _EventMapPageState extends State<EventMapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Event Location')),
+      appBar: AppBar(title: Text('Event Location'.tr())),
       body: FlutterMap(
         options: MapOptions(
           initialCenter: LatLng(widget.latitude, widget.longitude),

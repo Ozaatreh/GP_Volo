@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -46,43 +47,43 @@ class _RatingPageState extends State<RatingPage> {
         _leaderBadges = Map.fromIterable(
           snapshot.docs,
           key: (doc) => doc['name'],
-          value: (doc) => List<Map<String, dynamic>>.from(doc['badges']?.map((badge) {
+          value: (doc) => List<Map<String, dynamic>>.from(doc['badges'.tr()]?.map((badge) {
             return {
-              'badge': badge['name'] as String,
-              'points': badge['points'] as double,
+              'badge'.tr(): badge['name'] as String,
+              'points'.tr(): badge['points'] as double,
             };
           }) ?? []),
         );
       });
     } else {
       setState(() {
-        _leaders = ['No leaders available'];
+        _leaders = ['No leaders available'.tr()];
       });
     }
   }
 
   // Fetch NGOs from Firestore
   Future<void> fetchNgos() async {
-    final ngoCollection = FirebaseFirestore.instance.collection('ngos');
+    final ngoCollection = FirebaseFirestore.instance.collection('ngos'.tr());
     final snapshot = await ngoCollection.get();
 
     if (snapshot.docs.isNotEmpty) {
       setState(() {
-        _ngos = snapshot.docs.map((doc) => doc['name'] as String).toList();
+        _ngos = snapshot.docs.map((doc) => doc['name'.tr()] as String).toList();
         _ngoBadges = Map.fromIterable(
           snapshot.docs,
-          key: (doc) => doc['name'],
-          value: (doc) => List<Map<String, dynamic>>.from(doc['badges']?.map((badge) {
+          key: (doc) => doc['name'.tr()],
+          value: (doc) => List<Map<String, dynamic>>.from(doc['badges'.tr()]?.map((badge) {
             return {
-              'badge': badge['name'] as String,
-              'points': badge['points'] as double,
+              'badge'.tr(): badge['name'.tr()] as String,
+              'points'.tr(): badge['points'.tr()] as double,
             };
           }) ?? []),
         );
       });
     } else {
       setState(() {
-        _ngos = ['No NGOs available'];
+        _ngos = ['No NGOs available'.tr()];
       });
     }
   }
@@ -92,13 +93,13 @@ class _RatingPageState extends State<RatingPage> {
     // Ensure both leader and event ratings are provided before submission
     if (_leaderRating == 0 || _eventRating == 0 || _selectedLeader == null || _selectedNgo == null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please provide ratings for both Leader and Event, and select a Leader and NGO for the event'),
+        content: Text('Please provide ratings for both Leader and Event, and select a Leader and NGO for the event'.tr()),
       ));
       return;
     }
 
     // Save ratings to Firestore
-    FirebaseFirestore.instance.collection('ratings').add({
+    FirebaseFirestore.instance.collection('ratings'.tr()).add({
       'leader': _selectedLeader,
       'leaderRating': _leaderRating,
       'leaderComment': _leaderComment,
@@ -216,7 +217,7 @@ class _RatingPageState extends State<RatingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Rate Volunteer Leader and Event')),
+      appBar: AppBar(title: Text('Rate Volunteer Leader and Event'.tr())),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -224,14 +225,14 @@ class _RatingPageState extends State<RatingPage> {
           children: [
             // Select NGO
             Text(
-              'Select NGO for the Event:',
+              'Select NGO for the Event:'.tr(),
               style: TextStyle(fontSize: 18),
             ),
             _ngos.isEmpty
                 ? CircularProgressIndicator()
                 : DropdownButton<String>(
                     value: _selectedNgo,
-                    hint: Text('Choose an NGO'),
+                    hint: Text('Choose an NGO'.tr()),
                     onChanged: (String? newValue) {
                       setState(() {
                         _selectedNgo = newValue;
@@ -248,14 +249,14 @@ class _RatingPageState extends State<RatingPage> {
 
             // Select Leader
             Text(
-              'Select Leader for the Event:',
+              'Select Leader for the Event:'.tr(),
               style: TextStyle(fontSize: 18),
             ),
             _leaders.isEmpty
                 ? CircularProgressIndicator()
                 : DropdownButton<String>(
                     value: _selectedLeader,
-                    hint: Text('Choose a leader'),
+                    hint: Text('Choose a leader'.tr()),
                     onChanged: (String? newValue) {
                       setState(() {
                         _selectedLeader = newValue;
@@ -290,7 +291,7 @@ class _RatingPageState extends State<RatingPage> {
             _selectedNgo != null
                 ? TextField(
                     decoration: InputDecoration(
-                      labelText: 'Enter a comment for the NGO (optional)',
+                      labelText: 'Enter a comment for the NGO (optional)'.tr(),
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (text) {
@@ -302,8 +303,9 @@ class _RatingPageState extends State<RatingPage> {
                 : SizedBox(),
             SizedBox(height: 20),
             ElevatedButton(
+              
               onPressed: _saveRatings,
-              child: Text('Submit Ratings'),
+              child: Text('Submit Ratings'.tr() , style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),),
             ),
           ],
         ),

@@ -4,7 +4,7 @@ import 'package:graduation_progect_v2/pages/admin/admin_drawer.dart';
 import 'package:graduation_progect_v2/pages/admin/posts_details.dart';
 
 class ActiveEvents extends StatefulWidget {
-   ActiveEvents({super.key});
+   const ActiveEvents({super.key});
 
   @override
   State<ActiveEvents> createState() => _ActiveEventsState();

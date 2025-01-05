@@ -24,7 +24,7 @@ class LanguagePage extends StatelessWidget {
       body: ListView(
         padding: EdgeInsets.all(16.0),
         children: [
-          ListTile(
+          ListTile(splashColor: Colors.white,
             title: Text('English'),
             onTap: () {
               _changeLanguage(

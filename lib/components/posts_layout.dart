@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class PostCard extends StatelessWidget {
@@ -42,7 +43,7 @@ class PostCard extends StatelessWidget {
               icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.inversePrimary),
               onPressed: () {
                 // Report problem navigation logic
-                Navigator.pushNamed(context, 'Contact_us_page');
+                Navigator.pushNamed(context, 'Contact_us_page'.tr());
               },
             ),
           ],
@@ -64,12 +65,12 @@ class PostCard extends StatelessWidget {
               color: Colors.orange,
               backgroundColor: Theme.of(context).colorScheme.surface,
             ),
-            Text('$supervisorCount / $maxSupervisors (Supervisors)'),
+            Text('$supervisorCount / $maxSupervisors (Supervisors)'.tr()),
             if (onSupervisorTap != null)
               ElevatedButton(
                 onPressed: onSupervisorTap,
                 child: Text(
-                  isSupervisor ? "Cancel as Supervisor" : "Apply as Supervisor",
+                  isSupervisor ? "Cancel as Supervisor".tr() : "Apply as Supervisor".tr(),
                   style: TextStyle(color: Colors.orange),
                 ),
               ),
@@ -86,11 +87,11 @@ class PostCard extends StatelessWidget {
                 ElevatedButton(
                   onPressed: onVolunteerTap,
                   child: Text(
-                    isVolunteer ? "Cancel" : "Apply",
+                    isVolunteer ? "Cancel".tr() : "Apply".tr(),
                     style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                   ),
                 ),
-                Text('$currentCount / $targetCount (Volunteers)'),
+                Text('$currentCount / $targetCount (Volunteers)'.tr()),
               ],
             ),
           ],

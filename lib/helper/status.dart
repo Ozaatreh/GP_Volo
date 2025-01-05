@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class StatusUtils {
@@ -19,12 +20,12 @@ class StatusUtils {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Event Status"),
+          title: const Text("Event Status").tr(),
           content: Text("The current status of this event is: $status"),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text("OK"),
+              child: const Text("OK").tr(),
             ),
           ],
         );

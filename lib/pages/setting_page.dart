@@ -5,6 +5,7 @@ import 'package:graduation_progect_v2/helper/animation.dart';
 import 'dart:math';
 
 import 'package:graduation_progect_v2/helper/language_page.dart';
+import 'package:graduation_progect_v2/pages/legal_info.dart';
 
 
 class SettingsPage extends StatefulWidget {
@@ -85,20 +86,28 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
               //   title: Text('Profile Setting').tr(),
               //   onTap: () {},
               // ),
-              SizedBox(height: 16),
-              buildSettingsTile(
-                context,
-                icon: Icons.help,
-                title: Text('Support and Feedback').tr(),
-                onTap: () {},
-              ),
               // SizedBox(height: 16),
               // buildSettingsTile(
               //   context,
-              //   icon: Icons.info,
-              //   title: Text('Legal Information').tr(),
+              //   icon: Icons.help,
+              //   title: Text('Support and Feedback').tr(),
               //   onTap: () {},
               // ),
+              SizedBox(height: 16),
+              buildSettingsTile(
+                context,
+                icon: Icons.info,
+                title: Text('Legal Information').tr(),
+                onTap: () {
+                  Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LegalInfoPage(),
+                ),
+              );
+                  
+                },
+              ),
               SizedBox(height: 16),
 
                buildSettingsTile(
@@ -137,6 +146,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       child: Card(
+        color:Theme.of(context).colorScheme.primary ,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
