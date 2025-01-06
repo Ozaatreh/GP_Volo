@@ -456,6 +456,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     PopupMenuItem(
+                      value: "(Wise) The World Islamic Scie..",
+                      child: Column(
+                        children: [
+                          Text("(Wise) The World Islamic Scie.. ", ).tr(),
+                          SizedBox(height: 10),
+                          Divider(height: 5),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
                       value: "University of Jordan",
                       child: Column(
                         children: [
@@ -476,10 +486,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     PopupMenuItem(
-                      value: "Jordan University of Science and Technology",
+                      value: "Jordan University of Scie..",
                       child: Column(
                         children: [
-                          Text("Jordan University of Science and Technology").tr(),
+                          Text("Jordan University of Scie..", ).tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -526,10 +536,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     PopupMenuItem(
-                      value: "Princess Sumaya University for Technology",
+                      value: "Princess Sumaya University",
                       child: Column(
                         children: [
-                          Text("Princess Sumaya University for Technology").tr(),
+                          Text("Princess Sumaya University" , ).tr(),
                           SizedBox(height: 10),
                           Divider(height: 5),
                         ],
@@ -725,122 +735,122 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                   itemBuilder: (context) => [
                     PopupMenuItem(
-                      value: "Amman",
-                      child: Column(
-                        children: [
-                          Text("Amman").tr(),
-                          SizedBox(height: 10),
-                          Divider(height: 5),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Irbid",
-                      child: Column(
-                        children: [
-                          Text("Irbid").tr(),
-                          SizedBox(height: 10),
-                          Divider(height: 5),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Zarqa",
-                      child: Column(
-                        children: [
-                          Text("Zarqa").tr(),
-                          SizedBox(height: 10),
-                          Divider(height: 5),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Balqa",
-                      child: Column(
-                        children: [
-                          Text("Balqa").tr(),
-                          SizedBox(height: 10),
-                          Divider(height: 5),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Madaba",
-                      child: Column(
-                        children: [
-                          Text("Madaba").tr(),
-                          SizedBox(height: 10),
-                          Divider(height: 5),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Aqaba",
-                      child: Column(
-                        children: [
-                          Text("Aqaba").tr(),
-                          SizedBox(height: 10),
-                          Divider(height: 5),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Mafraq",
-                      child: Column(
-                        children: [
-                          Text("Mafraq").tr(),
-                          SizedBox(height: 10),
-                          Divider(height: 5),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Jerash",
-                      child: Column(
-                        children: [
-                          Text("Jerash").tr(),
-                          SizedBox(height: 10),
-                          Divider(height: 5),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Ajloun",
-                      child: Column(
-                        children: [
-                          Text("Ajloun").tr(),
-                          SizedBox(height: 10),
-                          Divider(height: 5),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Karak",
-                      child: Column(
-                        children: [
-                          Text("Karak").tr(),
-                          SizedBox(height: 10),
-                          Divider(height: 5),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Tafilah",
-                      child: Column(
-                        children: [
-                          Text("Tafilah").tr(),
-                          SizedBox(height: 10),
-                          Divider(height: 5),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: "Ma'an",
-                      child: Column(
-                        children: [
-                          Text("Ma'an").tr(),
-                          SizedBox(height: 10),
-                          Divider(height: 5),
+      value: "Ajloun",
+      child: Column(
+        children: [
+          Text("Ajloun").tr(),
+          SizedBox(height: 10),
+          Divider(height: 5),
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: "Amman",
+      child: Column(
+        children: [
+          Text("Amman").tr(),
+          SizedBox(height: 10),
+          Divider(height: 5),
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: "Aqaba",
+      child: Column(
+        children: [
+          Text("Aqaba").tr(),
+          SizedBox(height: 10),
+          Divider(height: 5),
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: "Balqa",
+      child: Column(
+        children: [
+          Text("Balqa").tr(),
+          SizedBox(height: 10),
+          Divider(height: 5),
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: "Irbid",
+      child: Column(
+        children: [
+          Text("Irbid").tr(),
+          SizedBox(height: 10),
+          Divider(height: 5),
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: "Jerash",
+      child: Column(
+        children: [
+          Text("Jerash").tr(),
+          SizedBox(height: 10),
+          Divider(height: 5),
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: "Karak",
+      child: Column(
+        children: [
+          Text("Karak").tr(),
+          SizedBox(height: 10),
+          Divider(height: 5),
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: "Ma'an",
+      child: Column(
+        children: [
+          Text("Ma'an").tr(),
+          SizedBox(height: 10),
+          Divider(height: 5),
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: "Madaba",
+      child: Column(
+        children: [
+          Text("Madaba").tr(),
+          SizedBox(height: 10),
+          Divider(height: 5),
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: "Mafraq",
+      child: Column(
+        children: [
+          Text("Mafraq").tr(),
+          SizedBox(height: 10),
+          Divider(height: 5),
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: "Tafilah",
+      child: Column(
+        children: [
+          Text("Tafilah").tr(),
+          SizedBox(height: 10),
+          Divider(height: 5),
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: "Zarqa",
+      child: Column(
+        children: [
+          Text("Zarqa").tr(),
+          SizedBox(height: 10),
+          Divider(height: 5),
                         ],
                       ),
                     ),

@@ -110,7 +110,7 @@ class _EditVolunteerProfilePageState extends State<EditVolunteerProfilePage> {
                   radius: 60,
                   backgroundImage: widget.userData['profilePicture'] != null
                       ? NetworkImage(widget.userData['profilePicture'])
-                      : const AssetImage('assets/default_profile_picture.jpg')
+                      : const AssetImage('assets/photo_2024-11-02_19-33-14.jpg')
                           as ImageProvider,
                   child: const Icon(Icons.camera_alt, size: 30),
                 ),
@@ -135,21 +135,21 @@ class _EditVolunteerProfilePageState extends State<EditVolunteerProfilePage> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            DropdownButton<String>(
-              isExpanded: true,
-              value: selectedUniversity,
-              items: universitiesInJordan.map((university) {
-                return DropdownMenuItem(
-                  value: university,
-                  child: Text(university),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedUniversity = value;
-                });
-              },
-            ),
+            // DropdownButton<String>(
+            //   isExpanded: true,
+            //   value: selectedUniversity,
+            //   items: universitiesInJordan.map((university) {
+                // return DropdownMenuItem(
+                  // value: university,
+                  // child: Text(university),
+                // );
+              // }).toList(),
+              // onChanged: (value) {
+                // setState(() {
+                  // selectedUniversity = value;
+                // });
+              // },
+            // ),
             const Divider(),
 
             // Social Media Links

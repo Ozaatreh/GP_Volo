@@ -1,25 +1,27 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_progect_v2/pages/ngo_page.dart';
-import 'package:graduation_progect_v2/pages/profile_pages/profile_ngo.dart';
-import 'package:graduation_progect_v2/pages/wall_page.dart';
+import 'package:graduation_progect_v2/pages/achievement_page.dart';
+import 'package:graduation_progect_v2/pages/profile_pages/profile_volunteer.dart';
+import 'package:graduation_progect_v2/pages/volunteer_page.dart';
 
-class NGONavigation extends StatefulWidget {
-   const NGONavigation({super.key});
+
+class VolunteerNavigation extends StatefulWidget {
+  const VolunteerNavigation({super.key});
 
   @override
-  State<NGONavigation> createState() => _NGONavigationState();
+  State<VolunteerNavigation> createState() => _VolunteerNavigationState();
 }
 
-class _NGONavigationState extends State<NGONavigation> {
+class _VolunteerNavigationState extends State<VolunteerNavigation> {
+ 
   int selectedIndex = 1;
   
 
-    // List of pages to display based on selected index
+  // List of pages to display based on selected index
   final List<Widget> pages = [
-    WallPage(),
-    NgoPage(),
-    NGOProfile(),
+    AchievementPage(),
+    UserPage(),
+    VolunteerProfile(),
   ];
 
   // pages changer
@@ -28,8 +30,7 @@ class _NGONavigationState extends State<NGONavigation> {
       selectedIndex = index;
     });
   }
-
-
+ 
   @override
   Widget build(BuildContext context) {
     return  WillPopScope(
@@ -39,36 +40,35 @@ class _NGONavigationState extends State<NGONavigation> {
       return false;
     },
       child: Scaffold(
+          
+          body: pages[selectedIndex],
       
-      
-        
-        body: pages[selectedIndex],
-      
-        bottomNavigationBar: BottomNavigationBar(
+          bottomNavigationBar: BottomNavigationBar(
           currentIndex: selectedIndex,
           onTap: onItemTapped,
           backgroundColor: Theme.of(context).colorScheme.onPrimary,
           selectedItemColor:Theme.of(context).colorScheme.inversePrimary ,
-          unselectedItemColor: Theme.of(context).colorScheme.surface,
+          unselectedItemColor:Theme.of(context).colorScheme.surface,
           showSelectedLabels: true,
           showUnselectedLabels: true,
           type: BottomNavigationBarType.fixed,
-          items: [
+          items:  [
             BottomNavigationBarItem(
-              icon: Icon(Icons.panorama_wide_angle_outlined),
-              label: 'App Wall'.tr(),
+              icon: Icon(Icons.card_giftcard_outlined),
+              label: 'Achievement'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home'.tr(),
             ),
             BottomNavigationBarItem(
-              // activeIcon: Text('data'),
-              icon: Icon(Icons.account_box_outlined),
+              icon: Icon(Icons.person),
               label: 'Account'.tr(),
             ),
           ],
         ),
+      
+      
       ),
     );
   }

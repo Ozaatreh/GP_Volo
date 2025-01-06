@@ -15,15 +15,13 @@ class AdminDrawer extends StatelessWidget {
           Column(
             children: [
               // Drawer header
-              DrawerHeader(
-                child: Icon(
-                  Icons.favorite,
-                  color: Theme.of(context).colorScheme.inversePrimary,
+              // Drawer header
+                DrawerHeader(
+                  child: Image.asset('assets/volunteers_icon.png')
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+                const SizedBox(
+                  height: 20,
+                ),
               Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(

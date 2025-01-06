@@ -136,8 +136,9 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
                     bottom: 20,
                     right: 20,
                     child: FloatingActionButton(
+                      backgroundColor: Theme.of(context).colorScheme.surface,
                       onPressed: _assignLocation,
-                      child: Icon(Icons.check),
+                      child: Icon(Icons.check , color: Theme.of(context).colorScheme.inversePrimary,),
                     ),
                   ),
               ],

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/components/nav_bar_leader.dart';
 import 'package:graduation_progect_v2/components/nav_bar_ngo.dart';
 import 'package:graduation_progect_v2/components/nav_bar_university.dart';
-import 'package:graduation_progect_v2/components/nav_bar_users.dart';
+import 'package:graduation_progect_v2/components/nav_bar_volunteers.dart';
 import 'package:graduation_progect_v2/pages/admin/nav_bar_admin.dart';
 import 'package:graduation_progect_v2/pages/admin/posts_active.dart';
 import 'package:graduation_progect_v2/pages/auth_pages/login_page.dart';

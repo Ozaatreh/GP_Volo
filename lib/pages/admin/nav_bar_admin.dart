@@ -29,35 +29,42 @@ class AdminNavigationState extends State<AdminNavigation> {
  
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-        
-        body: pages[selectedIndex],
-
-        bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        onTap: onItemTapped,
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        selectedItemColor:const Color.fromARGB(255, 228, 187, 6) ,
-        unselectedItemColor: Theme.of(context).colorScheme.inversePrimary,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        type: BottomNavigationBarType.fixed,
-        items:  [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.panorama_wide_angle_outlined),
-            label: 'Admin Wall',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.blur_on_outlined),
-            label: 'Active Events',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.archive_outlined),
-            label: 'Events Archive',
-          ),
-        ],
+    return  WillPopScope(
+    onWillPop: () async {
+      // Handle custom back navigation logic here if needed
+      // Returning `true` will allow the back action
+      return false;
+    },
+      child: Scaffold(
+          
+          body: pages[selectedIndex],
+      
+          bottomNavigationBar: BottomNavigationBar(
+          currentIndex: selectedIndex,
+          onTap: onItemTapped,
+          backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          selectedItemColor:const Color.fromARGB(255, 228, 187, 6) ,
+          unselectedItemColor: Theme.of(context).colorScheme.inversePrimary,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          type: BottomNavigationBarType.fixed,
+          items:  [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.panorama_wide_angle_outlined),
+              label: 'Admin Wall',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.blur_on_outlined),
+              label: 'Active Events',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.archive_outlined),
+              label: 'Events Archive',
+            ),
+          ],
+        ),
+      
       ),
-
     );
     }
 }

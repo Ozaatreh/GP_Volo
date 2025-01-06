@@ -61,7 +61,7 @@ class _ActiveEventsState extends State<ActiveEvents> {
                   borderRadius: BorderRadius.circular(10),
                   
                 ),
-                color: Theme.of(context).colorScheme.onPrimary,
+                color: Theme.of(context).colorScheme.primary,
                 elevation: 4,
                 child: Column(
                   children: [

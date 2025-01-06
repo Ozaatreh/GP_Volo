@@ -48,7 +48,7 @@ class PostArchive extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Card(
-                   color: Theme.of(context).colorScheme.onPrimary,
+                   color: Theme.of(context).colorScheme.primary,
                     elevation: 4,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

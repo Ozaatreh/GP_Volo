@@ -441,7 +441,7 @@ class _NgoPageState extends State<NgoPage> {
                                     
                                 ],
                               ),
-                            // SizedBox(height: 100,),
+                            SizedBox(height: 10,),
                             if (eventDate != null) ...[
                                         const SizedBox(height: 8),
                                         Text(

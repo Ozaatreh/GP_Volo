@@ -40,69 +40,71 @@ class EventDetailsPage extends StatelessWidget {
           int targetCount = post['TargetCount'] ?? 10;
           List<dynamic> appliedUsers = post['AppliedUsers'] ?? [];
           List<dynamic> leaders = post['Leaders'] ?? [];
-
+// Theme.of(context).colorScheme.primary,
           return Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Posted by: $username",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold ,color: Theme.of(context).colorScheme.onSecondary,),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Event Date: $formattedEventDate",
-                  style: TextStyle(fontSize: 16 , color: Theme.of(context).colorScheme.onSecondary),
-                ),
-                SizedBox(height: 10),
-                if (imageUrl != null)
-                  Center(
-                    child: Image.network(imageUrl, height: 200, fit: BoxFit.cover),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Posted by: $username",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold ,color: Theme.of(context).colorScheme.inversePrimary,),
                   ),
-                SizedBox(height: 10),
-                Text(
-                  "Message:",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold ,color: Theme.of(context).colorScheme.onSecondary),
-                ),
-                Text(message),
-                SizedBox(height: 20),
-                Text(
-                  "Leaders: $leaderCount / $maxLeaders",
-                  style: TextStyle(fontSize: 16 , color: Theme.of(context).colorScheme.onSecondary),
-                ),
-                LinearProgressIndicator(
-                  value: leaderCount / maxLeaders,
-                  minHeight: 6,
-                  backgroundColor: Colors.grey[300],
-                  color: Colors.orange,
-                ),
-                SizedBox(height: 20),
-                Text(
-                  "Volunteers: $currentCount / $targetCount",
-                  style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.onSecondary),
-                ),
-                LinearProgressIndicator(
-                  value: currentCount / targetCount,
-                  minHeight: 6,
-                  backgroundColor: Colors.grey[300],
-                  color: Colors.blue,
-                ),
-                SizedBox(height: 20),
-                Text(
-                  "Applied Users:",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onSecondary),
-                ),
-                ...appliedUsers.map((user) => Text("- $user")).toList(),
-                SizedBox(height: 10),
-                Text(
-                  "Leaders:",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onSecondary),
-                ),
-                ...leaders.map((leader) => Text("- $leader")).toList(),
-              ],
+                  SizedBox(height: 10),
+                  Text(
+                    "Event Date: $formattedEventDate",
+                    style: TextStyle(fontSize: 16 , color: Theme.of(context).colorScheme.inversePrimary),
+                  ),
+                  SizedBox(height: 10),
+                  if (imageUrl != null)
+                    Center(
+                      child: Image.network(imageUrl, height: 200, fit: BoxFit.cover),
+                    ),
+                  SizedBox(height: 10),
+                  Text(
+                    "Message:",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold ,color: Theme.of(context).colorScheme.inversePrimary),
+                  ),
+                  Text(message),
+                  SizedBox(height: 20),
+                  Text(
+                    "Leaders: $leaderCount / $maxLeaders",
+                    style: TextStyle(fontSize: 16 , color: Theme.of(context).colorScheme.inversePrimary),
+                  ),
+                  LinearProgressIndicator(
+                    value: leaderCount / maxLeaders,
+                    minHeight: 6,
+                    backgroundColor: Colors.grey[300],
+                    color: Colors.orange,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Volunteers: $currentCount / $targetCount",
+                    style: TextStyle(fontSize: 16,color: Theme.of(context).colorScheme.inversePrimary),
+                  ),
+                  LinearProgressIndicator(
+                    value: currentCount / targetCount,
+                    minHeight: 6,
+                    backgroundColor: Colors.grey[300],
+                    color: Colors.blue,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Applied Users:",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.inversePrimary),
+                  ),
+                  ...appliedUsers.map((user) => Text("- $user")).toList(),
+                  SizedBox(height: 10),
+                  Text(
+                    "Leaders:",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.inversePrimary),
+                  ),
+                  ...leaders.map((leader) => Text("- $leader")).toList(),
+                ],
+              ),
             ),
           );
         },

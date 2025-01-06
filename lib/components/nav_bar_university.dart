@@ -23,33 +23,40 @@ class _UniversityNavigationState extends State<UniversityNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_currentIndex], // Display the current page
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex, // Highlight the selected tab
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index; // Update the selected tab
-          });
-        },
-        items:  [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'Home'.tr(),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.event),
-            label: 'Events'.tr(),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile'.tr(),
-          ),
-        ],
-        selectedItemColor: Theme.of(context).colorScheme.inversePrimary,
-        unselectedItemColor:Theme.of(context).colorScheme.surface,
-        showSelectedLabels: true,
-        showUnselectedLabels: false,
+    return WillPopScope(
+    onWillPop: () async {
+      // Handle custom back navigation logic here if needed
+      // Returning `true` will allow the back action
+      return false;
+    },
+      child: Scaffold(
+        body: _pages[_currentIndex], // Display the current page
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex, // Highlight the selected tab
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index; // Update the selected tab
+            });
+          },
+          items:  [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              label: 'Home'.tr(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.event),
+              label: 'Events'.tr(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile'.tr(),
+            ),
+          ],
+          selectedItemColor: Theme.of(context).colorScheme.inversePrimary,
+          unselectedItemColor:Theme.of(context).colorScheme.surface,
+          showSelectedLabels: true,
+          showUnselectedLabels: false,
+        ),
       ),
     );
   }

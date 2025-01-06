@@ -104,7 +104,7 @@ class _RewardCreationPageState extends State<RewardCreationPage> {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor:Theme.of(context).colorScheme.surface,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -184,70 +184,70 @@ class _RewardCreationPageState extends State<RewardCreationPage> {
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _addAchievement,
-                    child: Text('Add Reward'.tr()),
+                    child: Text('Add Reward'.tr() , style: TextStyle(color:Theme.of(context).colorScheme.inversePrimary),),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ],
               ),
             ),
             SizedBox(height: 20),
-            Expanded(
-              child: achievements.isEmpty
-                  ? Center(child: CircularProgressIndicator())
-                  : ListView.builder(
-                      itemCount: achievements.length,
-                      itemBuilder: (context, index) {
-                        final achievement = achievements[index];
-                        return Card(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          child: Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Row(
-                              children: [
-                                Image.network(
-                                  achievement['imageUrl'],
-                                  width: 100,
-                                  height: 60,
-                                  fit: BoxFit.cover,
-                                ),
-                                SizedBox(width: 16),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        achievement['name'.tr()],
-                                        style: GoogleFonts.roboto(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: 8),
-                                      Text(achievement['description'.tr()]),
-                                      SizedBox(height: 8),
-                                      Text('${'Cost:'.tr()} ${achievement['cost']} ${'points'.tr()}'),
-                                      SizedBox(height: 8),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          _deleteAchievement(achievement['id']);
-                                        },
-                                        child: Text('Delete Reward'.tr()),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.red,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-            ),
+            // Expanded(
+            //   child: achievements.isEmpty
+            //       ? Center(child: CircularProgressIndicator())
+            //       : ListView.builder(
+            //           itemCount: achievements.length,
+            //           itemBuilder: (context, index) {
+            //             final achievement = achievements[index];
+            //             return Card(
+            //               margin: EdgeInsets.symmetric(vertical: 10),
+            //               child: Padding(
+            //                 padding: EdgeInsets.all(16.0),
+            //                 child: Row(
+            //                   children: [
+            //                     Image.network(
+            //                       achievement['imageUrl'],
+            //                       width: 100,
+            //                       height: 60,
+            //                       fit: BoxFit.cover,
+            //                     ),
+            //                     SizedBox(width: 16),
+            //                     Expanded(
+            //                       child: Column(
+            //                         crossAxisAlignment: CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             achievement['name'.tr()],
+            //                             style: GoogleFonts.roboto(
+            //                               fontSize: 18,
+            //                               fontWeight: FontWeight.bold,
+            //                             ),
+            //                           ),
+            //                           SizedBox(height: 8),
+            //                           Text(achievement['description'.tr()]),
+            //                           SizedBox(height: 8),
+            //                           Text('${'Cost:'.tr()} ${achievement['cost']} ${'points'.tr()}'),
+            //                           SizedBox(height: 8),
+            //                           ElevatedButton(
+            //                             onPressed: () {
+            //                               _deleteAchievement(achievement['id']);
+            //                             },
+            //                             child: Text('Delete Reward'.tr()),
+            //                             style: ElevatedButton.styleFrom(
+            //                               backgroundColor: Colors.red,
+            //                             ),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //               ),
+            //             );
+            //           },
+            //         ),
+            // ),
           ],
         ),
       ),

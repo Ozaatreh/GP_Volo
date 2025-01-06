@@ -33,7 +33,13 @@ class _LeaderNavigationState extends State<LeaderNavigation> {
  
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return  WillPopScope(
+    onWillPop: () async {
+      // Handle custom back navigation logic here if needed
+      // Returning `true` will allow the back action
+      return false;
+    },
+    child:  Scaffold(
         
         body: pages[selectedIndex],
 
@@ -63,6 +69,6 @@ class _LeaderNavigationState extends State<LeaderNavigation> {
       ),
 
 
-    );
+    ));
   }
 }
