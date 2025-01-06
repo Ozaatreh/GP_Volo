@@ -17,7 +17,7 @@ class AdminDrawer extends StatelessWidget {
               // Drawer header
               // Drawer header
                 DrawerHeader(
-                  child: Image.asset('assets/volunteers_icon.png')
+                  child: Image.asset('assets/volo_icon1.png')
                 ),
                 const SizedBox(
                   height: 20,
@@ -67,11 +67,11 @@ class AdminDrawer extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(
                   leading: Icon(
-                    Icons.contact_support_rounded,
+                    Icons.star_rate_sharp,
                     color: Theme.of(context).colorScheme.inversePrimary,
                   ),
                   title: Text(
-                    "FAQ",
+                    "Rating",
                     style: GoogleFonts.roboto(
                       color: Theme.of(context).colorScheme.inversePrimary,
                       textStyle: const TextStyle(
@@ -80,7 +80,7 @@ class AdminDrawer extends StatelessWidget {
                   ),
                   onTap: () {
                     Navigator.pop(context); // Close the drawer
-                    Navigator.pushNamed(context, 'User_page');
+                    Navigator.pushNamed(context, 'rating');
                   },
                 ),
               ),
@@ -105,27 +105,27 @@ class AdminDrawer extends StatelessWidget {
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 25.0),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.group,
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                  ),
-                  title: Text(
-                    "About us",
-                    style: GoogleFonts.roboto(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                      textStyle: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w300),
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context); // Close the drawer
-                    Navigator.pushNamed(context, 'about_us_page');
-                  },
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 25.0),
+              //   child: ListTile(
+              //     leading: Icon(
+              //       Icons.group,
+              //       color: Theme.of(context).colorScheme.inversePrimary,
+              //     ),
+              //     title: Text(
+              //       "About us",
+              //       style: GoogleFonts.roboto(
+              //         color: Theme.of(context).colorScheme.inversePrimary,
+              //         textStyle: const TextStyle(
+              //             fontSize: 18, fontWeight: FontWeight.w300),
+              //       ),
+              //     ),
+              //     onTap: () {
+              //       Navigator.pop(context); // Close the drawer
+              //       Navigator.pushNamed(context, 'about_us_page');
+              //     },
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(

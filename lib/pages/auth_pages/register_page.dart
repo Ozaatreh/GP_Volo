@@ -169,7 +169,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
       try {
         await FirebaseFirestore.instance
-            .collection("Users".tr())
+            .collection("Users")
             .doc(userCredential.user!.email)
             .set({
           'email': userCredential.user!.email,
@@ -181,8 +181,8 @@ class _RegisterPageState extends State<RegisterPage> {
           'university': university,
         });
       } catch (e) {
-        print("Error creating user document: $e".tr());
-        displayMessageToUser("Error creating user document".tr(), context);
+        print("Error creating user document: $e");
+        displayMessageToUser("Error creating user document", context);
       }
     }
   }
@@ -202,7 +202,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 90,
                 ),
 
-                Image(image: AssetImage("assets/volunteers_icon.png") , height: 150, width:150 ),
+                Image(image: AssetImage("assets/volo_icon1.png") , height: 150, width:150 ),
 
                 const SizedBox(
                   height: 17,

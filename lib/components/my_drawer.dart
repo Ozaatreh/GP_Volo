@@ -17,7 +17,7 @@ class MyDrawer extends StatelessWidget {
               children: [
                 // Drawer header
                 DrawerHeader(
-                  child: Image.asset('assets/volunteers_icon.png')
+                  child: Image.asset('assets/volo_icon1.png')
                 ),
                 const SizedBox(
                   height: 20,
@@ -232,12 +232,12 @@ class MyDrawer extends StatelessWidget {
                         //pop out drawer
                        Navigator.pop(context);
                       // navigat ot loginreg
-                       Navigator.pushNamed(context, 'login_register_page');
-                      //  Navigator.pushNamedAndRemoveUntil(
-                      //    context,
-                      //    'login_register_page',
-                      //    (route) => false, // Remove all previous routes
-                      //  );
+                      //  Navigator.pushNamed(context, 'login_register_page');
+                       Navigator.pushNamedAndRemoveUntil(
+                         context,
+                         'login_register_page',
+                         (route) => false, // Remove all previous routes
+                       );
                     },
                   ),
                 ),             

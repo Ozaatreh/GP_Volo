@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                 //   size: 90,
                 //   color: Theme.of(context).colorScheme.inversePrimary,
                 // ),
-                Image(image: AssetImage("assets/volunteers_icon.png"),colorBlendMode:BlendMode.darken, height: 150, width:150),
+                Image(image: AssetImage("assets/volo_icon1.png"),colorBlendMode:BlendMode.darken, height: 150, width:150),
 
                 const SizedBox(
                   height: 17,

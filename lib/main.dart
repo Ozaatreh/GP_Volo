@@ -105,6 +105,7 @@ class MainPage extends StatelessWidget {
         'forgot_password' :(context) =>  ForgotPasswordPage(),
         'AchievementPage' :(context) =>  AchievementPage(),
         'reward_creation': (context) => const RewardCreationPage(),
+        'rating' : (context) =>  RatingPage(),
       },
      
     );

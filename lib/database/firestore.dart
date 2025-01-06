@@ -28,7 +28,153 @@ final CollectionReference userinfo = FirebaseFirestore.instance.collection('User
 
 final CollectionReference notifications = FirebaseFirestore.instance.collection('Notifications');
 // image
-final FirebaseStorage storage = FirebaseStorage.instance;
+  final CollectionReference rating = FirebaseFirestore.instance.collection('Rating');
+
+  // Firebase Storage instance
+  final FirebaseStorage storage = FirebaseStorage.instance;
+
+  // Method to add a rating
+  Future<void> addRating({
+    required raterEmail,
+    required ratedUserEmail,
+    required eventId,
+    required ratingValue,
+    String? comment,
+  }) async {
+    try {
+      await rating.add({
+        'RaterEmail': raterEmail,
+        'RatedUserEmail': ratedUserEmail,
+        'EventId': eventId,
+        'RatingValue': ratingValue,
+        'Comment': comment,
+        'Timestamp': Timestamp.now(),
+      });
+    } catch (e) {
+      print("Error adding rating: $e");
+    }
+  }
+
+  // Fetch ratings for a specific event
+  Stream<QuerySnapshot> getRatingsForEvent(String eventId) {
+    return rating.where('EventId', isEqualTo: eventId).snapshots();
+  }
+
+  // Fetch average rating for a user
+  Future<double> getAverageRating(String userEmail) async {
+    try {
+      final ratingsSnapshot = await rating
+          .where('RatedUserEmail', isEqualTo: userEmail)
+          .get();
+
+      if (ratingsSnapshot.docs.isEmpty) return 0.0;
+
+      double total = 0;
+      ratingsSnapshot.docs.forEach((doc) {
+        total += doc['RatingValue'];
+      });
+
+      return total / ratingsSnapshot.docs.length;
+    } catch (e) {
+      print("Error fetching average rating: $e");
+      return 0.0;
+    }
+  }
+
+  // UI Component: Show Rating Dialog
+  Future<void> showRatingDialog({
+    required BuildContext context,
+    required String eventId,
+    required String ratedUserEmail,
+  }) async {
+    double ratingValue = 3.0;
+    String? comment;
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Rate the Event/User'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Select a rating:'),
+              Slider(
+                value: ratingValue,
+                min: 1,
+                max: 5,
+                divisions: 4,
+                label: ratingValue.toString(),
+                onChanged: (value) {
+                  ratingValue = value;
+                },
+              ),
+              TextField(
+                decoration: InputDecoration(hintText: 'Add a comment (optional)'),
+                onChanged: (value) {
+                  comment = value;
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await addRating(
+                  raterEmail: user!.email!,
+                  ratedUserEmail: ratedUserEmail,
+                  eventId: eventId,
+                  ratingValue: ratingValue,
+                  comment: comment,
+                );
+                Navigator.pop(context);
+              },
+              child: Text('Submit'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> handleEventCompletion(String postId, BuildContext context) async {
+  try {
+    final postRef = post.doc(postId);
+    final postSnapshot = await postRef.get();
+
+    if (postSnapshot.exists) {
+      final data = postSnapshot.data() as Map<String, dynamic>;
+      String eventStatus = data['status'] ?? 'upcoming';
+
+      if (eventStatus == 'completed') {
+        // Retrieve users and leaders from the event to prompt rating
+        List<dynamic> appliedUsers = data['AppliedUsers'] ?? [];
+        List<dynamic> leaders = data['Leaders'] ?? [];
+
+        for (var userEmail in appliedUsers + leaders) {
+          // Trigger rating dialog for each participant
+          await showRatingDialog(
+            context: context,
+            eventId: postId,
+            ratedUserEmail: userEmail,
+          );
+        }
+      }
+    }
+  } catch (e) {
+    print("Error handling event completion: $e");
+  }
+}
+
+
+
+
 
 
 // add post method
