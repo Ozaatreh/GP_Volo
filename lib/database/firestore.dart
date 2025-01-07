@@ -351,7 +351,8 @@ Future<void> applyToEvent(String postId ,DateTime eventDate) async {
           userEmail: data['UserEmail'],
           notificationType: 'apply',
         );
-       CustomNotificationState().scheduleEventNotificationsForTesting();
+        CustomNotificationState().scheduleEventNotifications(eventDate);
+      //  CustomNotificationState().scheduleEventNotificationsForTesting();
 
       print("Volunteer successfully applied and notifications scheduled.");
     }
@@ -429,7 +430,8 @@ Future<void> applyAsLeader(String postId, DateTime eventDate) async {
           notificationType: 'apply_leader',
         );
         // Schedule notifications for the leader
-      CustomNotificationState().scheduleEventNotificationsForTesting();
+        CustomNotificationState().scheduleEventNotifications(eventDate);
+      // CustomNotificationState().scheduleEventNotificationsForTesting();
 
       print("Leader successfully applied and notifications scheduled.");
     }

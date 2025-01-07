@@ -191,7 +191,11 @@ class AdminDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
-                Navigator.pushNamed(context, 'login_register_page');
+                Navigator.pushNamedAndRemoveUntil(
+                         context,
+                         'login_register_page',
+                         (route) => false, // Remove all previous routes
+                       );
               },
             ),
           ),
