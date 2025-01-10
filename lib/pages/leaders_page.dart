@@ -126,7 +126,7 @@ class _LeadersPageState extends State<LeadersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Leaders Page").tr()),
+      appBar: AppBar(title: Center(child: Text("Leaders Page").tr())),
       drawer: MyDrawer(),
       body: StreamBuilder(
         // Filter events with "Upcoming" status

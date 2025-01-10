@@ -101,7 +101,7 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Volunteers Page".tr())),
+      appBar: AppBar(title: Center(child: Text("Volunteers Page".tr()))),
       drawer:  MyDrawer(),
       body: StreamBuilder(
         // Filter events with "Upcoming" status

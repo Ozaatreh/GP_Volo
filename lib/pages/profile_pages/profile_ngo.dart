@@ -81,7 +81,8 @@ class _NGOProfileState extends State<NGOProfile> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('NGO Profile'),
+        leading: SizedBox(width: 1,),
+        title:  Center(child: Text('NPO Profile' )),
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
@@ -89,6 +90,7 @@ class _NGOProfileState extends State<NGOProfile> {
           ),
         ],
       ),
+      
       body: SingleChildScrollView(
         // padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -140,11 +142,12 @@ class _NGOProfileState extends State<NGOProfile> {
               'About Us',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             Text(
               userData?['bio'] ?? 'No Description Available',
               style: const TextStyle(fontSize: 16),
             ),
+            const SizedBox(height: 16),
             const Divider(),
 
             // Services Offered
@@ -163,7 +166,7 @@ class _NGOProfileState extends State<NGOProfile> {
                     .toList()
                 : []),
             const Divider(),
-
+             const SizedBox(height: 16),
             // Projects
             const Text(
               'Current Projects',
@@ -179,14 +182,15 @@ class _NGOProfileState extends State<NGOProfile> {
                         ))
                     .toList()
                 : []),
+                const SizedBox(height: 16),
             const Divider(),
-
+            const SizedBox(height: 16),
             // Testimonials
             const Text(
               'Testimonials',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             ...(userData?['testimonials'] is List
                 ? (userData!['testimonials'] as List<dynamic>)
                     .map<Widget>((testimonial) => ListTile(
@@ -197,7 +201,7 @@ class _NGOProfileState extends State<NGOProfile> {
                     .toList()
                 : []),
             const Divider(),
-
+            const SizedBox(height: 16),
             // Contact / Social Media
             const Text(
               'Contact Us',

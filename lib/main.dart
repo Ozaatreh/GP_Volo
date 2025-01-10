@@ -49,7 +49,6 @@ void main() async{
     // androidProvider: AndroidProvider.
   //   webRecaptchaSiteKey: 'your-site-key', //// For web, use your reCAPTCHA site key
   );
- WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization
       .ensureInitialized(); // Ensure translations are initialized
 

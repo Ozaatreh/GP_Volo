@@ -138,22 +138,23 @@ class _VolunteerProfileState extends State<VolunteerProfile> {
             const Divider(),
 
             // Achievements Section
-            const Text(
-              'Achievements',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            ...(userData?['achievements'] is List
-                ? (userData!['achievements'] as List<dynamic>)
-                    .map<Widget>((achievement) => ListTile(
-                          leading: const Icon(Icons.star, color: Colors.amber),
-                          title: Text(achievement.toString()),
-                        ))
-                    .toList()
-                : []),
+            // const Text(
+            //   'Achievements',
+            //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            // ),
+            // const SizedBox(height: 8),
+            // ...(userData?['achievements'] is List
+            //     ? (userData!['achievements'] as List<dynamic>)
+            //         .map<Widget>((achievement) => ListTile(
+            //               leading: const Icon(Icons.star, color: Colors.amber),
+            //               title: Text(achievement.toString()),
+            //             ))
+            //         .toList()
+            //     : []),
 
             // Social Media Links
-            const Divider(),
+            // const Divider(),
+            SizedBox(height: 15,),
             const Text(
               'Social Media Links',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

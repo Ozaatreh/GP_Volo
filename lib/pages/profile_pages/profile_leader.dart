@@ -165,76 +165,53 @@ class LeaderProfileState extends State<LeaderProfile> {
             ),
             const Divider(),
 
-            // Achievements / Certifications Section
-            const Text(
-              'Achievements & Certifications',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            ...(userData?['achievements'] is List
-                ? (userData!['achievements'] as List<dynamic>)
-                    .map<Widget>((achievement) => ListTile(
-                          leading: const Icon(Icons.emoji_events, color: Colors.amber),
-                          title: Text(achievement.toString()),
-                        ))
-                    .toList()
-                : []), // Safe fallback for non-list values
+            // // Achievements / Certifications Section
+            // const Text(
+            //   'Achievements & Certifications',
+            //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            // ),
+            // const SizedBox(height: 8),
+            // ...(userData?['achievements'] is List
+            //     ? (userData!['achievements'] as List<dynamic>)
+            //         .map<Widget>((achievement) => ListTile(
+            //               leading: const Icon(Icons.emoji_events, color: Colors.amber),
+            //               title: Text(achievement.toString()),
+            //             ))
+            //         .toList()
+            //     : []), // Safe fallback for non-list values
 
             // Contact / Social Media Links Section
 const Text(
-  'Contact / Social Media Links',
+  'Social Media Links',
   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
 ),
 const SizedBox(height: 8),
-Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-    // LinkedIn Icon and action
-    if (userData?['linkedin'] != null)
-      IconButton(
-        icon: const Icon(Icons.link),
-        onPressed: () async {
-          final url = userData!['linkedin'];
-          if (await canLaunchUrl(url)) {
-            await launchUrl(url); // Open the LinkedIn URL
-          } else {
-            throw 'Could not launch $url'; // Error if the URL cannot be opened
-          }
-        },
-      ),
-
-    // Instagram Icon and action
-    if (userData?['instagram'] != null)
-      IconButton(
-        icon: const Icon(Icons.camera_alt),
-        onPressed: () async {
-          final url = userData!['instagram'];
-          if (await canLaunchUrl(url)) {
-            await launchUrl(url); // Open the Instagram URL
-          } else {
-            throw 'Could not launch $url'; // Error if the URL cannot be opened
-          }
-        },
-      ),
-
-    // Facebook Icon and action
-    if (userData?['facebook'] != null)
-      IconButton(
-        icon: const Icon(Icons.facebook),
-        onPressed: () async {
-          final url = userData!['facebook'];
-          if (await canLaunchUrl(url)) {
-            await launchUrl(url); // Open the Facebook URL
-          } else {
-            throw 'Could not launch $url'; // Error if the URL cannot be opened
-                  }
-        }
-                ),
-              ],
-            ),
+ _buildSocialLink(Icons.link_sharp, 'LinkedIn', userData?['linkedin']),
+            _buildSocialLink(Icons.facebook, 'Facebook', userData?['facebook']),
+            _buildSocialLink(Icons.camera_alt, 'Instagram', userData?['instagram']),
           ],
         ),
       ),
     );
+  }
+   Widget _buildSocialLink(IconData icon, String label, String? url) {
+    return url != null
+        ? ListTile(
+            leading: Icon(icon),
+            title: Text(label),
+            onTap: () async {
+              if (await canLaunch(url)) {
+                await launch(url);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Could not launch $label')),
+                );
+              }
+            },
+          )
+        : ListTile(
+            leading: Icon(icon, color: Colors.grey),
+            title: Text('$label not provided'),
+          );
   }
 }

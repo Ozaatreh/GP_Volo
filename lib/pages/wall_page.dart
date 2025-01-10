@@ -202,7 +202,7 @@ class _WallPageState extends State<WallPage> {
                                    children: [
                                      
                                      // Show delete only for own posts or moderators
-                                     if (currentUserEmail=="al@gmail.com" || userEmail == currentUserEmail) 
+                                     if (userEmail == currentUserEmail) 
                                      ListTile(
                                        leading: Icon(Icons.delete),
                                        title: Text('Delete Post'.tr()),
@@ -275,7 +275,7 @@ class _WallPageState extends State<WallPage> {
                         children: [
                           SizedBox(height: 20,),
                           
-                          Text(message),
+                          Text(message , textAlign: TextAlign.justify,),
                     
                           SizedBox(height: 50,),
                     

@@ -130,8 +130,8 @@ class _EditVolunteerProfilePageState extends State<EditVolunteerProfilePage> {
             const SizedBox(height: 16),
 
             // University Dropdown
-            const Text(
-              'University',
+            Text(
+              'University:   ${widget.userData['university'] ?? 'N/A'}',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
@@ -139,16 +139,16 @@ class _EditVolunteerProfilePageState extends State<EditVolunteerProfilePage> {
             //   isExpanded: true,
             //   value: selectedUniversity,
             //   items: universitiesInJordan.map((university) {
-                // return DropdownMenuItem(
-                  // value: university,
-                  // child: Text(university),
-                // );
-              // }).toList(),
-              // onChanged: (value) {
-                // setState(() {
-                  // selectedUniversity = value;
-                // });
-              // },
+            //     return DropdownMenuItem(
+            //       value: university,
+            //       child: Text(university),
+            //     );
+            //   }).toList(),
+            //   onChanged: (value) {
+            //     setState(() {
+            //       selectedUniversity = value;
+            //     });
+            //   },
             // ),
             const Divider(),
 

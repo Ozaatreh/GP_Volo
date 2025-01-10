@@ -5,11 +5,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UploadImagePage extends StatefulWidget {
+  const UploadImagePage({super.key});
+
   @override
-  _UploadImagePageState createState() => _UploadImagePageState();
+  UploadImagePageState createState() => UploadImagePageState();
 }
 
-class _UploadImagePageState extends State<UploadImagePage> {
+class UploadImagePageState extends State<UploadImagePage> {
   File? _selectedImage;
   final ImagePicker _picker = ImagePicker();
   final FirebaseStorage _storage = FirebaseStorage.instance;
@@ -29,17 +31,17 @@ class _UploadImagePageState extends State<UploadImagePage> {
     if (_selectedImage == null) return;
 
     try {
-      final ref = _storage.ref().child('uploaded_images/${DateTime.now().millisecondsSinceEpoch}.jpg'.tr());
+      final ref = _storage.ref().child('uploaded_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
       await ref.putFile(_selectedImage!);
       final imageUrl = await ref.getDownloadURL();
-      print('Image uploaded successfully: $imageUrl'.tr());
+      print('Image uploaded successfully: $imageUrl');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Image uploaded successfully! URL: $imageUrl".tr())),
+        SnackBar(content: Text("Image uploaded successfully! URL: $imageUrl")),
       );
     } catch (e) {
       print('Error uploading image: $e'.tr());
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to upload image: $e".tr())),
+        SnackBar(content: Text("Failed to upload image: $e")),
       );
     }
   }

@@ -154,7 +154,7 @@ class _EditNGOProfilePageState extends State<EditNGOProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit NGO Profile'),
+        title: const Text('Edit NPO Profile'),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
@@ -186,7 +186,7 @@ class _EditNGOProfilePageState extends State<EditNGOProfilePage> {
                 validator: (value) =>
                     value == null || value.isEmpty ? 'Required' : null,
               ),
-              const Divider(),
+             const SizedBox(height: 16),
 
               // Contact Information
               TextFormField(
@@ -195,23 +195,32 @@ class _EditNGOProfilePageState extends State<EditNGOProfilePage> {
                 validator: (value) =>
                     value == null || value.isEmpty ? 'Required' : null,
               ),
+
+              const SizedBox(height: 16),
+
               TextFormField(
                 controller: _phoneController,
                 decoration: const InputDecoration(labelText: 'Phone Number'),
               ),
+
+              const SizedBox(height: 16),
+
               TextFormField(
                 controller: _websiteController,
                 decoration: const InputDecoration(labelText: 'Website'),
               ),
+
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _facebookController,
                 decoration: const InputDecoration(labelText: 'Facebook'),
               ),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _instagramController,
                 decoration: const InputDecoration(labelText: 'Instagram'),
               ),
-              const Divider(),
+              const SizedBox(height: 16),
 
               // Editable Sections
               _buildListEditor(

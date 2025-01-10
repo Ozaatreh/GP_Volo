@@ -165,29 +165,35 @@ void initState() {
             ),
             const SizedBox(height: 16),
 
-            // University Dropdown
-            const Text(
-              'University',
+             Text(
+              'University:   ${widget.userData['university'] ?? 'N/A'}',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
-            DropdownButton<String>(
-              isExpanded: true,
-              value: selectedUniversity,
-              items: universitiesInJordan.map((university) {
-                return DropdownMenuItem(
-                  value: university,
-                  child: Text(university),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedUniversity = value;
-                });
-              },
-            ),
-            const Divider(),
 
+             const SizedBox(height: 16),
+            // University Dropdown
+            // const Text(
+            //   'University',
+            //   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            // ),
+            // const SizedBox(height: 8),
+            // DropdownButton<String>(
+            //   isExpanded: true,
+            //   value: selectedUniversity,
+            //   items: universitiesInJordan.map((university) {
+            //     return DropdownMenuItem(
+            //       value: university,
+            //       child: Text(university),
+            //     );
+            //   }).toList(),
+            //   onChanged: (value) {
+            //     setState(() {
+            //       selectedUniversity = value;
+            //     });
+            //   },
+            // ),
+            const Divider(),
+           const SizedBox(height: 8),
             // Skills (bubbles, max 3)
             const Text(
               'Skills (Choose up to 3)',
@@ -215,16 +221,16 @@ void initState() {
               }).toList(),
             ),
             const Divider(),
-
+             const SizedBox(height: 8),
             // Achievements / Certifications
-            const Text(
-              'Achievements & Certifications',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            _buildListSection('Achievements', achievements, achievementController),
-            _buildListSection('Certifications', certifications, certificationController),
-            const Divider(),
+            // const Text(
+            //   'Achievements & Certifications',
+            //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            // ),
+            // const SizedBox(height: 8),
+            // _buildListSection('Achievements', achievements, achievementController),
+            // _buildListSection('Certifications', certifications, certificationController),
+            // const Divider(),
 
             // Social Media Links
             const Text(
@@ -239,7 +245,7 @@ void initState() {
            // Bio TextField
             const SizedBox(height: 16),
             const Text(
-              'Bio',
+              'About Me',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
