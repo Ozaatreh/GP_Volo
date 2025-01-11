@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 /*
 
  This database store posts that user published in the app
@@ -12,7 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/components/custom_notifications.dart';
-import 'package:graduation_progect_v2/helper/location_picker.dart';
+
 
 
 
@@ -51,7 +53,7 @@ final CollectionReference notifications = FirebaseFirestore.instance.collection(
         'Timestamp': Timestamp.now(),
       });
     } catch (e) {
-      print("Error adding rating: $e");
+      // print("Error adding rating: $e");
     }
   }
 
@@ -70,13 +72,13 @@ final CollectionReference notifications = FirebaseFirestore.instance.collection(
       if (ratingsSnapshot.docs.isEmpty) return 0.0;
 
       double total = 0;
-      ratingsSnapshot.docs.forEach((doc) {
+      for (var doc in ratingsSnapshot.docs) {
         total += doc['RatingValue'];
-      });
+      }
 
       return total / ratingsSnapshot.docs.length;
     } catch (e) {
-      print("Error fetching average rating: $e");
+      // print("Error fetching average rating: $e");
       return 0.0;
     }
   }
@@ -133,6 +135,7 @@ final CollectionReference notifications = FirebaseFirestore.instance.collection(
                   ratingValue: ratingValue,
                   comment: comment,
                 );
+              
                 Navigator.pop(context);
               },
               child: Text('Submit'),
@@ -168,7 +171,7 @@ final CollectionReference notifications = FirebaseFirestore.instance.collection(
       }
     }
   } catch (e) {
-    print("Error handling event completion: $e");
+    // print("Error handling event completion: $e");
   }
 }
 
@@ -190,6 +193,7 @@ Future addPost(String messages ,
    // Retrieve username from user's profile document
       String? username = await getUsername(user!.email!);
       String? userType = await getUserType(user!.email!);
+      
   return post.add(
     {  'Username': username ?? "Asalyy",
        'UserEmail' : user!.email ,
@@ -226,7 +230,7 @@ Future<void> updateEventStatus() async {
       : null;
 
   if (eventDate == null) {
-    print('EventDate is missing or null for post: ${post.id}');
+    // print('EventDate is missing or null for post: ${post.id}');
     continue; // Skip this document and move to the next
   }
 
@@ -248,7 +252,7 @@ Future<void> updateEventStatus() async {
 }
 
   } catch (e) {
-    print('Error updating event statuses: $e');
+    // print('Error updating event statuses: $e');
   }
 }
 
@@ -352,9 +356,9 @@ Future<void> applyToEvent(String postId ,DateTime eventDate) async {
           notificationType: 'apply',
         );
         CustomNotificationState().scheduleEventNotifications(eventDate);
-      //  CustomNotificationState().scheduleEventNotificationsForTesting();
+       CustomNotificationState().scheduleEventNotificationsForTesting();
 
-      print("Volunteer successfully applied and notifications scheduled.");
+      // print("Volunteer successfully applied and notifications scheduled.");
     }
   }
 }
@@ -431,9 +435,9 @@ Future<void> applyAsLeader(String postId, DateTime eventDate) async {
         );
         // Schedule notifications for the leader
         CustomNotificationState().scheduleEventNotifications(eventDate);
-      // CustomNotificationState().scheduleEventNotificationsForTesting();
+      CustomNotificationState().scheduleEventNotificationsForTesting();
 
-      print("Leader successfully applied and notifications scheduled.");
+      // print("Leader successfully applied and notifications scheduled.");
     }
   }
 }
@@ -527,8 +531,9 @@ Future<void> deletePost(String postId) async {
 
 Stream<QuerySnapshot> getPostStream(String currentUserEmail) {
   return FirebaseFirestore.instance
-      .collection('Posts')
-      .where('UserEmail', isNotEqualTo: currentUserEmail) // Avoid showing posts of the current user
+      .collection('Posts').
+      orderBy('EventDate',descending: true,).
+      where('UserEmail', isNotEqualTo: currentUserEmail) // Avoid showing posts of the current user
       .snapshots();
 }
 
@@ -536,7 +541,7 @@ Stream<QuerySnapshot> getPostStream(String currentUserEmail) {
 Stream <QuerySnapshot> getAllPostStream(){
   final postsStream = FirebaseFirestore.instance.
   collection('Posts').
-  orderBy('TimeStamp',descending: true).
+  orderBy('EventDate',descending: true,).
   snapshots();
   return postsStream ;
 }

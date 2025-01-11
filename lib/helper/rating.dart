@@ -370,21 +370,26 @@ class _RatingPageState extends State<RatingPage> {
                   ? _buildPostBadgeButtons(_selectedPost!)
                   : SizedBox(),
               // Post Comment Section
-              _selectedPost != null
-                  ? TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Enter a comment for the Post (optional)'.tr(),
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (text) {
-                        setState(() {
-                          _postComment = text;
-                        });
-                      },
-                    )
-                  : SizedBox(),
+              // _selectedPost != null
+              //     ? TextField(
+              //         decoration: InputDecoration(
+              //           labelText: 'Enter a comment for the Post (optional)'.tr(),
+              //           border: OutlineInputBorder(),
+              //         ),
+              //         onChanged: (text) {
+              //           setState(() {
+              //             _postComment = text;
+              //           });
+              //         },
+              //       )
+                  // : SizedBox(),
               SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                        backgroundColor:Theme.of(context).colorScheme.primary,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      ),
                 onPressed: _saveRatings,
                 child: Text(
                   'Submit Ratings'.tr(),

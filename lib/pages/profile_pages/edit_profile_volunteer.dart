@@ -89,7 +89,7 @@ class _EditVolunteerProfilePageState extends State<EditVolunteerProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Volunteer Profile'),
+        title: const Text('Edit Profile'),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),

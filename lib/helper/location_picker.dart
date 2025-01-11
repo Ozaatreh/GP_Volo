@@ -1,16 +1,19 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:graduation_progect_v2/pages/ngo_page.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationPickerPage extends StatefulWidget {
+  const LocationPickerPage({super.key});
+
   @override
-  _LocationPickerPageState createState() => _LocationPickerPageState();
+  LocationPickerPageState createState() => LocationPickerPageState();
 }
 
-class _LocationPickerPageState extends State<LocationPickerPage> {
+class LocationPickerPageState extends State<LocationPickerPage> {
   LatLng? selectedLocation;
   LatLng? currentLocation;
   TextEditingController locationController = TextEditingController();

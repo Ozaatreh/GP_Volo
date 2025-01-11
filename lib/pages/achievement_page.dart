@@ -127,9 +127,11 @@ class _AchievementPageState extends State<AchievementPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  reward['reward'],
-                  style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.bold),
+                Flexible(
+                  child: Text(
+                    reward['reward'],
+                    style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 ElevatedButton(
                   
@@ -183,13 +185,16 @@ class _AchievementPageState extends State<AchievementPage> {
                 ),
               ),
             ),
-            Text(
-              "${"MY POINTS" .tr()} ($pointsCount)",
-              style: GoogleFonts.roboto(
-                color: Theme.of(context).colorScheme.inversePrimary,
-                textStyle: const TextStyle(
-                  fontSize: 15,
+            Flexible(
+              child: Text(
+                "${"MY POINTS" .tr()} ($pointsCount)",
+                style: GoogleFonts.roboto(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  textStyle: const TextStyle(
+                    fontSize: 13,
+                  ),
                 ),
+                overflow: TextOverflow.clip,
               ),
             ),
           ],

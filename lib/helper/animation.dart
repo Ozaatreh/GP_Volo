@@ -11,7 +11,7 @@ class PopInPopOutPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final icon = Icons.settings;
-    final paint = Paint();
+    // final paint = Paint();
     final iconSize = 24.0;
 
     for (int i = 0; i < animations.length; i++) {

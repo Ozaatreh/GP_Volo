@@ -154,7 +154,7 @@ class _EditNGOProfilePageState extends State<EditNGOProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit NPO Profile'),
+        title: const Text('Edit Profile'),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),

@@ -294,14 +294,14 @@ class _LeadersPageState extends State<LeadersPage> {
                         ),
                         // ],
                         SizedBox(height: 10),
-                        Text(message),
+                        Text(message , textAlign: TextAlign.justify,),
                         if (imageUrl != null)
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Image.network(imageUrl,
                                 width: 100, height: 100),
                           ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 16),
                         // Supervisor progress and button
                         LinearProgressIndicator(
                           value: leaderCount / maxLeaders,
@@ -311,6 +311,8 @@ class _LeadersPageState extends State<LeadersPage> {
                               Theme.of(context).colorScheme.surface,
                         ),
                         Row(
+
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ElevatedButton(
@@ -338,11 +340,12 @@ class _LeadersPageState extends State<LeadersPage> {
                                     ? "Cancel as Leader".tr()
                                     : "Apply as Leader".tr(),
                                 style: TextStyle(
+                                    fontSize: 12,
                                     color:
                                         const Color.fromARGB(255, 169, 101, 5)),
                               ).tr(),
                             ),
-                            Text('$leaderCount / $maxLeaders (${"Leaders".tr()})'),
+                            Flexible(child: Text('$leaderCount /$maxLeaders (${"Leaders".tr()})',style: TextStyle(fontSize: 14),)),
                           ],
                         ),
                         SizedBox(height: 20),
@@ -355,6 +358,7 @@ class _LeadersPageState extends State<LeadersPage> {
                               Theme.of(context).colorScheme.surface,
                         ),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ElevatedButton(
@@ -374,13 +378,13 @@ class _LeadersPageState extends State<LeadersPage> {
                               },
                               child: Text(
                                 isVolunteer ? "Cancel".tr() : "Apply".tr(),
-                                style: TextStyle(
+                                style: TextStyle(fontSize: 12,
                                     color: Theme.of(context)
                                         .colorScheme
                                         .inversePrimary),
                               ).tr(),
                             ),
-                            Text('$currentCount / $targetCount (${"Volunteers" .tr()})').tr(),
+                            Flexible(child: Text('$currentCount / $targetCount (${"Volunteers" .tr()})', style: TextStyle(fontSize: 14),)),
                           ],
                         ),
                         if (isLeader) ...[
@@ -388,7 +392,7 @@ class _LeadersPageState extends State<LeadersPage> {
                             spacing: 5,
                             children: appliedUsers
                                 .map<Widget>((volunteer) => Chip(
-                                      label: Text(volunteer),
+                                      label: Text(volunteer ,overflow: TextOverflow.clip,),
                                       backgroundColor:
                                           Theme.of(context).colorScheme.surface,
                                     ))

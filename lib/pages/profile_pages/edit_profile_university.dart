@@ -11,11 +11,11 @@ class EditUniversityProfilePage extends StatefulWidget {
   });
 
   @override
-  _EditUniversityProfilePageState createState() =>
-      _EditUniversityProfilePageState();
+  EditUniversityProfilePageState createState() =>
+      EditUniversityProfilePageState();
 }
 
-class _EditUniversityProfilePageState extends State<EditUniversityProfilePage> {
+class EditUniversityProfilePageState extends State<EditUniversityProfilePage> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _aboutController;
@@ -103,7 +103,7 @@ class _EditUniversityProfilePageState extends State<EditUniversityProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit University Profile'),
+        title: const Text('Edit Profile'),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),

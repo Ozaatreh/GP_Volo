@@ -17,7 +17,7 @@ class MyDrawer extends StatelessWidget {
               children: [
                 // Drawer header
                 DrawerHeader(
-                  child: Image.asset('assets/volo_icon1.png')
+                  child: Image.asset('assets/volo_icon1.png',width: 130, height: 130,)
                 ),
                 const SizedBox(
                   height: 20,

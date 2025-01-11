@@ -93,7 +93,11 @@ class _ContactUsPageState extends State<ContactUsPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: Text('Contact Us & Report').tr(),
+        title: Flexible(child: Text(
+          'Contact Us & Report' .tr() , 
+          overflow: TextOverflow.clip,
+          style: TextStyle(fontSize: 16),
+        )),
         backgroundColor: Theme.of(context).colorScheme.surface,
 
         

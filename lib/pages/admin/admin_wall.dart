@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,7 +13,7 @@ import 'package:graduation_progect_v2/helper/status.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AdminWall extends StatefulWidget {
-    AdminWall({super.key});
+    const AdminWall({super.key});
 
   @override
   State<AdminWall> createState() => AdminWallWallPageState();
@@ -119,7 +121,7 @@ class AdminWallWallPageState extends State<AdminWall> {
   @override
   Widget build(BuildContext context) {
 
-    double screenWidth = MediaQuery.of(context).size.width;
+    // double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor:Theme.of(context).colorScheme.surface,
@@ -185,7 +187,7 @@ class AdminWallWallPageState extends State<AdminWall> {
                         .toString()
                         .split(' ')[0] // Format the date as yyyy-MM-dd
                     : null;
-                bool hasApplied = appliedUsers.contains(FirebaseAuth.instance.currentUser!.email);
+                // bool hasApplied = appliedUsers.contains(FirebaseAuth.instance.currentUser!.email);
                 
                 final location = post['Location'];
               if (location == null) return Container(); // Skip if location is not available
@@ -205,7 +207,7 @@ class AdminWallWallPageState extends State<AdminWall> {
                   latitude = double.tryParse(locationParts[0]) ?? 0.0;
                   longitude = double.tryParse(locationParts[1]) ?? 0.0;
                 } catch (e) {
-                  print('Error parsing location: $e');
+                  // print('Error parsing location: $e');
                 }
               }
                 return  Padding(
@@ -265,21 +267,22 @@ class AdminWallWallPageState extends State<AdminWall> {
                                                           
                            //useremail and username
                            Column(
-                            // crossAxisAlignment:CrossAxisAlignment.end,
+                            // crossAxisAlignment:CrossAxisAlignment.start,
+                            // mainAxisAlignment: MainAxisAlignment.start,
                              children: [
                                Row(
                                  children: [
                                    Column(
                                     crossAxisAlignment:CrossAxisAlignment.end,
                                      children: [
-                                       Text(username, style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500)),
-                                       Text(userEmail ,style:  GoogleFonts.roboto(fontSize: 15 ,fontWeight: FontWeight.w300),),
+                                       Text(username, style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500)),
+                                       Text(userEmail ,style:  GoogleFonts.roboto(fontSize: 12 ,fontWeight: FontWeight.w300),),
                                      ],
                                    ),
                                    SizedBox(width: 10,),
                                    //pic of user
                                     CircleAvatar(
-                                  radius: 25,
+                                  radius: 22,
                                   backgroundImage: userData?['profilePicture'] != null
                                       ? NetworkImage(userData!['profilePicture'])
                                       : const AssetImage('assets/photo_2024-11-02_19-33-14.jpg')
@@ -312,10 +315,11 @@ class AdminWallWallPageState extends State<AdminWall> {
                                   Text(
                                     "Event Date: $eventDate",
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).colorScheme.inversePrimary,
                                     ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                   ],
                         ),

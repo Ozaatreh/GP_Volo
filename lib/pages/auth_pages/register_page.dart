@@ -33,6 +33,8 @@ class _RegisterPageState extends State<RegisterPage> {
   String? selectedCity;
   String? selectedUserType; // New variable to store user type selection
   String? selectedUniversity;
+
+  
   void registerUser() async {
     // loding circle
     showDialog(
@@ -189,6 +191,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    // double screenWidth = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SingleChildScrollView(
@@ -202,18 +206,18 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 90,
                 ),
 
-                Image(image: AssetImage("assets/volo_icon1.png") , height: 150, width:150 ),
+                Image(image: AssetImage("assets/volo_icon1.png") , height: 140, width:140 ),
 
                 const SizedBox(
                   height: 17,
                 ),
 
                 Text(
-                  "V o l o",
+                  "V O L O",
                   style: GoogleFonts.nanumMyeongjo(
                     color: Theme.of(context).colorScheme.inversePrimary,
                     textStyle: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w300),
+                        fontSize: 20, fontWeight: FontWeight.w700),
                   ),
                 ),
 
@@ -707,12 +711,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          selectedUniversity ?? "Select University".tr(),
-                          style: GoogleFonts.roboto(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 16,
-                            color: Theme.of(context).colorScheme.inversePrimary,
+                        Flexible(
+                          child: Text(
+                            selectedUniversity ?? "Select University".tr(),
+                            style: GoogleFonts.roboto(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 16,
+                              color: Theme.of(context).colorScheme.inversePrimary,
+                            ),
                           ),
                         ),
                         Icon(Icons.arrow_drop_down),
@@ -900,12 +906,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Already have an account?".tr(),
-                      style: TextStyle(
-                        fontSize: 14,
-                        // fontWeight: FontWeight.w500,
-                        color: Theme.of(context).colorScheme.secondary,
+                    Flexible(
+                      child: Text(
+                        "Already have an account?".tr(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          // fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                        overflow: TextOverflow.clip,
                       ),
                     ),
                     GestureDetector(
@@ -914,6 +923,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         " Login Here".tr(),
                         style: GoogleFonts.roboto(
                             fontSize: 14, fontWeight: FontWeight.w600),
+                      overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -108,147 +107,149 @@ class _RewardCreationPageState extends State<RewardCreationPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Manage Rewards'.tr(),
-              style: GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextFormField(
-                    controller: _nameController,
-                    decoration: InputDecoration(labelText: 'Reward Name'.tr()),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a reward name'.tr();
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _descriptionController,
-                    decoration: InputDecoration(labelText: 'Description'.tr()),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a description'.tr();
-                      }
-                      return null;
-                    },
-                  ),
-                  GestureDetector(
-                    onTap: _pickImage,
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.grey[200],
-                      ),
-                      child: _imageFile == null
-                          ? Icon(Icons.image, size: 50, color: Colors.blue)
-                          : Image.file(
-                              _imageFile!,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  TextFormField(
-                    controller: _costController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: 'Cost (Points)'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty || int.tryParse(value) == null) {
-                        return 'Please enter a valid number'.tr();
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _redeemLinkController,
-                    decoration: InputDecoration(labelText: 'Redeem Link or Code'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a redeem link or code'.tr();
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _addAchievement,
-                    child: Text('Add Reward'.tr() , style: TextStyle(color:Theme.of(context).colorScheme.inversePrimary),),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Manage Rewards'.tr(),
+                style: GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-            ),
-            SizedBox(height: 20),
-            // Expanded(
-            //   child: achievements.isEmpty
-            //       ? Center(child: CircularProgressIndicator())
-            //       : ListView.builder(
-            //           itemCount: achievements.length,
-            //           itemBuilder: (context, index) {
-            //             final achievement = achievements[index];
-            //             return Card(
-            //               margin: EdgeInsets.symmetric(vertical: 10),
-            //               child: Padding(
-            //                 padding: EdgeInsets.all(16.0),
-            //                 child: Row(
-            //                   children: [
-            //                     Image.network(
-            //                       achievement['imageUrl'],
-            //                       width: 100,
-            //                       height: 60,
-            //                       fit: BoxFit.cover,
-            //                     ),
-            //                     SizedBox(width: 16),
-            //                     Expanded(
-            //                       child: Column(
-            //                         crossAxisAlignment: CrossAxisAlignment.start,
-            //                         children: [
-            //                           Text(
-            //                             achievement['name'.tr()],
-            //                             style: GoogleFonts.roboto(
-            //                               fontSize: 18,
-            //                               fontWeight: FontWeight.bold,
-            //                             ),
-            //                           ),
-            //                           SizedBox(height: 8),
-            //                           Text(achievement['description'.tr()]),
-            //                           SizedBox(height: 8),
-            //                           Text('${'Cost:'.tr()} ${achievement['cost']} ${'points'.tr()}'),
-            //                           SizedBox(height: 8),
-            //                           ElevatedButton(
-            //                             onPressed: () {
-            //                               _deleteAchievement(achievement['id']);
-            //                             },
-            //                             child: Text('Delete Reward'.tr()),
-            //                             style: ElevatedButton.styleFrom(
-            //                               backgroundColor: Colors.red,
-            //                             ),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                     ),
-            //                   ],
-            //                 ),
-            //               ),
-            //             );
-            //           },
-            //         ),
-            // ),
-          ],
+              SizedBox(height: 20),
+              Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: InputDecoration(labelText: 'Reward Name'.tr()),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a reward name'.tr();
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _descriptionController,
+                      decoration: InputDecoration(labelText: 'Description'.tr()),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a description'.tr();
+                        }
+                        return null;
+                      },
+                    ),
+                    GestureDetector(
+                      onTap: _pickImage,
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey[200],
+                        ),
+                        child: _imageFile == null
+                            ? Icon(Icons.image, size: 50, color: Colors.blue)
+                            : Image.file(
+                                _imageFile!,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    TextFormField(
+                      controller: _costController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(labelText: 'Cost (Points)'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty || int.tryParse(value) == null) {
+                          return 'Please enter a valid number'.tr();
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _redeemLinkController,
+                      decoration: InputDecoration(labelText: 'Redeem Link or Code'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a redeem link or code'.tr();
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _addAchievement,
+                      child: Text('Add Reward'.tr() , style: TextStyle(color:Theme.of(context).colorScheme.inversePrimary),),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              // Expanded(
+              //   child: achievements.isEmpty
+              //       ? Center(child: CircularProgressIndicator())
+              //       : ListView.builder(
+              //           itemCount: achievements.length,
+              //           itemBuilder: (context, index) {
+              //             final achievement = achievements[index];
+              //             return Card(
+              //               margin: EdgeInsets.symmetric(vertical: 10),
+              //               child: Padding(
+              //                 padding: EdgeInsets.all(16.0),
+              //                 child: Row(
+              //                   children: [
+              //                     Image.network(
+              //                       achievement['imageUrl'],
+              //                       width: 100,
+              //                       height: 60,
+              //                       fit: BoxFit.cover,
+              //                     ),
+              //                     SizedBox(width: 16),
+              //                     Expanded(
+              //                       child: Column(
+              //                         crossAxisAlignment: CrossAxisAlignment.start,
+              //                         children: [
+              //                           Text(
+              //                             achievement['name'.tr()],
+              //                             style: GoogleFonts.roboto(
+              //                               fontSize: 18,
+              //                               fontWeight: FontWeight.bold,
+              //                             ),
+              //                           ),
+              //                           SizedBox(height: 8),
+              //                           Text(achievement['description'.tr()]),
+              //                           SizedBox(height: 8),
+              //                           Text('${'Cost:'.tr()} ${achievement['cost']} ${'points'.tr()}'),
+              //                           SizedBox(height: 8),
+              //                           ElevatedButton(
+              //                             onPressed: () {
+              //                               _deleteAchievement(achievement['id']);
+              //                             },
+              //                             child: Text('Delete Reward'.tr()),
+              //                             style: ElevatedButton.styleFrom(
+              //                               backgroundColor: Colors.red,
+              //                             ),
+              //                           ),
+              //                         ],
+              //                       ),
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //             );
+              //           },
+              //         ),
+              // ),
+            ],
+          ),
         ),
       ),
     );

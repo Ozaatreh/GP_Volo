@@ -134,11 +134,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
 
                 Text(
-                  "V o l o",
+                  "V O L O",
                   style: GoogleFonts.nanumMyeongjo(
                     color: Theme.of(context).colorScheme.inversePrimary,
                     textStyle: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w500),
+                        fontSize: 20, fontWeight: FontWeight.w700),
                   ),
                 ),
 
@@ -170,17 +170,19 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(
-
-                      child:  Text("ForgetPassword?".tr(),
-                      style:  TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ), ),
-                      onPressed: () { 
-                        Navigator.pushNamed(context, 'forgot_password');
-                       },
+                    Flexible(
+                      child: TextButton(
+                      
+                        child:  Text("ForgetPassword?".tr(),
+                        style:  TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ), ),
+                        onPressed: () { 
+                          Navigator.pushNamed(context, 'forgot_password');
+                         },
+                      ),
                     ),
                   ],
                 ),
@@ -197,12 +199,15 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Dont have an account?".tr(),
-                      style: TextStyle(
-                        fontSize: 14,
-                        // fontWeight: FontWeight.w500,
-                        color: Theme.of(context).colorScheme.secondary,
+                    Flexible(
+                      child: Text(
+                        "Dont have an account?".tr(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          // fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                         overflow: TextOverflow.clip,
                       ),
                     ),
                     GestureDetector(
@@ -210,6 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                       child:  Text(
                         " Register Here".tr(),
                         style: GoogleFonts.roboto(fontSize: 14 ,fontWeight: FontWeight.w600),
+                        overflow: TextOverflow.clip,
                       ),
                     ),
                   ],
