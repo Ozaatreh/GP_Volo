@@ -12,7 +12,7 @@ class UniversityNavigation extends StatefulWidget {
 }
 
 class _UniversityNavigationState extends State<UniversityNavigation> {
-  int _currentIndex = 0; // To track the selected tab
+  int _currentIndex = 1; // To track the selected tab
 
   // List of pages for navigation
   final List<Widget> _pages = [
@@ -40,11 +40,11 @@ class _UniversityNavigationState extends State<UniversityNavigation> {
           },
           items:  [
             BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: 'Home'.tr(),
+             icon: Icon(Icons.event),
+              label: 'Wall'.tr(),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.event),
+               icon: Icon(Icons.school),
               label: 'Events'.tr(),
             ),
             BottomNavigationBarItem(
@@ -55,7 +55,8 @@ class _UniversityNavigationState extends State<UniversityNavigation> {
           selectedItemColor: Theme.of(context).colorScheme.inversePrimary,
           unselectedItemColor:Theme.of(context).colorScheme.surface,
           showSelectedLabels: true,
-          showUnselectedLabels: false,
+          showUnselectedLabels: true,
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
       ),
     );

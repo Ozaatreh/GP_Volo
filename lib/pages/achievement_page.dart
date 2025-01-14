@@ -110,7 +110,7 @@ class _AchievementPageState extends State<AchievementPage> {
   // Create a list of rewards based on pointsCount
   List<Widget> _buildRewardCards() {
     List<Map<String, dynamic>> rewards = [
-      {'reward': 'Free T-shirt' .tr(), 'cost': 20},
+      {'reward': 'Volo shirt' .tr(), 'cost': 20},
       {'reward': 'Gift Card'.tr(), 'cost': 50},
       {'reward': 'Event Ticket'.tr(), 'cost': 100},
       {'reward': 'Premium Membership'.tr(), 'cost': 200},
