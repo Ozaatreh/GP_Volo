@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_progect_v2/pages/admin/posts_details.dart';
 import 'package:intl/intl.dart';
 
 class HistoryPage extends StatelessWidget {
@@ -74,10 +75,19 @@ class HistoryPage extends StatelessWidget {
                   }
 
                   return Card(
-                    color: userType == 'NGO' ? Colors.lightGreen[100] : null,
+                    color:  Theme.of(context).colorScheme.primary  ,
                     child: ListTile(
                       title: Text(message, style: const TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: Text('${'Event Date:'.tr()} $formattedDate'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                EventDetailsPage(postId: post.id),
+                          ),
+                        );
+                      },
                     ),
                   );
                 },

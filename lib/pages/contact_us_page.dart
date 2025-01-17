@@ -93,11 +93,11 @@ class _ContactUsPageState extends State<ContactUsPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: Flexible(child: Text(
+        title: Text(
           'Contact Us & Report' .tr() , 
           overflow: TextOverflow.clip,
           style: TextStyle(fontSize: 16),
-        )),
+        ),
         backgroundColor: Theme.of(context).colorScheme.surface,
 
         
@@ -117,19 +117,31 @@ class _ContactUsPageState extends State<ContactUsPage> {
                 icon: Icons.location_on,
                 text: 'Amman'.tr(),
               ),
-              ContactInfoRow(
-                icon: Icons.email,
-                text: 'appvolunter@gmail.com',
+              // ContactInfoRow(
+              //   icon: Icons.email,
+              //   text: 'appvolunter@gmail.com',
+              // ),
+              SizedBox(height: 7,),
+              Row(
+                children: [
+                  Icon(Icons.email, color: const Color.fromARGB(255, 105, 6, 158),size: 20,), 
+                  SizedBox(width: 7,),
+                   Text('appvolunter@gmail.com'),
+                ],
               ),
-              // Icon(Icons.facebook, color: const Color.fromARGB(255, 10, 106, 217),size: 20,),
-              ContactInfoRow(
-                icon: Icons.phone,
-                text: '0785434449',
+              SizedBox(height: 7,),
+              Row(
+                children: [
+                  Icon(Icons.phone, color: const Color.fromARGB(255, 6, 114, 8),size: 20,), 
+                  SizedBox(width: 7,),
+                   Text('0785434449'),
+                ],
               ),
+              
               // Padding(
                 // padding: const EdgeInsets.only(right: 33),
                 // child: IconButton(
-
+              SizedBox(height: 7,),
                 //  icon:
                   Icon(Icons.facebook, color: const Color.fromARGB(255, 10, 106, 217),size: 20,),
                 //  onPressed: _launchFacebook,
@@ -224,7 +236,7 @@ class ContactInfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, color: const Color.fromARGB(255, 21, 21, 21), size: 18,),
+        Icon(icon, color: const Color.fromARGB(255, 163, 27, 27), size: 18,),
         SizedBox(width: 8),
         Text(
           text,

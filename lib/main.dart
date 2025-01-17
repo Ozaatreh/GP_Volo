@@ -4,6 +4,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_progect_v2/components/check_notification.dart';
+import 'package:graduation_progect_v2/components/downl_img_to_firebase.dart';
 import 'package:graduation_progect_v2/components/nav_bar_leader.dart';
 import 'package:graduation_progect_v2/components/nav_bar_ngo.dart';
 import 'package:graduation_progect_v2/components/nav_bar_university.dart';
@@ -105,6 +106,7 @@ class MainPage extends StatelessWidget {
         'AchievementPage' :(context) =>  AchievementPage(),
         'reward_creation': (context) => const RewardCreationPage(),
         'rating' : (context) =>  RatingPage(),
+        'upload_image' : (context) =>  UploadImagePage(),
       },
      
     );

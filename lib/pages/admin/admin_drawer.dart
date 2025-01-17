@@ -171,9 +171,33 @@ class AdminDrawer extends StatelessWidget {
                       },
                     ),
                   ),
+
+                  Padding(
+                  padding: const EdgeInsets.only(left: 25.0),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.upload,
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                    title: Text(
+                      "Upload Image",
+                      style: GoogleFonts.roboto(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        textStyle: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w300),
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context); // Close the drawer
+                      Navigator.pushNamed(context, 'upload_image');
+                    },
+                  ),
+                ),
                 ],
               // ],
             ),
+           
+
             // Logout tile
             Padding(
               padding: const EdgeInsets.only(left: 25.0, bottom: 25),
